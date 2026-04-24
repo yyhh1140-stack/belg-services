@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Bookings — BELG SERVICES</title>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f7f7f7;
+}
+
+/* NAV */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #003366;
+  padding: 12px 0;
+  text-align: center;
+  z-index: 999;
+}
+
+.top-nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* HEADER */
+header {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.logo {
+  width: 160px;
+}
+
+h1 {
+  color: #003366;
+  font-size: 32px;
+}
+
+/* BOOKINGS */
+.bookings-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.booking-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.booking-card h3 {
+  margin: 0;
+  color: #003366;
+}
+
+.booking-card p {
+  margin: 8px 0;
+  color: #444;
+}
+
+.status {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.paid {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.completed {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.chat-btn {
+  background: #003366;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.chat-btn:hover {
+  background: #002244;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="my-bookings.html">My Bookings</a>
+  <a href="chat.html">Chat</a>
+  <a href="settings.html">Settings</a>
+</nav>
+
+<!-- HEADER -->
+<header>
+  <img src="logo.png" class="logo">
+  <h1>My Bookings</h1>
+</header>
+
+<!-- BOOKINGS LIST -->
+<div class="bookings-container">
+
+  <!-- Booking 1 -->
+  <div class="booking-card">
+    <span class="status pending">Pending Payment</span>
+    <h3>Cleaning Service</h3>
+    <p><strong>Worker:</strong> John Doe</p>
+    <p><strong>Date:</strong> 25 April 2026</p>
+    <p><strong>Price:</strong> 50€</p>
+    <button class="chat-btn" onclick="openChat()">Open Chat</button>
+  </div>
+
+  <!-- Booking 2 -->
+  <div class="booking-card">
+    <span class="status paid">Paid</span>
+    <h3>Moving Service</h3>
+    <p><strong>Worker:</strong> Alex Smith</p>
+    <p><strong>Date:</strong> 28 April 2026</p>
+    <p><strong>Price:</strong> 120€</p>
+    <button class="chat-btn" onclick="openChat()">Open Chat</button>
+  </div>
+
+  <!-- Booking 3 -->
+  <div class="booking-card">
+    <span class="status completed">Completed</span>
+    <h3>Repair Service</h3>
+    <p><strong>Worker:</strong> Mark Johnson</p>
+    <p><strong>Date:</strong> 20 April 2026</p>
+    <p><strong>Price:</strong> 80€</p>
+    <button class="chat-btn" onclick="openChat()">Open Chat</button>
+  </div>
+
+</div>
+
+<script>
+function openChat() {
+  window.location.href = "chat.html";
+}
+</script>
+
+</body>
+</html>
