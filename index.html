@@ -1,174 +1,167 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head><style>.footer {
-  background: #003366;
-  color: white;
-  padding: 20px 10px;
-  text-align: center;
-  margin-top: 40px;
-  font-size: 14px;
-  opacity: 0.9;
-}
-  body {<nav class="top-nav">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BELG SERVICES</title>
+
+    <style>
+
+    /* ----------------------  FOOTER  ---------------------- */
+    .footer {
+      background: #003366;
+      color: white;
+      padding: 20px 10px;
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    /* ----------------------  GENERAL  ---------------------- */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background: #ffffff;
+    }
+
+    .logo {
+      width: 240px;
+      margin-top: 30px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    p.subtitle {
+      font-size: 18px;
+      color: #555;
+      margin-top: -5px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #f4c542;
+      padding: 14px 28px;
+      border-radius: 8px;
+      color: black;
+      font-weight: bold;
+      text-decoration: none;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    /* ----------------------  NAVIGATION  ---------------------- */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #003366;
+      padding: 12px 0;
+      text-align: center;
+      z-index: 999;
+    }
+
+    .top-nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .top-nav a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      padding: 40px 20px;
+      margin-top: 80px; /* بسبب القائمة الثابتة */
+    }
+
+    /* ----------------------  SECTIONS  ---------------------- */
+    .section {
+      padding: 50px 20px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-top: 40px;
+      font-weight: bold;
+    }
+
+    .card {
+      background: rgba(0,0,0,0.05);
+      padding: 25px;
+      margin: 20px auto;
+      width: 85%;
+      border-radius: 12px;
+    }
+
+    .feature {
+      max-width: 350px;
+      margin: 20px auto;
+      text-align: left;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* ----------------------  DESKTOP IMPROVEMENTS  ---------------------- */
+    @media (min-width: 768px) {
+      .logo {
+        width: 260px;
+        margin-top: 40px;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .btn {
+        font-size: 20px;
+        padding: 16px 34px;
+      }
+
+      .section-title {
+        font-size: 32px;
+      }
+
+      .feature {
+        font-size: 18px;
+        max-width: 600px;
+      }
+    }
+
+    </style>
+</head>
+
+<body>
+
+<!-- ----------------------  NAVIGATION  ---------------------- -->
+<nav class="top-nav">
   <a href="index.html">Home</a>
   <a href="about.html">About</a>
   <a href="#">Services</a>
   <a href="#">Contact</a>
 </nav>
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-  }
 
-  .logo {
-    width: 160px;
-    margin-top: 30px;
-  }
-
-  h1 {
-    font-size: 26px;
-    margin-top: 15px;
-  }
-
-  p.subtitle {
-    font-size: 16px;
-    color: #555;
-    margin-top: -5px;
-  }
-
-  .btn {
-    display: inline-block;
-    background-color: #f4c542;
-    padding: 12px 28px;
-    border-radius: 8px;
-    color: black;
-    font-weight: bold;
-    text-decoration: none;
-    margin-top: 20px;
-    font-size: 16px;
-  }
-
-  .section-title {
-    font-size: 24px;
-    margin-top: 40px;
-    font-weight: bold;
-  }
-
-  .feature {
-    max-width: 350px;
-    margin: 20px auto;
-    text-align: left;
-    font-size: 16px;
-    line-height: 1.5;
-  }
-
-  /* ⭐ تحسينات الكمبيوتر (شاشات كبيرة) */
-  @media (min-width: 768px) {
-    .logo {
-      width: 260px;
-      margin-top: 40px;
-    }
-
-    h1 {
-      font-size: 36px;
-    }
-
-    p.subtitle {/* القائمة العلوية */
-.top-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #003366;
-  padding: 12px 0;
-  text-align: center;
-  z-index: 999;
-}
-
-.top-nav a {
-  color: white;
-  margin: 0 15px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-header {
-  margin-top: 80px;
-}
-      font-size: 20px;
-    }
-
-    .btn {
-      font-size: 18px;
-      padding: 14px 34px;
-    }
-
-    .section-title {
-      font-size: 30px;
-    }
-
-    .feature {
-      font-size: 18px;
-      max-width: 600px;
-    }
-  }
-</style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BELG SERVICES</title>
-    <style>
-        body {
-            background: #ffffff;
-        }
-        header {
-            padding: 40px 20px;
-        }
-        h1 {
-            font-size: 42px;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-        p {
-            font-size: 18px;
-            opacity: 0.9;
-        }
-        .btn {
-            margin-top: 25px;
-            padding: 14px 28px;
-            background: #f1c40f;
-            color: #000;
-            font-size: 18px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-        }
-        .section {
-            padding: 50px 20px;
-        }
-        .card {
-            background: rgba(255,255,255,0.1);
-            padding: 25px;
-            margin: 20px auto;
-            width: 85%;
-            border-radius: 12px;
-            backdrop-filter: blur(6px);
-        }
-    </style>
-</head>
-<body>
-
-<header><img src="logo.png" alt="BELG SERVICES Logo" style="width:240px; margin:0 auto 20px; display:block;">
+<!-- ----------------------  HEADER  ---------------------- -->
+<header>
+    <img src="logo.png" alt="BELG SERVICES Logo" class="logo">
     <h1>BELG SERVICES</h1>
-    <p>Your trusted platform for on-demand services in Belgium</p>
+    <p class="subtitle">Your trusted platform for on-demand services in Belgium</p>
     <a class="btn" href="#">Get Started</a>
 </header>
 
+<!-- ----------------------  WHY CHOOSE US  ---------------------- -->
 <div class="section">
-    <h2>Why Choose Us?</h2>
+    <h2 class="section-title">Why Choose Us?</h2>
 
     <div class="card">
         <h3>✔ Fast & Reliable</h3>
@@ -185,7 +178,8 @@ header {
         <p>All workers are verified and rated by previous clients.</p>
     </div>
 </div>
-</html><!-- قسم الخدمات -->
+
+<!-- ----------------------  OUR SERVICES  ---------------------- -->
 <h2 class="section-title">Our Services</h2>
 
 <div class="feature">
@@ -207,8 +201,12 @@ header {
   <strong>🛠 Carpentry & Repairs</strong><br>
   Expert carpenters for furniture assembly and home repairs.
 </div>
+
+<!-- ----------------------  FOOTER  ---------------------- -->
 <footer class="footer">
   <p>© 2024 BELG SERVICES — All Rights Reserved</p>
   <p>Contact: info@belg-services.com</p>
 </footer>
+
 </body>
+</html>
