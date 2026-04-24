@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment — BELG SERVICES</title>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f7f7f7;
+}
+
+/* NAV */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #003366;
+  padding: 12px 0;
+  text-align: center;
+  z-index: 999;
+}
+
+.top-nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* CONTAINER */
+.payment-container {
+  max-width: 500px;
+  margin: 120px auto;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+h1 {
+  color: #003366;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #003366;
+  margin-top: 20px;
+}
+
+p {
+  color: #444;
+  font-size: 15px;
+}
+
+/* SUMMARY BOX */
+.summary-box {
+  background: #f1f1f1;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.summary-box p {
+  margin: 6px 0;
+}
+
+/* PAYMENT METHODS */
+.payment-method {
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.payment-method:hover {
+  border-color: #003366;
+}
+
+/* BUTTON */
+.pay-btn {
+  width: 100%;
+  padding: 14px;
+  background: #003366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.pay-btn:hover {
+  background: #002244;
+}
+
+/* WARNING */
+.warning {
+  background: #fff3cd;
+  color: #856404;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="client.html">Back</a>
+  <a href="my-bookings.html">My Bookings</a>
+  <a href="notifications.html">Notifications</a>
+</nav>
+
+<!-- PAYMENT BOX -->
+<div class="payment-container">
+
+  <h1>Payment</h1>
+
+  <!-- SERVICE SUMMARY -->
+  <div class="section-title">Service Details</div>
+  <div class="summary-box">
+    <p><strong>Service:</strong> Cleaning Service</p>
+    <p><strong>Worker:</strong> John Doe</p>
+    <p><strong>Date:</strong> Today at 16:00</p>
+    <p><strong>Base Price:</strong> 50€</p>
+    <p><strong>Platform Fee (5%):</strong> 2.50€</p>
+    <hr>
+    <p><strong>Total:</strong> 52.50€</p>
+  </div>
+
+  <!-- PAYMENT METHODS -->
+  <div class="section-title">Payment Method</div>
+
+  <div class="payment-method">
+    <input type="radio" name="pay" checked> 💳 Credit / Debit Card
+  </div>
+
+  <div class="payment-method">
+    <input type="radio" name="pay"> 🅿️ PayPal
+  </div>
+
+  <div class="payment-method">
+    <input type="radio" name="pay"> 📱 Bancontact
+  </div>
+
+  <div class="payment-method">
+    <input type="radio" name="pay"> 🏦 Bank Transfer
+  </div>
+
+  <!-- WARNING -->
+  <div class="warning">
+    ⚠️ After payment, the worker’s phone number, address, and location will be unlocked.
+  </div>
+
+  <!-- PAY BUTTON -->
+  <button class="pay-btn" onclick="confirmPayment()">Pay Now</button>
+
+</div>
+
+<script>
+function confirmPayment() {
+  alert("Payment successful! Contact information is now unlocked.");
+  window.location.href = "chat.html";
+}
+</script>
+
+</body>
+</html>
