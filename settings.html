@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings — BELG SERVICES</title>
+
+    <style>
+
+    /* ----------------------  FOOTER  ---------------------- */
+    .footer {
+      background: #003366;
+      color: white;
+      padding: 20px 10px;
+      text-align: center;
+      margin-top: 40px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    /* ----------------------  GENERAL  ---------------------- */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+    }
+
+    .logo {
+      width: 160px;
+      margin-top: 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: bold;
+      color: #003366;
+      text-align: center;
+    }
+
+    /* ----------------------  NAVIGATION  ---------------------- */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #003366;
+      padding: 12px 0;
+      text-align: center;
+      z-index: 999;
+    }
+
+    .top-nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .top-nav a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      margin-top: 100px;
+      text-align: center;
+    }
+
+    /* ----------------------  SETTINGS BOX  ---------------------- */
+    .settings-box {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 25px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .settings-box h2 {
+      color: #003366;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .setting-item {
+      margin-bottom: 25px;
+    }
+
+    .setting-item label {
+      font-size: 16px;
+      font-weight: bold;
+      color: #003366;
+    }
+
+    .setting-item select,
+    .setting-item input[type="checkbox"] {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .btn-save {
+      width: 100%;
+      background: #f4c542;
+      color: black;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .btn-save:hover {
+      background: #e0b235;
+    }
+
+    .danger-zone {
+      margin-top: 40px;
+      padding: 20px;
+      background: #ffe5e5;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .danger-zone button {
+      background: #cc0000;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .danger-zone button:hover {
+      background: #990000;
+    }
+
+    </style>
+</head>
+
+<body>
+
+<!-- ----------------------  NAVIGATION  ---------------------- -->
+<nav class="top-nav">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="edit-profile.html">Profile</a>
+  <a href="settings.html">Settings</a>
+  <a href="login.html">Logout</a>
+</nav>
+
+<!-- ----------------------  HEADER  ---------------------- -->
+<header>
+    <img src="logo.png" alt="BELG SERVICES Logo" class="logo">
+    <h1>Settings</h1>
+</header>
+
+<!-- ----------------------  SETTINGS CONTENT  ---------------------- -->
+<div class="settings-box">
+
+    <!-- Notifications -->
+    <div class="setting-item">
+        <h2>Notifications</h2>
+        <label>
+            <input type="checkbox" checked>
+            Receive email notifications
+        </label><br>
+        <label>
+            <input type="checkbox">
+            Receive SMS notifications
+        </label>
+    </div>
+
+    <!-- Language -->
+    <div class="setting-item">
+        <h2>Language</h2>
+        <select>
+            <option>English</option>
+            <option>Français</option>
+            <option>Nederlands</option>
+            <option>العربية</option>
+        </select>
+    </div>
+
+    <!-- Theme -->
+    <div class="setting-item">
+        <h2>Theme</h2>
+        <select>
+            <option>Light Mode</option>
+            <option>Dark Mode</option>
+        </select>
+    </div>
+
+    <!-- Save Button -->
+    <button class="btn-save">Save Settings</button>
+
+    <!-- Danger Zone -->
+    <div class="danger-zone">
+        <h2 style="color:#cc0000;">Danger Zone</h2>
+        <p style="font-size:15px;">Delete your account permanently</p>
+        <button>Delete Account</button>
+    </div>
+
+</div>
+
+<!-- ----------------------  FOOTER  ---------------------- -->
+<footer class="footer">
+  <p>© 2024 BELG SERVICES — All Rights Reserved</p>
+  <p>Contact: info@belg-services.com</p>
+</footer>
+
+</body>
+</html>
