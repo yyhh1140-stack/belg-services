@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Company Dashboard — BELG SERVICES</title>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+/* NAV */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #003366;
+  padding: 12px 0;
+  text-align: center;
+  z-index: 999;
+}
+
+.top-nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* HEADER */
+header {
+  margin-top: 100px;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  color: #003366;
+  font-size: 32px;
+}
+
+/* DASHBOARD GRID */
+.dashboard {
+  max-width: 1100px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* CARDS */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+  margin: 0 0 10px 0;
+  color: #003366;
+}
+
+.card p {
+  color: #444;
+}
+
+/* WORKERS LIST */
+.worker-card {
+  display: flex;
+  gap: 15px;
+  background: #f1f1f1;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.worker-card img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.status {
+  font-weight: bold;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.available { background: #28a745; color: white; }
+.unavailable { background: #dc3545; color: white; }
+.slow { background: #ff4444; color: white; }
+
+/* BUTTONS */
+.btn {
+  padding: 10px 16px;
+  background: #003366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  background: #002244;
+}
+
+/* GALLERY */
+.gallery img {
+  width: 120px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin: 5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="company-dashboard.html">Dashboard</a>
+  <a href="company-profile.html">Public Profile</a>
+  <a href="notifications.html">Notifications</a>
+  <a href="settings.html">Settings</a>
+</nav>
+
+<!-- HEADER -->
+<header>
+  <h1>Company Dashboard</h1>
+  <p>Manage your workers, ads, services, and performance</p>
+</header>
+
+<!-- DASHBOARD GRID -->
+<div class="dashboard">
+
+  <!-- CARD 1: Subscription -->
+  <div class="card">
+    <h2>Subscription Plan</h2>
+    <p><strong>Current Plan:</strong> Premium (79€/month)</p>
+    <p>Homepage visibility + 30 days ads + priority support</p>
+    <button class="btn">Upgrade / Downgrade</button>
+  </div>
+
+  <!-- CARD 2: Stats -->
+  <div class="card">
+    <h2>Company Statistics</h2>
+    <p><strong>Workers:</strong> 12</p>
+    <p><strong>Completed Projects:</strong> 340+</p>
+    <p><strong>Response Speed:</strong> 2 minutes</p>
+    <p><strong>Rating:</strong> ★★★★★ (4.8)</p>
+  </div>
+
+  <!-- CARD 3: Request Temporary Workers -->
+  <div class="card">
+    <h2>Temporary Workers</h2>
+    <p>Need extra workers for a busy day?</p>
+    <button class="btn" onclick="openChat()">Request Workers</button>
+  </div>
+
+  <!-- CARD 4: Gallery -->
+  <div class="card">
+    <h2>Company Gallery</h2>
+    <div class="gallery">
+      <img src="https://i.imgur.com/clean1.jpg">
+      <img src="https://i.imgur.com/clean2.jpg">
+      <img src="https://i.imgur.com/clean3.jpg">
+    </div>
+    <button class="btn">Add More Photos</button>
+  </div>
+
+  <!-- CARD 5: Workers -->
+  <div class="card">
+    <h2>Current Workers</h2>
+
+    <div class="worker-card">
+      <img src="https://i.pravatar.cc/150?img=12">
+      <div>
+        <p><strong>Ahmed Ali</strong></p>
+        <p class="status available">🟢 Available</p>
+      </div>
+    </div>
+
+    <div class="worker-card">
+      <img src="https://i.pravatar.cc/150?img=22">
+      <div>
+        <p><strong>Mohamed Yassin</strong></p>
+        <p class="status slow">🔴 Slow Response</p>
+      </div>
+    </div>
+
+    <div class="worker-card">
+      <img src="https://i.pravatar.cc/150?img=33">
+      <div>
+        <p><strong>Youssef Karim</strong></p>
+        <p class="status unavailable">🔴 Not Available</p>
+      </div>
+    </div>
+
+    <button class="btn">Manage Workers</button>
+  </div>
+
+  <!-- CARD 6: Partnerships -->
+  <div class="card">
+    <h2>Partnerships</h2>
+    <p>• IKEA Belgium</p>
+    <p>• Carrefour Market</p>
+    <p>• Local Real Estate Agencies</p>
+    <button class="btn">Add New Partnership</button>
+  </div>
+
+  <!-- CARD 7: Services -->
+  <div class="card">
+    <h2>Services Offered</h2>
+    <p>• Home Cleaning</p>
+    <p>• Deep Cleaning</p>
+    <p>• Office Cleaning</p>
+    <p>• Moving Assistance</p>
+    <p>• Painting & Repairs</p>
+    <button class="btn">Edit Services</button>
+  </div>
+
+  <!-- CARD 8: Ads -->
+  <div class="card">
+    <h2>Advertisements</h2>
+    <p><strong>Current Ad:</strong> Active (12 days remaining)</p>
+    <button class="btn">Buy New Ad</button>
+  </div>
+
+</div>
+
+<script>
+function openChat() {
+  window.location.href = "chat.html";
+}
+</script>
+
+</body>
+</html>
