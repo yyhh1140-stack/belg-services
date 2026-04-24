@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Worker Dashboard — BELG SERVICES</title>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+/* NAV */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #003366;
+  padding: 12px 0;
+  text-align: center;
+  z-index: 999;
+}
+
+.top-nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* HEADER */
+header {
+  margin-top: 100px;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  color: #003366;
+  font-size: 32px;
+}
+
+/* STATUS BUTTONS */
+.status-buttons {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.status-btn {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+}
+
+.available { background: #28a745; }
+.unavailable { background: #dc3545; }
+.slow { background: #ff4444; }
+
+/* DASHBOARD GRID */
+.dashboard {
+  max-width: 1100px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* CARDS */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.card h2 {
+  margin: 0 0 10px 0;
+  color: #003366;
+}
+
+.card p {
+  color: #444;
+}
+
+/* JOB CARD */
+.job-card {
+  background: #f1f1f1;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.job-card strong {
+  color: #003366;
+}
+
+/* GALLERY */
+.gallery img {
+  width: 120px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin: 5px;
+}
+
+/* BUTTON */
+.btn {
+  padding: 10px 16px;
+  background: #003366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  background: #002244;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="worker-dashboard.html">Dashboard</a>
+  <a href="worker-profile.html">Public Profile</a>
+  <a href="notifications.html">Notifications</a>
+  <a href="settings.html">Settings</a>
+</nav>
+
+<!-- HEADER -->
+<header>
+  <h1>Worker Dashboard</h1>
+  <p>Manage your jobs, availability, earnings, and performance</p>
+
+  <div class="status-buttons">
+    <button class="status-btn available">🟢 متاح</button>
+    <button class="status-btn unavailable">🔴 غير متاح</button>
+    <button class="status-btn slow">🔴 يرد متأخر</button>
+  </div>
+</header>
+
+<!-- DASHBOARD GRID -->
+<div class="dashboard">
+
+  <!-- CARD 1: Earnings -->
+  <div class="card">
+    <h2>Earnings</h2>
+    <p><strong>This Month:</strong> 820€</p>
+    <p><strong>Total Jobs:</strong> 42</p>
+    <button class="btn">View Details</button>
+  </div>
+
+  <!-- CARD 2: Performance -->
+  <div class="card">
+    <h2>Performance</h2>
+    <p><strong>Rating:</strong> ★★★★★ (4.9)</p>
+    <p><strong>Response Speed:</strong> 3 minutes</p>
+    <p><strong>Acceptance Rate:</strong> 92%</p>
+    <p><strong>Completion Rate:</strong> 98%</p>
+  </div>
+
+  <!-- CARD 3: Current Jobs -->
+  <div class="card">
+    <h2>Current Jobs</h2>
+
+    <div class="job-card">
+      <p><strong>Cleaning Service</strong></p>
+      <p>Client: Sarah</p>
+      <p>Today at 16:00</p>
+      <button class="btn" onclick="openChat()">Open Chat</button>
+    </div>
+
+    <div class="job-card">
+      <p><strong>Moving Service</strong></p>
+      <p>Client: Alex</p>
+      <p>Tomorrow at 10:00</p>
+      <button class="btn" onclick="openChat()">Open Chat</button>
+    </div>
+
+  </div>
+
+  <!-- CARD 4: Gallery -->
+  <div class="card">
+    <h2>Your Work Photos</h2>
+    <div class="gallery">
+      <img src="https://i.imgur.com/clean1.jpg">
+      <img src="https://i.imgur.com/clean2.jpg">
+      <img src="https://i.imgur.com/clean3.jpg">
+    </div>
+    <button class="btn">Add More Photos</button>
+  </div>
+
+  <!-- CARD 5: Skills -->
+  <div class="card">
+    <h2>Your Skills</h2>
+    <p>• Cleaning</p>
+    <p>• Deep Cleaning</p>
+    <p>• Moving</p>
+    <p>• Painting</p>
+    <p>• Repairs</p>
+    <button class="btn">Edit Skills</button>
+  </div>
+
+  <!-- CARD 6: Availability -->
+  <div class="card">
+    <h2>Availability</h2>
+    <p>• Morning</p>
+    <p>• Night</p>
+    <p>• 24/24</p>
+    <p>• Weekends</p>
+    <button class="btn">Edit Availability</button>
+  </div>
+
+</div>
+
+<script>
+function openChat() {
+  window.location.href = "chat.html";
+}
+</script>
+
+</body>
+    </html>
