@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat — BELG SERVICES</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f7f7f7;
+}
+
+/* NAV */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #003366;
+  padding: 12px 0;
+  text-align: center;
+  z-index: 999;
+}
+
+.top-nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* CHAT CONTAINER */
+.chat-container {
+  max-width: 800px;
+  margin: 100px auto 20px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
+
+/* HEADER */
+.chat-header {
+  padding: 15px 20px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header h2 {
+  margin: 0;
+  color: #003366;
+}
+
+.chat-header small {
+  color: #777;
+}
+
+/* WARNING BAR */
+.warning-bar {
+  background: #fff3cd;
+  color: #856404;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-bottom: 1px solid #ffeeba;
+}
+
+/* MESSAGES */
+.chat-messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background: #f5f5f5;
+}
+
+.message {
+  max-width: 70%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.message.client {
+  background: #003366;
+  color: white;
+  margin-left: auto;
+}
+
+.message.worker {
+  background: #e0e0e0;
+  color: #333;
+  margin-right: auto;
+}
+
+/* CONTACT BOX (HIDDEN UNTIL PAID) */
+.contact-box {
+  padding: 12px 15px;
+  background: #e8f5e9;
+  border-top: 1px solid #c8e6c9;
+  font-size: 14px;
+  display: none;
+}
+
+/* INPUT AREA */
+.chat-input {
+  border-top: 1px solid #ddd;
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.chat-input button {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #003366;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* PAY BUTTON */
+.pay-btn {
+  background: #f4c542;
+  color: black;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.pay-btn:hover {
+  background: #e0b235;
+}
+
+/* FOOTER */
+.footer {
+  background: #003366;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="services.html">Services</a>
+  <a href="chat.html">Chat</a>
+  <a href="settings.html">Settings</a>
+</nav>
+
+<!-- CHAT UI -->
+<div class="chat-container">
+
+  <div class="chat-header">
+    <div>
+      <h2>Chat with Worker</h2>
+      <small>Job: Cleaning Service — 50€</small>
+    </div>
+    <button class="pay-btn" onclick="simulatePayment()">Pay & Unlock Contact</button>
+  </div>
+
+  <div class="warning-bar" id="warningBar">
+    ⚠️ For your safety, phone numbers, addresses and external contacts are blocked until payment is confirmed.
+  </div>
+
+  <div class="chat-messages" id="chatMessages">
+    <div class="message worker">
+      Hello, I am available for your request. Can you confirm the time?
+    </div>
+    <div class="message client">
+      Yes, today at 16:00 is perfect.
+    </div>
+  </div>
+
+  <div class="contact-box" id="contactBox">
+    ✅ Payment confirmed.  
+    Worker phone: +32 4 123 45 678  
+    Client address: Rue de Exemple 10, 4000 Liège  
+    You can now coordinate directly for arrival and details.
+  </div>
+
+  <div class="chat-input">
+    <input type="text" id="messageInput" placeholder="Type your message here...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+</div>
+
+<footer class="footer">
+  © 2024 BELG SERVICES — All Rights Reserved
+</footer>
+
+<script>
+let isPaid = false; // حالة الدفع
+
+// فلترة الرسائل لمنع الأرقام والعناوين والروابط
+function filterMessage(text) {
+  const forbiddenPatterns = [
+    /\d{8,}/g,                 // أرقام طويلة (هاتف)
+    /@/g,                      // إيميل
+    /(http|www\.)/gi,          // روابط
+    /(whatsapp|phone|call)/gi,
+    /(address|location|adresse|locatie)/gi,
+    /(numéro|gsm)/gi
+  ];
+
+  for (let pattern of forbiddenPatterns) {
+    if (pattern.test(text)) {
+      return "⚠️ This message was blocked because it contains contact information (phone, address, email or link). Please use the platform only.";
+    }
+  }
+
+  return text;
+}
+
+// إرسال رسالة من العميل
+function sendMessage() {
+  const input = document.getElementById("messageInput");
+  let text = input.value.trim();
+  if (!text) return;
+
+  let filtered = filterMessage(text);
+
+  const chat = document.getElementById("chatMessages");
+  const div = document.createElement("div");
+  div.classList.add("message", "client");
+  div.textContent = filtered;
+  chat.appendChild(div);
+
+  chat.scrollTop = chat.scrollHeight;
+  input.value = "";
+}
+
+// محاكاة الدفع وفتح المعلومات
+function simulatePayment() {
+  isPaid = true;
+  document.getElementById("contactBox").style.display = "block";
+  document.getElementById("warningBar").textContent =
+    "✅ Payment confirmed. Contact information is now available for this job.";
+}
+</script>
+
+</body>
+</html>
