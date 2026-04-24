@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find a Worker — BELG SERVICES</title>
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f7f7f7;
+}
+
+/* NAV */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #003366;
+  padding: 12px 0;
+  text-align: center;
+  z-index: 999;
+}
+
+.top-nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* HEADER */
+header {
+  margin-top: 100px;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  color: #003366;
+  font-size: 32px;
+}
+
+/* SEARCH BAR */
+.search-box {
+  max-width: 700px;
+  margin: 20px auto;
+  display: flex;
+  gap: 10px;
+}
+
+.search-box input, .search-box select {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.search-btn {
+  padding: 12px 20px;
+  background: #003366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* WORKER LIST */
+.workers-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.worker-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.worker-card img {
+  width: 90px;
+  height: 90px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.worker-info h3 {
+  margin: 0;
+  color: #003366;
+}
+
+.worker-info p {
+  margin: 5px 0;
+  color: #444;
+}
+
+.rating {
+  color: #f4c542;
+  font-size: 18px;
+}
+
+.request-btn {
+  margin-top: 10px;
+  padding: 10px 16px;
+  background: #003366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.request-btn:hover {
+  background: #002244;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="dashboard.html">Dashboard</a>
+  <a href="client.html">Find Worker</a>
+  <a href="my-bookings.html">My Bookings</a>
+  <a href="notifications.html">Notifications</a>
+</nav>
+
+<!-- HEADER -->
+<header>
+  <h1>Find the Service You Need</h1>
+</header>
+
+<!-- SEARCH -->
+<div class="search-box">
+  <input type="text" id="serviceInput" placeholder="What service do you need? (Cleaning, Moving, Repair...)">
+  <select id="citySelect">
+    <option>Liège</option>
+    <option>Bruxelles</option>
+    <option>Anvers</option>
+    <option>Charleroi</option>
+    <option>Namur</option>
+  </select>
+  <button class="search-btn" onclick="searchWorkers()">Search</button>
+</div>
+
+<!-- WORKERS LIST -->
+<div class="workers-container" id="workersList">
+
+  <!-- Worker Example -->
+  <div class="worker-card">
+    <img src="https://i.pravatar.cc/150?img=12">
+    <div class="worker-info">
+      <h3>John Doe</h3>
+      <p><span class="rating">★★★★★</span> (4.9)</p>
+      <p>Cleaning • 20€/hour</p>
+      <p>Fast response • 5 min</p>
+      <button class="request-btn" onclick="requestWorker()">Request Now</button>
+    </div>
+  </div>
+
+  <div class="worker-card">
+    <img src="https://i.pravatar.cc/150?img=32">
+    <div class="worker-info">
+      <h3>Alex Smith</h3>
+      <p><span class="rating">★★★★☆</span> (4.7)</p>
+      <p>Moving • 35€/hour</p>
+      <p>Fast response • 3 min</p>
+      <button class="request-btn" onclick="requestWorker()">Request Now</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+function searchWorkers() {
+  alert("Search system will filter workers based on service + city.");
+}
+
+function requestWorker() {
+  window.location.href = "chat.html";
+}
+
+</script>
+
+</body>
+</html>
