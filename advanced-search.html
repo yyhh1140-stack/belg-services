@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Search — BELG SERVICES</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #222;
+}
+
+/* NAV */
+.top-nav {
+  background: #003366;
+  padding: 12px 0;
+  text-align: center;
+}
+
+.top-nav a {
+  color: white;
+  margin: 0 12px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* WRAPPER */
+.wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 15px 40px;
+}
+
+/* TITLE */
+.page-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #003366;
+  margin: 20px 0 15px;
+  text-align: left;
+}
+
+/* SEARCH BAR */
+.search-bar {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 18px;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+/* FILTERS */
+.filters {
+  background: white;
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+.filter-group {
+  margin-bottom: 14px;
+}
+
+.filter-group label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #003366;
+}
+
+.filter-group select,
+.filter-group input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* SEARCH BUTTON */
+.search-btn {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.search-btn button {
+  padding: 12px 26px;
+  background: #003366;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.search-btn button:hover {
+  background: #002244;
+}
+
+/* RESULTS */
+.results-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #003366;
+  margin: 20px 0 10px;
+}
+
+.result-card {
+  background: white;
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+}
+
+.result-card h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  color: #003366;
+}
+
+.result-card p {
+  margin: 0;
+  font-size: 13px;
+  color: #555;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="index.html">Home</a>
+  <a href="client.html">Find Worker</a>
+  <a href="company-profile.html">Companies</a>
+  <a href="worker-profile.html">Workers</a>
+  <a href="payment.html">Payment</a>
+  <a href="my-bookings.html">My Bookings</a>
+  <a href="notifications.html">Notifications</a>
+</nav>
+
+<div class="wrapper">
+
+  <div class="page-title">Advanced Search</div>
+
+  <!-- SEARCH BAR -->
+  <div class="search-bar">
+    <input type="text" placeholder="Search for a service, company, or worker...">
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+
+    <div class="filter-group">
+      <label>Service Type</label>
+      <select>
+        <option>Cleaning</option>
+        <option>Moving</option>
+        <option>Repairs</option>
+        <option>Painting</option>
+        <option>Company Workforce</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>City</label>
+      <select>
+        <option>Brussels</option>
+        <option>Liège</option>
+        <option>Antwerp</option>
+        <option>Ghent</option>
+        <option>Charleroi</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Price Range (€)</label>
+      <input type="number" placeholder="Max price">
+    </div>
+
+    <div class="filter-group">
+      <label>Rating</label>
+      <select>
+        <option>Any</option>
+        <option>4 stars & up</option>
+        <option>3 stars & up</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Availability</label>
+      <select>
+        <option>Today</option>
+        <option>Tomorrow</option>
+        <option>This Week</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label>Worker Type</label>
+      <select>
+        <option>Any</option>
+        <option>Company</option>
+        <option>Independent Worker</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- SEARCH BUTTON -->
+  <div class="search-btn">
+    <button>Search Now</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results-title">Search Results</div>
+
+  <div class="result-card">
+    <h3>CleanPro Services</h3>
+    <p>Professional cleaning workers available today.</p>
+  </div>
+
+  <div class="result-card">
+    <h3>FixIt Group</h3>
+    <p>Electricians and plumbers ready for urgent repairs.</p>
+  </div>
+
+  <div class="result-card">
+    <h3>MoveFast Belgium</h3>
+    <p>Moving services available this week.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
