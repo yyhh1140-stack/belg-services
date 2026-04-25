@@ -1,448 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>BELG SERVICES – Hero</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BELG SERVICES</title>
 
-  <style>
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f5f7fb;
+}
 
-    /* ---------------- المربعات العلوية والسفلية ---------------- */
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background: white;
+}
 
-    .section-boxes {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 15px;
-      padding: 25px 40px;
-    }
+.logo-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-    .section-boxes .box {
-      flex: 1 1 calc(33% - 20px);
-      padding: 18px;
-      border: 2px solid #ffffff;
-      color: #ffffff;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(4px);
-    }
+.logo-text img {
+    height: 40px;
+}
 
-    /* ---------------- أيقونات المتاجر ---------------- */
+.logo-text span {
+    font-weight: bold;
+    font-size: 18px;
+}
 
-    .store-icons {
-      text-align: center;
-      margin-top: 20px;
-    }
+/* Hero */
+.hero {
+    height: 85vh;
+    background: linear-gradient(rgba(0,90,200,0.5), rgba(0,90,200,0.5)),
+                url('hero.jpg') center/cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+}
 
-    .store-icons img {
-      width: 180px;
-      margin: 10px;
-    }
+.hero h1 {
+    font-size: 45px;
+}
 
-    /* ---------------- الكود الأصلي بالكامل كما هو ---------------- */
+.search-box {
+    background: white;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+.search-box input {
+    border: none;
+    padding: 10px;
+    outline: none;
+}
 
-    body {
-      background: #050814;
-      color: #ffffff;
-      min-height: 100vh;
-      display: block;
-    }
+.search-box button {
+    background: #0066ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+}
 
-    .hero-wrapper {
-      width: 1200px;
-      max-width: 100%;
-      height: 700px;
-      border-radius: 32px;
-      overflow: hidden;
-      position: relative;
-      background: radial-gradient(circle at top left, #2b4bff33, transparent 60%),
-                  radial-gradient(circle at bottom right, #00c6ff33, transparent 60%),
-                  #050814;
-      margin: 0 auto;
-    }
+/* Services */
+.services {
+    text-align: center;
+    padding: 50px;
+}
 
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background: url("bg.jpg") center/cover no-repeat;
-      opacity: 1;
-      filter: none;
-      z-index: 0;
-    }
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
 
-    .brand-marquee {
-      position: absolute;
-      top: 50%;
-      left: -40%;
-      transform: translateY(-50%);
-      font-size: 120px;
-      font-weight: 800;
-      letter-spacing: 0.25em;
-      color: rgba(255, 255, 255, 0.06);
-      white-space: nowrap;
-      animation: marquee 18s linear infinite;
-      pointer-events: none;
-      z-index: 1;
-    }
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 150px;
+}
 
-    @keyframes marquee {
-      0%   { transform: translate(-40%, -50%); }
-      100% { transform: translate(40%, -50%); }
-    }
+.card img {
+    width: 60px;
+}
 
-    .top-bar {
-      position: absolute;
-      top: 24px;
-      left: 40px;
-      right: 40px;
-      height: 56px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding: 0 24px;
-      z-index: 3;
-    }
+/* Download */
+.download {
+    text-align: center;
+    padding: 40px;
+}
 
-    .top-bar-user {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+.download img {
+    width: 140px;
+}
 
-    .user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #2b4bff, #00c6ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 16px;
-    }
+/* Social */
+.social {
+    text-align: center;
+}
 
-    .settings-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      border: 1px solid rgba(0, 0, 0, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #222;
-      background: #ffffff;
-    }
+.social img {
+    width: 25px;
+    margin: 10px;
+}
 
-    .center-card {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 70%;
-      max-width: 780px;
-      transform: translate(-50%, -50%);
-      background: rgba(255, 255, 255, 0.35);
-      border-radius: 32px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
-      padding: 120px 40px 40px;
-      z-index: 2;
-      backdrop-filter: blur(18px);
-    }
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #eee;
+}
+</style>
 
-    .logo-wrapper {
-      position: absolute;
-      top: -120px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 180px;
-      height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: logoDrop 1.6s ease-out forwards;
-      z-index: 4;
-    }
-
-    .logo-wrapper img {
-      max-width: 100%;
-      max-height: 100%;
-      display: block;
-    }
-
-    @keyframes logoDrop {
-      0% { transform: translate(-50%, -220px); opacity: 0; }
-      60% { transform: translate(-50%, 10px); opacity: 1; }
-      100% { transform: translate(-50%, 0); }
-    }
-
-    .welcome-text {
-      text-align: center;
-      margin-bottom: 24px;
-      animation: fadeIn 1.2s ease-out 0.8s both;
-    }
-
-    .welcome-text h1 {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .welcome-text p {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(10, 14, 35, 0.95);
-      border-radius: 999px;
-      padding: 10px 14px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      margin-bottom: 16px;
-    }
-
-    .search-input {
-      flex: 1;
-      border-radius: 999px;
-      border: none;
-      padding: 10px 16px;
-      font-size: 14px;
-      outline: none;
-      background: transparent;
-      color: #ffffff;
-    }
-
-    .search-btn {
-      border: none;
-      border-radius: 999px;
-      padding: 10px 22px;
-      background: linear-gradient(135deg, #2b4bff, #00c6ff);
-      color: #ffffff;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .auth-actions {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .auth-btn {
-      border-radius: 999px;
-      padding: 8px 22px;
-      font-size: 13px;
-      cursor: pointer;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: transparent;
-      color: #ffffff;
-    }
-
-    .auth-btn.primary {
-      background: #ffffff;
-      color: #111827;
-      border-color: #ffffff;
-      font-weight: 600;
-    }
-
-    .floating-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .floating-card {
-      position: relative;
-      background: rgba(15, 23, 42, 0.95);
-      border-radius: 18px;
-      padding: 14px 16px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      overflow: hidden;
-      animation: float 4s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-6px); }
-    }
-
-    .floating-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .floating-label {
-      font-size: 13px;
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .bottom-apps {
-      position: absolute;
-      left: 40px;
-      right: 40px;
-      bottom: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 16px;
-      z-index: 3;
-    }
-
-    .app-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 12px;
-      background: rgba(15, 23, 42, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-    }
-
-  </style>
 </head>
 
 <body>
 
-  <!-- ---------------- المربعات العلوية ---------------- -->
-  <div class="section-boxes">
-    <div class="box">الحجوزات</div>
-    <div class="box">من نحن</div>
-    <div class="box">اتصل بنا</div>
-    <div class="box">الشروط والأحكام</div>
-    <div class="box">إعدادات المستخدم</div>
-    <div class="box">حقوق النشر</div>
-  </div>
-
-  <!-- ---------------- التصميم الأصلي ---------------- -->
-  <div class="hero-wrapper">
-    <div class="hero-bg"></div>
-
-    <div class="brand-marquee">BELG SERVICES</div>
-
-    <div class="top-bar">
-      <div class="top-bar-user">
-        <div class="user-avatar">BS</div>
-        <div class="settings-icon">⚙</div>
-      </div>
+<header>
+    <div class="logo-text">
+        <img src="logo.png">
+        <span>BELG SERVICES</span>
     </div>
+</header>
 
-    <div class="center-card">
+<section class="hero">
+    <h1>BELG SERVICES</h1>
+    <p>All services in one place</p>
 
-      <div class="logo-wrapper">
-        <img src="logo.png" alt="BELG SERVICES Logo">
-      </div>
-
-      <div class="welcome-text">
-        <h1>Welcome to BELG SERVICES</h1>
-        <p>Smart access for companies, customers and workers in one unified platform.</p>
-      </div>
-
-      <div class="search-bar">
-        <input class="search-input" type="text" placeholder="Search services, companies or workers..." />
-        <button class="search-btn">Search</button>
-      </div>
-
-      <div class="auth-actions">
-        <button class="auth-btn primary">Login</button>
-        <button class="auth-btn">Register</button>
-      </div>
-
-      <div class="floating-grid">
-
-        <div class="floating-card">
-          <div class="floating-icon"><img src="pngfacebook.png"></div>
-          <div class="floating-label">Companies</div>
-        </div>
-
-        <div class="floating-card">
-          <div class="floating-icon"><img src="linkedin.png"></div>
-          <div class="floating-label">Customers</div>
-        </div>
-
-        <div class="floating-card">
-          <div class="floating-icon"><img src="x.png"></div>
-          <div class="floating-label">Workers</div>
-        </div>
-
-        <div class="floating-card">
-          <div class="floating-icon"><img src="whatsapp.png"></div>
-          <div class="floating-label">Language</div>
-        </div>
-
-        <div class="floating-card">
-          <div class="floating-icon"><img src="youtube.png"></div>
-          <div class="floating-label">Settings</div>
-        </div>
-
-        <div class="floating-card">
-          <div class="floating-icon"><img src="linkedin.png"></div>
-          <div class="floating-label">Contact Us</div>
-        </div>
-
-      </div>
-
+    <div class="search-box">
+        <input type="text" placeholder="What are you looking for?">
+        <button>Search</button>
     </div>
+</section>
 
-    <div class="bottom-apps">
-      <div class="app-icon"><img src="pngfacebook.png"></div>
-      <div class="app-icon"><img src="x.png"></div>
-      <div class="app-icon"><img src="whatsapp.png"></div>
-      <div class="app-icon"><img src="youtube.png"></div>
-      <div class="app-icon"><img src="linkedin.png"></div>
+<section class="services">
+    <h2>Our Services</h2>
+
+    <div class="cards">
+        <div class="card">
+            <img src="logo.png">
+            <p>Service 1</p>
+        </div>
+
+        <div class="card">
+            <img src="logo.png">
+            <p>Service 2</p>
+        </div>
+
+        <div class="card">
+            <img src="logo.png">
+            <p>Service 3</p>
+        </div>
     </div>
+</section>
 
-  </div>
+<section class="download">
+    <img src="google.png">
+    <img src="apple.png">
+</section>
 
-  <!-- ---------------- أيقونات المتاجر ---------------- -->
-  <div class="store-icons">
-    <img src="google.png" alt="Google Play">
-    <img src="apple.png" alt="Apple Store">
-  </div>
+<div class="social">
+    <img src="facebook.png">
+    <img src="linkedin.png">
+    <img src="x.png">
+    <img src="whatsapp.png">
+    <img src="youtube.png">
+</div>
 
-  <!-- ---------------- المربعات السفلية ---------------- -->
-  <div class="section-boxes">
-    <div class="box">التسجيل</div>
-    <div class="box">الشركات</div>
-    <div class="box">الزبون</div>
-    <div class="box">العامل</div>
-    <div class="box">الإعلانات</div>
-    <div class="box">الأسئلة الشائعة</div>
-  </div>
+<footer>
+    © 2026 BELG SERVICES
+</footer>
 
 </body>
 </html>
