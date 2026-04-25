@@ -6,12 +6,11 @@
 <title>BELG SERVICES — Home</title>
 
 <style>
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f7f7f7;
-  text-align: center;
+  background: #f5f7fb;
+  color: #222;
 }
 
 /* NAV */
@@ -23,32 +22,66 @@ body {
 
 .top-nav a {
   color: white;
-  margin: 0 15px;
+  margin: 0 12px;
   text-decoration: none;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 15px;
 }
 
-/* LOGO */
-.logo-container {
+/* MAIN WRAPPER */
+.main-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 15px 40px;
+}
+
+/* LOGO BLOCK (RECTANGLE + ANIMATION) */
+.logo-block {
   margin-top: 20px;
+  background: linear-gradient(135deg, #004b8d, #0074d9);
+  border-radius: 24px;
+  padding: 20px 15px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  animation: floatLogo 4s ease-in-out infinite;
 }
 
-.logo-container img {
-  width: 160px;
+@keyframes floatLogo {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.logo-block img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.logo-block h1 {
+  margin: 5px 0 8px;
+  font-size: 22px;
+}
+
+.logo-block p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
 }
 
 /* COMPANY SLIDER */
 .company-slider {
   width: 100%;
   overflow: hidden;
-  margin: 20px 0;
+  margin: 22px 0;
 }
 
 .slider-track {
   display: flex;
-  gap: 20px;
-  padding: 10px;
+  gap: 16px;
+  padding: 8px;
   animation: scroll 18s linear infinite;
 }
 
@@ -58,21 +91,21 @@ body {
   padding: 10px;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .company-card img {
   width: 100%;
-  height: 90px;
+  height: 80px;
   object-fit: cover;
   border-radius: 8px;
 }
 
 .company-card p {
-  margin-top: 8px;
+  margin-top: 6px;
   font-weight: bold;
   color: #003366;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 @keyframes scroll {
@@ -82,16 +115,17 @@ body {
 
 /* START BUTTON */
 .start-button {
-  margin-top: 20px;
+  text-align: center;
+  margin: 10px 0 25px;
 }
 
 .start-button a {
   display: inline-block;
-  padding: 14px 28px;
+  padding: 12px 26px;
   background: #003366;
   color: white;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 16px;
   border-radius: 10px;
   font-weight: bold;
 }
@@ -100,6 +134,153 @@ body {
   background: #002244;
 }
 
+/* SECTION TITLES */
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #003366;
+  margin: 25px 0 10px;
+  text-align: left;
+}
+
+/* SERVICES CARDS */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.card h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+  color: #003366;
+}
+
+.card p {
+  margin: 0;
+  font-size: 13px;
+  color: #555;
+}
+
+/* FEATURES LIST */
+.features-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.feature-item {
+  background: white;
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  font-size: 13px;
+}
+
+/* PARTNERS */
+.partners-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.partner-tag {
+  background: white;
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-size: 13px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+/* TESTIMONIALS */
+.testimonials {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.testimonial {
+  background: white;
+  border-radius: 12px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  font-size: 13px;
+}
+
+.testimonial strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #003366;
+}
+
+/* DOWNLOAD APP SECTION */
+.download-section {
+  margin-top: 25px;
+  background: white;
+  border-radius: 16px;
+  padding: 16px 14px 18px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.download-section h2 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: #003366;
+}
+
+.download-section p {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: #555;
+}
+
+/* CIRCULAR APP ICONS */
+.app-icons {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.app-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #003366;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 11px;
+  text-align: center;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.app-icon.apple {
+  background: #000000;
+}
+
+.app-icon.google {
+  background: #34a853;
+}
+
+/* FOOTER */
+footer {
+  margin-top: 30px;
+  padding: 14px 10px;
+  text-align: center;
+  font-size: 12px;
+  color: #777;
+  background: #eef1f7;
+}
 </style>
 </head>
 
@@ -116,41 +297,122 @@ body {
   <a href="notifications.html">Notifications</a>
 </nav>
 
-<!-- LOGO -->
-<div class="logo-container">
-  <img src="logo.png" alt="BELG SERVICES">
-</div>
+<div class="main-wrapper">
 
-<!-- COMPANY ADS SLIDER -->
-<div class="company-slider">
-  <div class="slider-track">
-
-    <div class="company-card">
-      <img src="https://i.imgur.com/clean1.jpg">
-      <p>CleanPro Services</p>
-    </div>
-
-    <div class="company-card">
-      <img src="https://i.imgur.com/clean2.jpg">
-      <p>MoveFast Belgium</p>
-    </div>
-
-    <div class="company-card">
-      <img src="https://i.imgur.com/clean3.jpg">
-      <p>FixIt Group</p>
-    </div>
-
-    <div class="company-card">
-      <img src="https://i.imgur.com/clean4.jpg">
-      <p>PaintMaster</p>
-    </div>
-
+  <!-- LOGO BLOCK (WITH ANIMATION) -->
+  <div class="logo-block">
+    <img src="logo.png" alt="BELG SERVICES">
+    <h1>BELG SERVICES</h1>
+    <p>Smart platform to connect clients, workers, and companies in Belgium.</p>
   </div>
-</div>
 
-<!-- START BUTTON -->
-<div class="start-button">
-  <a href="client.html">Start Now</a>
+  <!-- COMPANY ADS SLIDER -->
+  <div class="company-slider">
+    <div class="slider-track">
+
+      <div class="company-card">
+        <img src="https://i.imgur.com/clean1.jpg" alt="Company 1">
+        <p>CleanPro Services</p>
+      </div>
+
+      <div class="company-card">
+        <img src="https://i.imgur.com/clean2.jpg" alt="Company 2">
+        <p>MoveFast Belgium</p>
+      </div>
+
+      <div class="company-card">
+        <img src="https://i.imgur.com/clean3.jpg" alt="Company 3">
+        <p>FixIt Group</p>
+      </div>
+
+      <div class="company-card">
+        <img src="https://i.imgur.com/clean4.jpg" alt="Company 4">
+        <p>PaintMaster</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- START BUTTON -->
+  <div class="start-button">
+    <a href="client.html">Start Now</a>
+  </div>
+
+  <!-- SERVICES SECTION -->
+  <div class="section-title">Main Services</div>
+  <div class="cards-grid">
+    <div class="card">
+      <h3>Home Cleaning</h3>
+      <p>Book trusted cleaners for your home with flexible hours.</p>
+    </div>
+    <div class="card">
+      <h3>Moving & Transport</h3>
+      <p>Professional moving services for apartments, offices, and more.</p>
+    </div>
+    <div class="card">
+      <h3>Repairs & Maintenance</h3>
+      <p>Electricians, plumbers, and handymen ready on demand.</p>
+    </div>
+    <div class="card">
+      <h3>Company Workforce</h3>
+      <p>Companies can hire workers and manage teams easily.</p>
+    </div>
+  </div>
+
+  <!-- FEATURES SECTION -->
+  <div class="section-title">Why BELG SERVICES?</div>
+  <div class="features-list">
+    <div class="feature-item">Fast booking process in a few clicks.</div>
+    <div class="feature-item">Verified workers and trusted companies.</div>
+    <div class="feature-item">Secure payments and clear pricing.</div>
+    <div class="feature-item">Support for multiple languages.</div>
+  </div>
+
+  <!-- PARTNER COMPANIES -->
+  <div class="section-title">Partner Companies</div>
+  <div class="partners-row">
+    <div class="partner-tag">CleanPro Group</div>
+    <div class="partner-tag">MoveFast Logistics</div>
+    <div class="partner-tag">FixIt Repairs</div>
+    <div class="partner-tag">PaintMaster Belgium</div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="section-title">What clients say</div>
+  <div class="testimonials">
+    <div class="testimonial">
+      <strong>Sarah, Brussels</strong>
+      Great platform, I found a cleaner in less than 10 minutes.
+    </div>
+    <div class="testimonial">
+      <strong>Ahmed, Liège</strong>
+      Easy to use and workers arrived on time. Very professional.
+    </div>
+    <div class="testimonial">
+      <strong>Company: CleanPro</strong>
+      We receive new clients every week thanks to BELG SERVICES.
+    </div>
+  </div>
+
+  <!-- DOWNLOAD APP SECTION -->
+  <div class="download-section">
+    <h2>Download the App</h2>
+    <p>Get BELG SERVICES on your phone and manage everything on the go.</p>
+    <div class="app-icons">
+      <div class="app-icon google">
+        Google<br>Play
+      </div>
+      <div class="app-icon apple">
+        App<br>Store
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 BELG SERVICES — All rights reserved.
+  </footer>
+
 </div>
 
 </body>
