@@ -1,608 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BELG SERVICES — Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خدمات بيجما</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      background-color: #f0f1f5;
+      color: #222;
+    }
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f0f1f5; /* رمادي ناعم */
-  color: #222;
-}
+    /* الهيدر */
+    .header {
+      background-color: #000033;
+      padding: 16px;
+      text-align: center;
+      color: #fff;
+    }
 
-/* NAV */
-.top-nav {
-  background: #003366;
-  padding: 12px 0;
-  text-align: center;
-}
+    .logo img {
+      max-width: 80px;
+      display: block;
+      margin: 0 auto 8px;
+    }
 
-.top-nav a {
-  color: white;
-  margin: 0 12px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 15px;
-  
-}
-  <div class="main-wrapper"
-  <!-- LOGO BLOCK (NEW DESIGN) -->
-<div class="logo-block">
-    <img src="images/logo.png" alt="BELG SERVICES Logo" class="logo-floating">
-    <h1>BELG SERVICES</h1>
-    <p>منصة موحدة تربط الزبائن، الشركات، والعمال في مكان واحد.</p>
+    .logo h1 {
+      margin: 4px 0;
+      font-size: 20px;
+    }
 
-    <!-- شريط الإعلانات -->
-    <div class="announcements">
-      <div class="announcements-track">
-        <div class="announcements-item">إعلان شركة A — خصومات على الخدمات</div>
-        <div class="announcements-item">شركة B — فرص عمل جديدة</div>
-        <div class="announcements-item">شركة C — عروض خاصة للشركات المسجلة</div>
-        <div class="announcements-item">BELG SERVICES — قريبًا تطبيق الموبايل</div>
-        <div class="announcements-item">إعلان شركة A — خصومات على الخدمات</div>
-        <div class="announcements-item">شركة B — فرص عمل جديدة</div>
-      </div>
-    </div>
-</div>
+    .logo p {
+      margin: 0;
+      font-size: 13px;
+      opacity: 0.9;
+    }
 
-<!-- MAIN ACTION BUTTONS -->
-<div class="main-actions">
-    <div class="action-card action-blue"><span class="label">الزبون</span></div>
-    <div class="action-card action-green"><span class="label">الشركات</span></div>
-    <div class="action-card action-orange"><span class="label">العامل</span></div>
-    <div class="action-card action-red"><span class="label">تسجيل الدخول</span></div>
-</div>
+    /* القائمة العلوية */
+    .menu {
+      background-color: #ffffff;
+      margin: 12px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
 
-<!-- SECONDARY BUTTONS -->
-<div class="secondary-actions">
-    <div class="secondary-card">اللغات</div>
-    <div class="secondary-card">الإعدادات</div>
-    <div class="secondary-card">أعمال الشركات</div>
-    <div class="secondary-card">الوظائف</div>
-</div>
+    .menu .item {
+      padding: 10px 12px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
 
-  <!-- المستطيلات الرئيسية -->
-  <div class="main-actions">
-    <div class="action-card action-blue">
-      <span class="label">الزبون</span>
-    </div>
-    <div class="action-card action-green">
-      <span class="label">الشركات</span>
-    </div>
-    <div class="action-card action-orange">
-      <span class="label">العامل</span>
-    </div>
-    <div class="action-card action-red">
-      <span class="label">تسجيل الدخول</span>
-    </div>
-  </div>
+    .menu .item:last-child {
+      border-bottom: none;
+    }
 
-  <!-- المستطيلات السفلية -->
-  <div class="secondary-actions">
-    <div class="secondary-card">اللغات</div>
-    <div class="secondary-card">الإعدادات</div>
-    <div class="secondary-card">أعمال الشركات</div>
-    <div class="secondary-card">الوظائف</div>
-  </div>
+    /* الشركات */
+    .companies {
+      margin: 12px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
 
-</div>
-/* LOGO BLOCK */
-.logo-block {
-  margin-top: 40px;
-  background: #003f88; /* أزرق أفتح قليلاً */
-  border-radius: 28px;
-  padding: 30px 15px 40px;
-  text-align: center;
-  color: white;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
-}
+    .company {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      font-size: 14px;
+    }
 
-/* الشعار المتحرك */
-.logo-block img {
-  width: 180px;
-  height: 180px;
-  object-fit: contain;
-  margin-bottom: 10px;
-}
+    .company .name {
+      font-weight: 600;
+      color: #000033;
+    }
 
-.logo-floating {
-  animation: floatLogo 4s ease-in-out infinite;
-}
+    /* الفوتر */
+    .footer {
+      margin-top: 16px;
+      background-color: #000033;
+      color: #fff;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      font-size: 13px;
+    }
 
-@keyframes floatLogo {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
-}
-
-.logo-block h1 {
-  margin: 8px 0 4px;
-  font-size: 26px;
-  letter-spacing: 1px;
-}
-
-.logo-block p {
-  margin: 0;
-  font-size: 14px;
-  opacity: 0.9;
-}
-  /* شريط الإعلانات */
-.announcements {
-  margin-top: 18px;
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 8px 10px;
-  overflow: hidden;
-}
-
-.announcements-track {
-  display: flex;
-  gap: 18px;
-  animation: scrollAds 18s linear infinite;
-}
-
-.announcements-item {
-  white-space: nowrap;
-  font-size: 13px;
-  color: #003366;
-  font-weight: bold;
-}
-
-@keyframes scrollAds {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* المستطيلات الرئيسية (الزبون، الشركات، العامل، تسجيل الدخول) */
-.main-actions {
-  margin-top: 24px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.action-card {
-  background: #ffffff;
-  border-radius: 18px;
-  padding: 16px 12px;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.action-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-}
-
-.action-card span.label {
-  display: block;
-  margin-top: 6px;
-  font-weight: bold;
-  font-size: 15px;
-}
-
-/* ألوان مختلفة لكل كارت */
-.action-blue   { background: linear-gradient(135deg,#e3f2ff,#c5e1ff); }
-.action-green  { background: linear-gradient(135deg,#e5f7ec,#c7ebd7); }
-.action-orange { background: linear-gradient(135deg,#ffe9d6,#ffd1aa); }
-.action-red    { background: linear-gradient(135deg,#ffe1e5,#ffb8c2); }
-
-/* المستطيلات السفلية (اللغات، الإعدادات، أعمال الشركات، الوظائف) */
-.secondary-actions {
-  margin-top: 22px;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.secondary-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 12px 10px;
-  text-align: center;
-  font-size: 13px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.secondary-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
-}
-@keyframes floatLogo {
-  0% {
-    transform: translateX(-10px) translateY(-6px);
-  }
-  50% {
-    transform: translateX(10px) translateY(6px);
-  }
-  100% {
-    transform: translateX(-10px) translateY(-6px);
-  }
-}
-
-.logo-block h1 {
-  margin: 5px 0 8px;
-  font-size: 22px;
-}
-
-.logo-block p {
-  margin: 0;
-  font-size: 14px;
-  opacity: 0.9;
-}
-
-/* COMPANY SLIDER */
-.company-slider {
-  width: 100%;
-  overflow: hidden;
-  margin: 22px 0;
-}
-
-.slider-track {
-  display: flex;
-  gap: 16px;
-  padding: 8px;
-  animation: scroll 18s linear infinite;
-}
-
-.company-card {
-  min-width: 160px;
-  background: white;
-  padding: 10px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-
-.company-card img {
-  width: 100%;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.company-card p {
-  margin-top: 6px;
-  font-weight: bold;
-  color: #003366;
-  font-size: 13px;
-}
-
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* START BUTTON */
-.start-button {
-  text-align: center;
-  margin: 10px 0 25px;
-}
-
-.start-button a {
-  display: inline-block;
-  padding: 12px 26px;
-  background: #003366;
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-  border-radius: 10px;
-  font-weight: bold;
-}
-
-.start-button a:hover {
-  background: #002244;
-}
-
-/* SECTION TITLES */
-.section-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #003366;
-  margin: 25px 0 10px;
-  text-align: left;
-}
-
-/* SERVICES CARDS */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px;
-}
-
-.card {
-  background: white;
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-}
-
-.card h3 {
-  margin: 0 0 6px;
-  font-size: 15px;
-  color: #003366;
-}
-
-.card p {
-  margin: 0;
-  font-size: 13px;
-  color: #555;
-}
-
-/* FEATURES LIST */
-.features-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-}
-
-.feature-item {
-  background: white;
-  border-radius: 12px;
-  padding: 10px 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  font-size: 13px;
-}
-
-/* PARTNERS */
-.partners-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.partner-tag {
-  background: white;
-  border-radius: 20px;
-  padding: 6px 12px;
-  font-size: 13px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
-
-/* TESTIMONIALS */
-.testimonials {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-}
-
-.testimonial {
-  background: white;
-  border-radius: 12px;
-  padding: 10px 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-  font-size: 13px;
-}
-
-.testimonial strong {
-  display: block;
-  margin-bottom: 4px;
-  color: #003366;
-}
-
-/* DOWNLOAD APP SECTION */
-.download-section {
-  margin-top: 25px;
-  background: white;
-  border-radius: 16px;
-  padding: 16px 14px 18px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-  text-align: center;
-}
-
-.download-section h2 {
-  margin: 0 0 6px;
-  font-size: 17px;
-  color: #003366;
-}
-
-.download-section p {
-  margin: 0 0 14px;
-  font-size: 13px;
-  color: #555;
-}
-
-/* CIRCULAR APP ICONS */
-.app-icons {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-}
-
-.app-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #003366;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 11px;
-  text-align: center;
-  padding: 6px;
-  cursor: pointer;
-}
-
-.app-icon.apple {
-  background: #000000;
-}
-
-.app-icon.google {
-  background: #34a853;
-}
-
-/* FOOTER */
-footer {
-  margin-top: 30px;
-  padding: 14px 10px;
-  text-align: center;
-  font-size: 12px;
-  color: #777;
-  background: #eef1f7;
-}
-</style>
+    .footer-item {
+      cursor: default;
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- NAV -->
-<nav class="top-nav">
-  <a href="index.html">Home</a>
-  <a href="client.html">Find Worker</a>
-  <a href="company-profile.html">Companies</a>
-  <a href="worker-profile.html">Workers</a>
-  <a href="payment.html">Payment</a>
-  <a href="my-bookings.html">My Bookings</a>
-  <a href="notifications.html">Notifications</a>
-</nav>
-
-<div class="main-wrapper">
-
-  <!-- LOGO BLOCK (WITH ANIMATION) -->
-  <div class="logo-block">
-    <img src="logo.png" alt="BELG SERVICES">
-    <h1>BELG SERVICES</h1>
-    <p>Smart platform to connect clients, workers, and companies in Belgium.</p>
-  </div>
-
-  <!-- COMPANY ADS SLIDER -->
-  <div class="company-slider">
-    <div class="slider-track">
-
-      <div class="company-card">
-        <img src="https://i.imgur.com/clean1.jpg" alt="Company 1">
-        <p>CleanPro Services</p>
-      </div>
-
-      <div class="company-card">
-        <img src="https://i.imgur.com/clean2.jpg" alt="Company 2">
-        <p>MoveFast Belgium</p>
-      </div>
-
-      <div class="company-card">
-        <img src="https://i.imgur.com/clean3.jpg" alt="Company 3">
-        <p>FixIt Group</p>
-      </div>
-
-      <div class="company-card">
-        <img src="https://i.imgur.com/clean4.jpg" alt="Company 4">
-        <p>PaintMaster</p>
-      </div>
-
+  <!-- الهيدر -->
+  <div class="header">
+    <div class="logo">
+      <img src="logo.png" alt="شعار خدمات بيجما">
+      <h1>خدمات بيجما</h1>
+      <p>أسماء مخصصة لتسويق الشركات والعمل في مجال البرمجة</p>
     </div>
   </div>
 
-  <!-- START BUTTON -->
-  <div class="start-button">
-    <a href="client.html">Start Now</a>
+  <!-- قائمة الإعلانات -->
+  <div class="menu">
+    <div class="item">إعلان شركة A – تفاصيل عن الخدمات</div>
+    <div class="item">إعلان شركة B – فرص عمل جديدة</div>
+    <div class="item">إعلان شركة C – عروض خاصة للشركات الناشئة</div>
+    <div class="item">إعلان شركة D – تدريب لمطورين خدمات بيجما</div>
   </div>
 
-  <!-- SERVICES SECTION -->
-  <div class="section-title">Main Services</div>
-  <div class="cards-grid">
-    <div class="card">
-      <h3>Home Cleaning</h3>
-      <p>Book trusted cleaners for your home with flexible hours.</p>
-    </div>
-    <div class="card">
-      <h3>Moving & Transport</h3>
-      <p>Professional moving services for apartments, offices, and more.</p>
-    </div>
-    <div class="card">
-      <h3>Repairs & Maintenance</h3>
-      <p>Electricians, plumbers, and handymen ready on demand.</p>
-    </div>
-    <div class="card">
-      <h3>Company Workforce</h3>
-      <p>Companies can hire workers and manage teams easily.</p>
-    </div>
+  <!-- الشركات -->
+  <div class="companies">
+    <div class="company"><span class="name">الشركة الأولى</span></div>
+    <div class="company"><span class="name">الشركة الثانية</span></div>
+    <div class="company"><span class="name">الشركة الثالثة</span></div>
+    <div class="company"><span class="name">الشركة الرابعة</span></div>
   </div>
 
-  <!-- FEATURES SECTION -->
-  <div class="section-title">Why BELG SERVICES?</div>
-  <div class="features-list">
-    <div class="feature-item">Fast booking process in a few clicks.</div>
-    <div class="feature-item">Verified workers and trusted companies.</div>
-    <div class="feature-item">Secure payments and clear pricing.</div>
-    <div class="feature-item">Support for multiple languages.</div>
+  <!-- الفوتر -->
+  <div class="footer">
+    <div class="footer-item">اتصل بنا</div>
+    <div class="footer-item">سياسة الخصوصية</div>
+    <div class="footer-item">الشروط والأحكام</div>
   </div>
-
-  <!-- PARTNER COMPANIES -->
-  <div class="section-title">Partner Companies</div>
-  <div class="partners-row">
-    <div class="partner-tag">CleanPro Group</div>
-    <div class="partner-tag">MoveFast Logistics</div>
-    <div class="partner-tag">FixIt Repairs</div>
-    <div class="partner-tag">PaintMaster Belgium</div>
-  </div>
-
-  <!-- TESTIMONIALS -->
-  <div class="section-title">What clients say</div>
-  <div class="testimonials">
-    <div class="testimonial">
-      <strong>Sarah, Brussels</strong>
-      Great platform, I found a cleaner in less than 10 minutes.
-    </div>
-    <div class="testimonial">
-      <strong>Ahmed, Liège</strong>
-      Easy to use and workers arrived on time. Very professional.
-    </div>
-    <div class="testimonial">
-      <strong>Company: CleanPro</strong>
-      We receive new clients every week thanks to BELG SERVICES.
-    </div>
-  </div>
-
-  <!-- DOWNLOAD APP SECTION -->
-  <div class="download-section">
-    <h2>Download the App</h2>
-    <p>Get BELG SERVICES on your phone and manage everything on the go.</p>
-    <div class="app-icons" style="display:flex; justify-content:center; gap:14px; margin-top:10px;">
-
-    <!-- Google Play -->
-    <a href="#" style="
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        padding:0;
-        border-radius:12px;
-        overflow:hidden;
-        background:transparent;
-    ">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-             style="height:48px; width:auto;">
-    </a>
-
-    <!-- Apple Store -->
-    <a href="#" style="
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        padding:0;
-        border-radius:12px;
-        overflow:hidden;
-        background:transparent;
-    ">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Download_on_the_App_Store_Badge.svg"
-             style="height:48px; width:auto;">
-    </a>
-
-    </div>
-
-  <!-- FOOTER -->
-  <footer>
-    © 2026 BELG SERVICES — All rights reserved.
-  </footer>
-
-</div>
 
 </body>
 </html>
