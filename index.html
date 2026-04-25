@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BelG services</title>
+  <title>BelG Services</title>
 
   <style>
     * {
@@ -14,25 +14,20 @@
 
     body {
       font-family: system-ui, sans-serif;
-      background: #050816;
+      background: #000;
       color: #fff;
       overflow-x: hidden;
     }
 
-    /* ===== BACKGROUND ANIMATION ===== */
+    /* ===== BACKGROUND IMAGE ===== */
     .hero-bg {
       position: fixed;
       inset: 0;
-      background: linear-gradient(-45deg, #ff7a7a, #ff9f5b, #ff6ad5, #7b5cff);
-      background-size: 400% 400%;
-      animation: bgMove 18s ease infinite, bgBreath 10s ease-in-out infinite;
+      background-image: url("bg.jpg");
+      background-size: cover;
+      background-position: center;
+      animation: bgBreath 10s ease-in-out infinite;
       z-index: -2;
-    }
-
-    @keyframes bgMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
 
     @keyframes bgBreath {
@@ -43,8 +38,7 @@
     .hero-overlay {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at top left, rgba(255,255,255,0.18), transparent 55%),
-                  radial-gradient(circle at bottom right, rgba(0,0,0,0.45), transparent 60%);
+      background: rgba(0,0,0,0.25);
       z-index: -1;
     }
 
@@ -62,54 +56,39 @@
       text-align: center;
     }
 
-    /* ===== LOGO BALL WITH REAL IMAGE ===== */
+    /* ===== REAL LOGO (BIG) ===== */
     .logo-ball {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      overflow: hidden;
+      width: 260px;
+      height: 260px;
       opacity: 0;
       margin: 0 auto;
       animation: logoPath 1.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards,
                  logoFloat 4s ease-in-out infinite 1.8s;
-      box-shadow: 0 0 40px rgba(0,0,0,0.45), 0 0 60px rgba(255,255,255,0.25);
     }
 
     .logo-ball-img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     @keyframes logoPath {
-      0% {
-        opacity: 0;
-        transform: translate(120%, -120%) scale(0.1);
-      }
-      40% {
-        opacity: 1;
-        transform: translate(40%, -40%) scale(0.4);
-      }
-      70% {
-        transform: translate(-10%, 10%) scale(0.9);
-      }
-      100% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-      }
+      0% { opacity: 0; transform: translate(120%, -120%) scale(0.1); }
+      40% { opacity: 1; transform: translate(40%, -40%) scale(0.4); }
+      70% { transform: translate(-10%, 10%) scale(0.9); }
+      100% { opacity: 1; transform: translate(0, 0) scale(1); }
     }
 
     @keyframes logoFloat {
       0%,100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(0, -8px) scale(1.02); }
+      50% { transform: translate(0, -10px) scale(1.03); }
     }
 
     /* ===== PLATFORM NAME ===== */
     .platform-name {
-      font-size: 32px;
-      font-weight: 800;
+      font-size: 38px;
+      font-weight: 900;
       letter-spacing: 0.12em;
-      text-transform: uppercase;
       opacity: 0;
       animation: nameIn 1.6s ease-out forwards;
       margin-top: 10px;
@@ -121,11 +100,10 @@
     }
 
     .platform-subtitle {
-      font-size: 15px;
-      opacity: 0.9;
+      font-size: 17px;
+      opacity: 0;
       max-width: 420px;
       margin: 10px auto;
-      opacity: 0;
       animation: fadeUp 1.4s ease-out 0.8s forwards;
     }
 
@@ -134,7 +112,7 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== HUGE TEXT FROM RIGHT ===== */
+    /* ===== HUGE TEXT ===== */
     .hero-big-text {
       position: relative;
       height: 80px;
@@ -147,7 +125,7 @@
       right: -100%;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 64px;
+      font-size: 70px;
       font-weight: 900;
       letter-spacing: 0.18em;
       color: rgba(255,255,255,0.16);
@@ -173,7 +151,7 @@
       padding: 14px 10px;
       border-radius: 14px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 16px;
       cursor: pointer;
       color: #fff;
       text-shadow: 0 1px 3px rgba(0,0,0,0.4);
@@ -181,20 +159,15 @@
       opacity: 0;
     }
 
-    .action-card:nth-child(1) { animation-delay: 0.4s; }
-    .action-card:nth-child(2) { animation-delay: 0.55s; }
-    .action-card:nth-child(3) { animation-delay: 0.7s; }
-    .action-card:nth-child(4) { animation-delay: 0.85s; }
+    .action-blue { background: linear-gradient(135deg, #2563eb, #38bdf8); }
+    .action-green { background: linear-gradient(135deg, #16a34a, #4ade80); }
+    .action-orange { background: linear-gradient(135deg, #ea580c, #f97316); }
+    .action-red { background: linear-gradient(135deg, #b91c1c, #f97373); }
 
     @keyframes cardIn {
       0% { opacity: 0; transform: translateY(24px); }
       100% { opacity: 1; transform: translateY(0); }
     }
-
-    .action-blue { background: linear-gradient(135deg, #2563eb, #38bdf8); }
-    .action-green { background: linear-gradient(135deg, #16a34a, #4ade80); }
-    .action-orange { background: linear-gradient(135deg, #ea580c, #f97316); }
-    .action-red { background: linear-gradient(135deg, #b91c1c, #f97373); }
 
     /* ===== SECONDARY BUTTONS ===== */
     .secondary-actions {
@@ -207,10 +180,10 @@
     .secondary-card {
       padding: 10px 8px;
       border-radius: 12px;
-      background: rgba(5, 8, 22, 0.55);
+      background: rgba(0,0,0,0.45);
       border: 1px solid rgba(255,255,255,0.12);
-      color: #e5e7eb;
-      font-size: 13px;
+      color: #fff;
+      font-size: 14px;
       animation: cardIn 0.9s ease-out forwards;
       opacity: 0;
     }
@@ -239,8 +212,8 @@
       align-items: center;
       justify-content: center;
       font-weight: 600;
-      font-size: 14px;
-      color: #0b1020;
+      font-size: 16px;
+      color: #000;
       opacity: 0.95;
     }
 
@@ -257,49 +230,30 @@
     /* ===== STORE BUTTONS ===== */
     .store-buttons {
       display: flex;
-      gap: 12px;
+      gap: 16px;
       justify-content: center;
-      margin-top: 24px;
+      margin-top: 30px;
+      flex-wrap: wrap;
     }
 
     .store-btn {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 16px;
+      gap: 14px;
+      padding: 12px 20px;
       border-radius: 14px;
+      background: rgba(0,0,0,0.55);
       border: 1px solid rgba(255,255,255,0.35);
-      background: rgba(15,23,42,0.45);
-      backdrop-filter: blur(12px);
-      min-width: 170px;
+      min-width: 220px;
       color: #fff;
-      animation: cardIn 0.9s ease-out 1.4s forwards;
-      opacity: 0;
+      font-size: 16px;
+      font-weight: 600;
     }
 
-    .store-icon {
-      width: 26px;
-      height: 26px;
-      border-radius: 8px;
-      background: rgba(148,163,184,0.35);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .apple-icon {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #fff, #d4d4d4 40%, #9ca3af 100%);
-    }
-
-    .play-icon {
-      width: 0;
-      height: 0;
-      border-top: 9px solid transparent;
-      border-bottom: 9px solid transparent;
-      border-left: 14px solid #22c55e;
+    .store-icon-img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
     }
 
   </style>
@@ -318,10 +272,10 @@
         <img src="logo.png" class="logo-ball-img">
       </div>
 
-      <div class="platform-name">BelG services</div>
+      <div class="platform-name">BelG Services</div>
 
       <div class="platform-subtitle">
-        Smart on-demand platform connecting customers, companies, and workers in one unified experience.
+        A smart on-demand platform connecting customers, companies, and workers in one unified experience.
       </div>
 
       <div class="hero-big-text">
@@ -344,37 +298,33 @@
 
       <div class="slider-wrapper">
         <div class="slider-track">
-          <div class="slider-card">Ad banner 1</div>
-          <div class="slider-card">Ad banner 2</div>
-          <div class="slider-card">Ad banner 3</div>
-          <div class="slider-card">Ad banner 4</div>
+          <div class="slider-card">Ad Banner 1</div>
+          <div class="slider-card">Ad Banner 2</div>
+          <div class="slider-card">Ad Banner 3</div>
+          <div class="slider-card">Ad Banner 4</div>
 
-          <!-- duplicate for smooth loop -->
-          <div class="slider-card">Ad banner 1</div>
-          <div class="slider-card">Ad banner 2</div>
+          <div class="slider-card">Ad Banner 1</div>
+          <div class="slider-card">Ad Banner 2</div>
         </div>
       </div>
 
+      <!-- STORE BUTTONS -->
       <div class="store-buttons">
+
         <div class="store-btn">
-          <div class="store-icon"><div class="apple-icon"></div></div>
-          <div>
-            <small>Download on the</small><br>
-            <strong>App Store</strong>
-          </div>
+          <img src="apple.png" class="store-icon-img">
+          <span>Download on the App Store</span>
         </div>
 
         <div class="store-btn">
-          <div class="store-icon"><div class="play-icon"></div></div>
-          <div>
-            <small>Get it on</small><br>
-            <strong>Google Play</strong>
-          </div>
+          <img src="google.png" class="store-icon-img">
+          <span>Get it on Google Play</span>
         </div>
+
       </div>
 
     </div>
   </div>
 
 </body>
-</html>
+  </html>
