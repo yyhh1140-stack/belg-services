@@ -42,6 +42,21 @@ header {
 
 .logo {
   width: 200px;
+}.logo-floating {
+  width: 200px;
+  animation: floatLogo 4s ease-in-out infinite;
+}
+
+@keyframes floatLogo {
+  0% {
+    transform: translateX(-10px) translateY(-6px);
+  }
+  50% {
+    transform: translateX(10px) translateY(6px);
+  }
+  100% {
+    transform: translateX(-10px) translateY(-6px);
+  }
 }
 
 h1 {
