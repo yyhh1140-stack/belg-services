@@ -19,15 +19,15 @@
       overflow-x: hidden;
     }
 
-    /* ===== BACKGROUND IMAGE ===== */
+    /* ===== BACKGROUND ===== */
     .hero-bg {
       position: fixed;
       inset: 0;
       background-image: url("bg.jpg");
       background-size: cover;
       background-position: center;
-      animation: bgBreath 10s ease-in-out infinite;
       z-index: -2;
+      animation: bgBreath 10s ease-in-out infinite;
     }
 
     @keyframes bgBreath {
@@ -42,7 +42,7 @@
       z-index: -1;
     }
 
-    /* ===== PAGE LAYOUT ===== */
+    /* ===== PAGE ===== */
     .page {
       min-height: 100vh;
       display: flex;
@@ -56,47 +56,34 @@
       text-align: center;
     }
 
-    /* ===== REAL LOGO (BIG) ===== */
+    /* ===== LOGO ===== */
     .logo-ball {
       width: 260px;
       height: 260px;
-      opacity: 0;
       margin: 0 auto;
-      animation: logoPath 1.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards,
-                 logoFloat 4s ease-in-out infinite 1.8s;
+      opacity: 0;
+      animation: logoIn 1.8s ease-out forwards;
     }
 
-    .logo-ball-img {
+    @keyframes logoIn {
+      0% { opacity: 0; transform: scale(0.4) translateY(-60px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .logo-ball img {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
 
-    @keyframes logoPath {
-      0% { opacity: 0; transform: translate(120%, -120%) scale(0.1); }
-      40% { opacity: 1; transform: translate(40%, -40%) scale(0.4); }
-      70% { transform: translate(-10%, 10%) scale(0.9); }
-      100% { opacity: 1; transform: translate(0, 0) scale(1); }
-    }
-
-    @keyframes logoFloat {
-      0%,100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(0, -10px) scale(1.03); }
-    }
-
-    /* ===== PLATFORM NAME ===== */
+    /* ===== TITLE ===== */
     .platform-name {
-      font-size: 38px;
+      font-size: 42px;
       font-weight: 900;
       letter-spacing: 0.12em;
-      opacity: 0;
-      animation: nameIn 1.6s ease-out forwards;
       margin-top: 10px;
-    }
-
-    @keyframes nameIn {
-      0% { opacity: 0; transform: translateX(-80px); }
-      100% { opacity: 1; transform: translateX(0); }
+      animation: fadeUp 1.4s ease-out forwards;
+      opacity: 0;
     }
 
     .platform-subtitle {
@@ -104,39 +91,12 @@
       opacity: 0;
       max-width: 420px;
       margin: 10px auto;
-      animation: fadeUp 1.4s ease-out 0.8s forwards;
+      animation: fadeUp 1.4s ease-out 0.4s forwards;
     }
 
     @keyframes fadeUp {
       0% { opacity: 0; transform: translateY(18px); }
       100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===== HUGE TEXT ===== */
-    .hero-big-text {
-      position: relative;
-      height: 80px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
-
-    .hero-big-text span {
-      position: absolute;
-      right: -100%;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 70px;
-      font-weight: 900;
-      letter-spacing: 0.18em;
-      color: rgba(255,255,255,0.16);
-      animation: bigTextMove 3.2s ease-out forwards;
-    }
-
-    @keyframes bigTextMove {
-      0% { right: -100%; opacity: 0; filter: blur(8px); }
-      30% { right: 0; opacity: 0.5; filter: blur(2px); }
-      60% { right: 10%; opacity: 0.35; filter: blur(1px); }
-      100% { right: 120%; opacity: 0; filter: blur(12px); }
     }
 
     /* ===== MAIN BUTTONS ===== */
@@ -155,7 +115,7 @@
       cursor: pointer;
       color: #fff;
       text-shadow: 0 1px 3px rgba(0,0,0,0.4);
-      animation: cardIn 0.9s ease-out forwards;
+      animation: fadeUp 1.4s ease-out 0.6s forwards;
       opacity: 0;
     }
 
@@ -164,96 +124,57 @@
     .action-orange { background: linear-gradient(135deg, #ea580c, #f97316); }
     .action-red { background: linear-gradient(135deg, #b91c1c, #f97373); }
 
-    @keyframes cardIn {
-      0% { opacity: 0; transform: translateY(24px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===== SECONDARY BUTTONS ===== */
-    .secondary-actions {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .secondary-card {
-      padding: 10px 8px;
-      border-radius: 12px;
-      background: rgba(0,0,0,0.45);
-      border: 1px solid rgba(255,255,255,0.12);
-      color: #fff;
-      font-size: 14px;
-      animation: cardIn 0.9s ease-out forwards;
-      opacity: 0;
-    }
-
-    /* ===== SLIDER ===== */
-    .slider-wrapper {
-      width: 100%;
-      max-width: 900px;
-      margin: 26px auto;
-      padding: 0 80px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .slider-track {
+    /* ===== STORE ICONS ===== */
+    .store-icons {
       display: flex;
-      gap: 16px;
-      animation: slideLoop 14s linear infinite;
-    }
-
-    .slider-card {
-      min-width: 180px;
-      height: 80px;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      font-weight: 600;
-      font-size: 16px;
-      color: #000;
-      opacity: 0.95;
+      gap: 30px;
+      margin-top: 40px;
     }
 
-    .slider-card:nth-child(1) { background: #a3ffb0; }
-    .slider-card:nth-child(2) { background: #9df0ff; }
-    .slider-card:nth-child(3) { background: #3b82f6; color:#fff; }
-    .slider-card:nth-child(4) { background: #b5ffea; }
-
-    @keyframes slideLoop {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-60%); }
-    }
-
-    /* ===== STORE BUTTONS ===== */
-    .store-buttons {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      margin-top: 30px;
-      flex-wrap: wrap;
-    }
-
-    .store-btn {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 12px 20px;
-      border-radius: 14px;
-      background: rgba(0,0,0,0.55);
-      border: 1px solid rgba(255,255,255,0.35);
-      min-width: 220px;
-      color: #fff;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .store-icon-img {
-      width: 40px;
-      height: 40px;
+    .store-icon {
+      width: 70px;
+      height: 70px;
       object-fit: contain;
+      filter: drop-shadow(0 0 6px rgba(0,0,0,0.4));
+      transition: transform 0.25s ease;
+    }
+
+    .store-icon:hover {
+      transform: scale(1.12);
+    }
+
+    /* ===== SOCIAL MEDIA ===== */
+    .social-section {
+      margin-top: 60px;
+      text-align: center;
+    }
+
+    .social-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .social-icons img {
+      width: 38px;
+      height: 38px;
+      margin: 0 10px;
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
+      transition: transform 0.25s ease;
+    }
+
+    .social-icons img:hover {
+      transform: scale(1.15);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      margin-top: 40px;
+      padding: 20px 0;
+      text-align: center;
+      font-size: 14px;
+      opacity: 0.8;
     }
 
   </style>
@@ -267,9 +188,9 @@
   <div class="page">
     <div class="hero">
 
-      <!-- REAL LOGO -->
+      <!-- LOGO -->
       <div class="logo-ball">
-        <img src="logo.png" class="logo-ball-img">
+        <img src="logo.png">
       </div>
 
       <div class="platform-name">BelG Services</div>
@@ -278,10 +199,7 @@
         A smart on-demand platform connecting customers, companies, and workers in one unified experience.
       </div>
 
-      <div class="hero-big-text">
-        <span>BELG SERVICES</span>
-      </div>
-
+      <!-- MAIN BUTTONS -->
       <div class="main-actions">
         <div class="action-card action-blue">Customer</div>
         <div class="action-card action-green">Companies</div>
@@ -289,42 +207,32 @@
         <div class="action-card action-red">Login</div>
       </div>
 
-      <div class="secondary-actions">
-        <div class="secondary-card">Languages</div>
-        <div class="secondary-card">Settings</div>
-        <div class="secondary-card">Company Works</div>
-        <div class="secondary-card">Jobs</div>
+      <!-- STORE ICONS -->
+      <div class="store-icons">
+        <img src="apple.png" class="store-icon">
+        <img src="google.png" class="store-icon">
       </div>
 
-      <div class="slider-wrapper">
-        <div class="slider-track">
-          <div class="slider-card">Ad Banner 1</div>
-          <div class="slider-card">Ad Banner 2</div>
-          <div class="slider-card">Ad Banner 3</div>
-          <div class="slider-card">Ad Banner 4</div>
+      <!-- SOCIAL MEDIA -->
+      <div class="social-section">
+        <div class="social-title">Follow Us</div>
 
-          <div class="slider-card">Ad Banner 1</div>
-          <div class="slider-card">Ad Banner 2</div>
+        <div class="social-icons">
+          <img src="facebook.png">
+          <img src="instagram.png">
+          <img src="tiktok.png">
+          <img src="whatsapp.png">
+          <img src="linkedin.png">
         </div>
       </div>
 
-      <!-- STORE BUTTONS -->
-      <div class="store-buttons">
-
-        <div class="store-btn">
-          <img src="apple.png" class="store-icon-img">
-          <span>Download on the App Store</span>
-        </div>
-
-        <div class="store-btn">
-          <img src="google.png" class="store-icon-img">
-          <span>Get it on Google Play</span>
-        </div>
-
+      <!-- FOOTER -->
+      <div class="footer">
+        © 2026 BelG Services — All Rights Reserved
       </div>
 
     </div>
   </div>
 
 </body>
-  </html>
+</html>
