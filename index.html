@@ -9,7 +9,7 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #f5f7fb;
+  background: #f0f1f5; /* رمادي ناعم */
   color: #222;
 }
 
@@ -26,46 +26,181 @@ body {
   text-decoration: none;
   font-weight: bold;
   font-size: 15px;
+  
 }
+  <div class="main-wrapper">
 
-/* MAIN WRAPPER */
-.main-wrapper {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 20px 15px 40px;
-}
+  <!-- بلوك الشعار -->
+  <div class="logo-block">
+    <img src="images/logo.png" alt="BELG SERVICES Logo" class="logo-floating">
+    <h1>BELG SERVICES</h1>
+    <p>منصة موحدة تربط الزبائن، الشركات، والعمال في مكان واحد.</p>
 
-/* LOGO BLOCK (RECTANGLE + ANIMATION) */
+    <!-- شريط الإعلانات -->
+    <div class="announcements">
+      <div class="announcements-track">
+        <div class="announcements-item">إعلان شركة A — خصومات على الخدمات</div>
+        <div class="announcements-item">شركة B — فرص عمل جديدة</div>
+        <div class="announcements-item">شركة C — عروض خاصة للشركات المسجلة</div>
+        <div class="announcements-item">BELG SERVICES — قريبًا تطبيق الموبايل</div>
+        <!-- تكرار بسيط لضمان سلاسة الحركة -->
+        <div class="announcements-item">إعلان شركة A — خصومات على الخدمات</div>
+        <div class="announcements-item">شركة B — فرص عمل جديدة</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المستطيلات الرئيسية -->
+  <div class="main-actions">
+    <div class="action-card action-blue">
+      <span class="label">الزبون</span>
+    </div>
+    <div class="action-card action-green">
+      <span class="label">الشركات</span>
+    </div>
+    <div class="action-card action-orange">
+      <span class="label">العامل</span>
+    </div>
+    <div class="action-card action-red">
+      <span class="label">تسجيل الدخول</span>
+    </div>
+  </div>
+
+  <!-- المستطيلات السفلية -->
+  <div class="secondary-actions">
+    <div class="secondary-card">اللغات</div>
+    <div class="secondary-card">الإعدادات</div>
+    <div class="secondary-card">أعمال الشركات</div>
+    <div class="secondary-card">الوظائف</div>
+  </div>
+
+</div>
+/* LOGO BLOCK */
 .logo-block {
-  margin-top: 20px;
-  background: linear-gradient(135deg, #004b8d, #0074d9);
-  border-radius: 24px;
-  padding: 20px 15px;
+  margin-top: 40px;
+  background: #003f88; /* أزرق أفتح قليلاً */
+  border-radius: 28px;
+  padding: 30px 15px 40px;
   text-align: center;
   color: white;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
 }
 
-@keyframes floatLogo {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0); }
-}
-
+/* الشعار المتحرك */
 .logo-block img {
-  width: 120px;
-  height: 120px;
+  width: 180px;
+  height: 180px;
   object-fit: contain;
   margin-bottom: 10px;
-}/* حركة الشعار */
+}
+
 .logo-floating {
-  width: 140px;
-  height: 140px;
-  object-fit: contain;
   animation: floatLogo 4s ease-in-out infinite;
 }
 
+@keyframes floatLogo {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.logo-block h1 {
+  margin: 8px 0 4px;
+  font-size: 26px;
+  letter-spacing: 1px;
+}
+
+.logo-block p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+  /* شريط الإعلانات */
+.announcements {
+  margin-top: 18px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 8px 10px;
+  overflow: hidden;
+}
+
+.announcements-track {
+  display: flex;
+  gap: 18px;
+  animation: scrollAds 18s linear infinite;
+}
+
+.announcements-item {
+  white-space: nowrap;
+  font-size: 13px;
+  color: #003366;
+  font-weight: bold;
+}
+
+@keyframes scrollAds {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* المستطيلات الرئيسية (الزبون، الشركات، العامل، تسجيل الدخول) */
+.main-actions {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.action-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 16px 12px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+.action-card span.label {
+  display: block;
+  margin-top: 6px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+/* ألوان مختلفة لكل كارت */
+.action-blue   { background: linear-gradient(135deg,#e3f2ff,#c5e1ff); }
+.action-green  { background: linear-gradient(135deg,#e5f7ec,#c7ebd7); }
+.action-orange { background: linear-gradient(135deg,#ffe9d6,#ffd1aa); }
+.action-red    { background: linear-gradient(135deg,#ffe1e5,#ffb8c2); }
+
+/* المستطيلات السفلية (اللغات، الإعدادات، أعمال الشركات، الوظائف) */
+.secondary-actions {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.secondary-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 12px 10px;
+  text-align: center;
+  font-size: 13px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.secondary-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
 @keyframes floatLogo {
   0% {
     transform: translateX(-10px) translateY(-6px);
