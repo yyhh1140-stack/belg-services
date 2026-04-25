@@ -19,7 +19,7 @@
       overflow-x: hidden;
     }
 
-    /* ===== الخلفية ===== */
+    /* الخلفية */
     .bg {
       position: fixed;
       inset: 0;
@@ -32,7 +32,7 @@
 
     @keyframes bgZoom {
       0%,100% { transform: scale(1); }
-      50% { transform: scale(1.06); }
+      50% { transform: scale(1.05); }
     }
 
     .overlay {
@@ -42,26 +42,26 @@
       z-index: -1;
     }
 
-    /* ===== الصفحة ===== */
+    /* الصفحة */
     .page {
       min-height: 100vh;
       padding: 30px 16px;
       text-align: center;
     }
 
-    /* ===== الكرة الزرقاء ===== */
+    /* الكرة */
     .logo-ball {
-      width: 260px;
-      height: 260px;
+      width: 240px;
+      height: 240px;
       margin: 0 auto;
       opacity: 0;
       animation: ballDrop 1.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     }
 
     @keyframes ballDrop {
-      0% { opacity: 0; transform: translate(120%, -120%) scale(0.2); }
-      60% { opacity: 1; transform: translate(-10%, 10%) scale(0.9); }
-      100% { opacity: 1; transform: translate(0, 0) scale(1); }
+      0% { opacity: 0; transform: translateY(-120px) scale(0.4); }
+      60% { opacity: 1; transform: translateY(20px) scale(1.05); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .logo-ball img {
@@ -70,23 +70,18 @@
       object-fit: contain;
     }
 
-    /* ===== العنوان ===== */
+    /* العنوان */
     .title {
-      font-size: 48px;
+      font-size: 42px;
       font-weight: 900;
       margin-top: 10px;
       letter-spacing: 0.05em;
-      animation: titleIn 1.4s ease-out forwards;
+      animation: fadeUp 1.4s ease-out forwards;
       opacity: 0;
     }
 
-    @keyframes titleIn {
-      0% { opacity: 0; transform: translateX(-80px); }
-      100% { opacity: 1; transform: translateX(0); }
-    }
-
     .subtitle {
-      font-size: 18px;
+      font-size: 17px;
       max-width: 420px;
       margin: 10px auto;
       opacity: 0;
@@ -98,7 +93,7 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== الأزرار الرئيسية ===== */
+    /* الأزرار */
     .main-buttons {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -123,17 +118,17 @@
     .orange { background: linear-gradient(135deg, #ea580c, #f97316); }
     .red { background: linear-gradient(135deg, #b91c1c, #f97373); }
 
-    /* ===== شعارات المتاجر ===== */
+    /* المتاجر */
     .stores {
       display: flex;
       justify-content: center;
-      gap: 40px;
+      gap: 30px;
       margin-top: 40px;
     }
 
     .store-icon {
-      width: 110px;
-      height: 110px;
+      width: 90px;
+      height: 90px;
       object-fit: contain;
       filter: drop-shadow(0 0 6px rgba(0,0,0,0.5));
       transition: transform 0.25s ease;
@@ -143,7 +138,7 @@
       transform: scale(1.12);
     }
 
-    /* ===== تابعنا ===== */
+    /* تابعنا */
     .social {
       margin-top: 60px;
     }
@@ -155,8 +150,8 @@
     }
 
     .social-icons img {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       margin: 0 10px;
       filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
       transition: transform 0.25s ease;
@@ -166,7 +161,7 @@
       transform: scale(1.15);
     }
 
-    /* ===== الفوتر ===== */
+    /* الفوتر */
     .footer {
       margin-top: 40px;
       padding: 20px 0;
@@ -204,7 +199,7 @@
       <div class="btn red">تسجيل الدخول</div>
     </div>
 
-    <!-- شعارات المتاجر -->
+    <!-- المتاجر -->
     <div class="stores">
       <img src="apple.png" class="store-icon">
       <img src="google.png" class="store-icon">
