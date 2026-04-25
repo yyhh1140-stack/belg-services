@@ -44,7 +44,7 @@ body {
   text-align: center;
   color: white;
   box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  animation: floatLogo 4s ease-in-out infinite;
+
 }
 
 @keyframes floatLogo {
@@ -58,6 +58,24 @@ body {
   height: 120px;
   object-fit: contain;
   margin-bottom: 10px;
+}/* حركة الشعار */
+.logo-floating {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  animation: floatLogo 4s ease-in-out infinite;
+}
+
+@keyframes floatLogo {
+  0% {
+    transform: translateX(-10px) translateY(-6px);
+  }
+  50% {
+    transform: translateX(10px) translateY(6px);
+  }
+  100% {
+    transform: translateX(-10px) translateY(-6px);
+  }
 }
 
 .logo-block h1 {
