@@ -1,238 +1,380 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Worker Dashboard — BELG SERVICES</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Worker Dashboard - BELG SERVICES</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fefcf5;
+            color: #1e2a2f;
+            padding: 20px;
+        }
 
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f5f5f5;
-}
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
 
-/* NAV */
-.top-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #003366;
-  padding: 12px 0;
-  text-align: center;
-  z-index: 999;
-}
+        /* Header with search */
+        .header {
+            background: linear-gradient(135deg, #91D06C, #6aab3a);
+            padding: 24px 28px;
+            color: white;
+        }
 
-.top-nav a {
-  color: white;
-  margin: 0 15px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
-}
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
 
-/* HEADER */
-header {
-  margin-top: 100px;
-  text-align: center;
-  padding: 20px;
-}
+        .search-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0 10px;
+        }
 
-h1 {
-  color: #003366;
-  font-size: 32px;
-}
+        .search-box {
+            flex: 2;
+            display: flex;
+            background: white;
+            border-radius: 60px;
+            overflow: hidden;
+        }
 
-/* STATUS BUTTONS */
-.status-buttons {
-  margin: 20px 0;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-}
+        .search-box input {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
 
-.status-btn {
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  color: white;
-}
+        .search-box button {
+            background: #2c3e2f;
+            border: none;
+            padding: 0 24px;
+            color: white;
+            cursor: pointer;
+        }
 
-.available { background: #28a745; }
-.unavailable { background: #dc3545; }
-.slow { background: #ff4444; }
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
 
-/* DASHBOARD GRID */
-.dashboard {
-  max-width: 1100px;
-  margin: 20px auto;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-}
+        .filter-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+        }
 
-/* CARDS */
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
+        .filter-btn.active {
+            background: #2c3e2f;
+        }
 
-.card h2 {
-  margin: 0 0 10px 0;
-  color: #003366;
-}
+        /* Main content */
+        .main-content {
+            padding: 28px;
+        }
 
-.card p {
-  color: #444;
-}
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 20px 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
 
-/* JOB CARD */
-.job-card {
-  background: #f1f1f1;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
+        .see-all {
+            color: #91D06C;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
 
-.job-card strong {
-  color: #003366;
-}
+        .workers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
 
-/* GALLERY */
-.gallery img {
-  width: 120px;
-  height: 100px;
-  border-radius: 8px;
-  object-fit: cover;
-  margin: 5px;
-}
+        .worker-card {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 20px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.05);
+            border: 1px solid #f0e4d8;
+            transition: 0.2s;
+            cursor: pointer;
+        }
 
-/* BUTTON */
-.btn {
-  padding: 10px 16px;
-  background: #003366;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-}
+        .worker-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.12);
+        }
 
-.btn:hover {
-  background: #002244;
-}
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
 
-</style>
+        .avatar {
+            width: 70px;
+            height: 70px;
+            background: #ddd;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 50px;
+            margin-top: 6px;
+        }
+
+        .status-available { background: #d4f5d0; color: #2e6b1f; }
+        .status-busy { background: #ffe0b3; color: #b45f06; }
+        .status-offline { background: #ffe0e0; color: #b33; }
+
+        .worker-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .worker-title {
+            font-size: 0.8rem;
+            color: #6e5e4a;
+        }
+
+        .rating {
+            color: #f5b042;
+            margin: 8px 0;
+        }
+
+        .price {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #2c3e2f;
+        }
+
+        hr {
+            margin: 14px 0;
+            border: none;
+            border-top: 1px solid #ede3d7;
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background: white;
+            padding: 14px 20px;
+            border-top: 1px solid #ede3d7;
+            margin-top: 20px;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #8b7a67;
+            text-decoration: none;
+            font-size: 0.75rem;
+        }
+
+        .nav-item i {
+            font-size: 1.4rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: #91D06C;
+        }
+
+        @media (max-width: 680px) {
+            .workers-grid { grid-template-columns: 1fr; }
+            .search-area { flex-direction: column; }
+        }
+    </style>
 </head>
-
 <body>
-
-<!-- NAV -->
-<nav class="top-nav">
-  <a href="worker-dashboard.html">Dashboard</a>
-  <a href="worker-profile.html">Public Profile</a>
-  <a href="notifications.html">Notifications</a>
-  <a href="settings.html">Settings</a>
-</nav>
-
-<!-- HEADER -->
-<header>
-  <h1>Worker Dashboard</h1>
-  <p>Manage your jobs, availability, earnings, and performance</p>
-
-  <div class="status-buttons">
-    <button class="status-btn available">🟢 متاح</button>
-    <button class="status-btn unavailable">🔴 غير متاح</button>
-    <button class="status-btn slow">🔴 يرد متأخر</button>
-  </div>
-</header>
-
-<!-- DASHBOARD GRID -->
-<div class="dashboard">
-
-  <!-- CARD 1: Earnings -->
-  <div class="card">
-    <h2>Earnings</h2>
-    <p><strong>This Month:</strong> 820€</p>
-    <p><strong>Total Jobs:</strong> 42</p>
-    <button class="btn">View Details</button>
-  </div>
-
-  <!-- CARD 2: Performance -->
-  <div class="card">
-    <h2>Performance</h2>
-    <p><strong>Rating:</strong> ★★★★★ (4.9)</p>
-    <p><strong>Response Speed:</strong> 3 minutes</p>
-    <p><strong>Acceptance Rate:</strong> 92%</p>
-    <p><strong>Completion Rate:</strong> 98%</p>
-  </div>
-
-  <!-- CARD 3: Current Jobs -->
-  <div class="card">
-    <h2>Current Jobs</h2>
-
-    <div class="job-card">
-      <p><strong>Cleaning Service</strong></p>
-      <p>Client: Sarah</p>
-      <p>Today at 16:00</p>
-      <button class="btn" onclick="openChat()">Open Chat</button>
+<div class="container">
+    <div class="header">
+        <h1><i class="fas fa-briefcase"></i> Worker Dashboard</h1>
+        <div class="search-area">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search for services... (Cleaning, Moving, Painting, Carpentry)">
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-cat="all">All</button>
+                <button class="filter-btn" data-cat="Cleaning">Cleaning</button>
+                <button class="filter-btn" data-cat="Moving">Moving</button>
+                <button class="filter-btn" data-cat="Painting">Painting</button>
+                <button class="filter-btn" data-cat="Carpentry">Carpentry</button>
+            </div>
+        </div>
     </div>
 
-    <div class="job-card">
-      <p><strong>Moving Service</strong></p>
-      <p>Client: Alex</p>
-      <p>Tomorrow at 10:00</p>
-      <button class="btn" onclick="openChat()">Open Chat</button>
+    <div class="main-content">
+        <div class="section-title">
+            Available Now Workers
+            <a href="#" class="see-all" id="seeAllLink">See All ></a>
+        </div>
+        <div class="workers-grid" id="workersContainer">
+            <!-- Cards will be injected via JS -->
+        </div>
+
+        <!-- Submit Request Button (optional) -->
+        <div style="text-align: center; margin: 20px 0 10px;">
+            <button id="submitRequestBtn" style="background: #91D06C; border: none; padding: 12px 32px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">+ Submit Request</button>
+        </div>
     </div>
 
-  </div>
-
-  <!-- CARD 4: Gallery -->
-  <div class="card">
-    <h2>Your Work Photos</h2>
-    <div class="gallery">
-      <img src="https://i.imgur.com/clean1.jpg">
-      <img src="https://i.imgur.com/clean2.jpg">
-      <img src="https://i.imgur.com/clean3.jpg">
+    <div class="bottom-nav">
+        <a href="worker-dashboard.html" class="nav-item active"><i class="fas fa-home"></i> Home</a>
+        <a href="my-bookings.html" class="nav-item"><i class="fas fa-clipboard-list"></i> Requests</a>
+        <a href="chat.html" class="nav-item"><i class="fas fa-comment-dots"></i> Messages</a>
+        <a href="worker-profile.html" class="nav-item"><i class="fas fa-user"></i> Profile</a>
     </div>
-    <button class="btn">Add More Photos</button>
-  </div>
-
-  <!-- CARD 5: Skills -->
-  <div class="card">
-    <h2>Your Skills</h2>
-    <p>• Cleaning</p>
-    <p>• Deep Cleaning</p>
-    <p>• Moving</p>
-    <p>• Painting</p>
-    <p>• Repairs</p>
-    <button class="btn">Edit Skills</button>
-  </div>
-
-  <!-- CARD 6: Availability -->
-  <div class="card">
-    <h2>Availability</h2>
-    <p>• Morning</p>
-    <p>• Night</p>
-    <p>• 24/24</p>
-    <p>• Weekends</p>
-    <button class="btn">Edit Availability</button>
-  </div>
-
 </div>
 
 <script>
-function openChat() {
-  window.location.href = "chat.html";
-}
-</script>
+    // Worker data
+    const workers = [
+        { id: 1, name: "Sarah M.", title: "House Cleaner", category: "Cleaning", price: 25, rating: 4.9, status: "available", avatar: "https://randomuser.me/api/portraits/women/1.jpg", bio: "Professional cleaning with eco products." },
+        { id: 2, name: "Mike R.", title: "Mover & Driver", category: "Moving", price: 40, rating: 4.8, status: "available", avatar: "https://randomuser.me/api/portraits/men/2.jpg", bio: "Fast and careful moving service." },
+        { id: 3, name: "Luis G.", title: "Painter", category: "Painting", price: 35, rating: 4.7, status: "slow", avatar: "https://randomuser.me/api/portraits/men/3.jpg", bio: "Interior & exterior painting expert." },
+        { id: 4, name: "Jen S.", title: "Carpenter", category: "Carpentry", price: 50, rating: 5.0, status: "available", avatar: "https://randomuser.me/api/portraits/women/4.jpg", bio: "Custom furniture & repairs." },
+        { id: 5, name: "Anna L.", title: "Cleaner / Organizer", category: "Cleaning", price: 35, rating: 4.8, status: "available", avatar: "https://randomuser.me/api/portraits/women/5.jpg", bio: "Deep cleaning and home organization." },
+        { id: 6, name: "Carlos M.", title: "Electrician", category: "Moving", price: 55, rating: 4.9, status: "offline", avatar: "https://randomuser.me/api/portraits/men/6.jpg", bio: "Licensed electrician, 10 years exp." }
+    ];
 
+    function getStatusIcon(status) {
+        if (status === "available") return '<span class="status-badge status-available"><i class="fas fa-circle"></i> Available Now</span>';
+        if (status === "slow") return '<span class="status-badge status-busy"><i class="fas fa-circle"></i> Slow response</span>';
+        return '<span class="status-badge status-offline"><i class="fas fa-circle"></i> Unavailable</span>';
+    }
+
+    function renderWorkers(filterCat = "all", searchTerm = "") {
+        const container = document.getElementById("workersContainer");
+        let filtered = workers.filter(w => {
+            const matchCat = filterCat === "all" || w.category === filterCat;
+            const matchSearch = w.name.toLowerCase().includes(searchTerm) || w.title.toLowerCase().includes(searchTerm) || w.category.toLowerCase().includes(searchTerm);
+            return matchCat && matchSearch;
+        });
+        if (filtered.length === 0) {
+            container.innerHTML = `<div style="text-align:center; padding:40px;">No workers match your criteria.</div>`;
+            return;
+        }
+        container.innerHTML = filtered.map(w => `
+            <div class="worker-card" data-id="${w.id}">
+                <div class="card-header">
+                    <div class="avatar" style="background-image: url('${w.avatar}'); background-size: cover;"></div>
+                    <div>
+                        <div class="worker-name">${w.name}</div>
+                        <div class="worker-title">${w.title}</div>
+                        ${getStatusIcon(w.status)}
+                    </div>
+                </div>
+                <div class="rating"><i class="fas fa-star"></i> ${w.rating} ★</div>
+                <div class="price">$${w.price}/hr</div>
+                <hr>
+                <div style="font-size:0.8rem; color:#6f5e49;"><i class="fas fa-briefcase"></i> ${w.bio.substring(0, 60)}</div>
+                <button class="view-profile-btn" data-id="${w.id}" style="margin-top:12px; background:#91D06C; border:none; padding:6px 12px; border-radius:30px; color:white; cursor:pointer;">View Profile →</button>
+            </div>
+        `).join("");
+
+        // Attach event listeners to buttons
+        document.querySelectorAll(".view-profile-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute("data-id");
+                const worker = workers.find(w => w.id == id);
+                if (worker) {
+                    alert(`📍 ${worker.name}\n👤 ${worker.title}\n⭐ Rating: ${worker.rating}\n💰 $${worker.price}/hr\n📝 ${worker.bio}\n(Full profile page coming soon)`);
+                    // In real version: window.location.href = `worker-profile.html?id=${id}`;
+                }
+            });
+        });
+        // Click on card also shows details
+        document.querySelectorAll(".worker-card").forEach(card => {
+            card.addEventListener("click", (e) => {
+                if(e.target.classList.contains("view-profile-btn")) return;
+                const id = card.getAttribute("data-id");
+                const worker = workers.find(w => w.id == id);
+                if (worker) alert(`📋 More about ${worker.name}\n${worker.bio}\n⭐ ${worker.rating} stars\n💰 $${worker.price}/hour`);
+            });
+        });
+    }
+
+    // Filter buttons logic
+    let currentFilter = "all";
+    let currentSearch = "";
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentFilter = btn.getAttribute("data-cat");
+            renderWorkers(currentFilter, currentSearch);
+        });
+    });
+    document.getElementById("searchBtn").addEventListener("click", () => {
+        currentSearch = document.getElementById("searchInput").value.toLowerCase();
+        renderWorkers(currentFilter, currentSearch);
+    });
+    document.getElementById("searchInput").addEventListener("keyup", (e) => {
+        if(e.key === "Enter") {
+            currentSearch = e.target.value.toLowerCase();
+            renderWorkers(currentFilter, currentSearch);
+        }
+    });
+    document.getElementById("submitRequestBtn").addEventListener("click", () => {
+        alert("Submit a service request form will open here.");
+        // window.location.href = "submit-request.html";
+    });
+    document.getElementById("seeAllLink").addEventListener("click", (e) => {
+        e.preventDefault();
+        currentFilter = "all";
+        currentSearch = "";
+        document.getElementById("searchInput").value = "";
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        document.querySelector(".filter-btn[data-cat='all']").classList.add("active");
+        renderWorkers("all", "");
+    });
+
+    renderWorkers();
+</script>
 </body>
-    </html>
+</html>
