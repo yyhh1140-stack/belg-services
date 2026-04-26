@@ -38,7 +38,7 @@
             position: relative;
         }
 
-        /* New text banner inside cover */
+        /* Cover text */
         .cover-text {
             text-align: center;
             color: white;
@@ -52,14 +52,17 @@
             margin: 4px 0;
         }
 
-        /* Avatar */
-        .avatar-wrapper {
-            position: absolute;
-            bottom: -50px;
-            left: 30px;
+        /* Avatar moved to be below cover */
+        .avatar-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 0 30px;
+            margin-top: -50px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
         }
-
-        .avatar {
+        .avatar-wrapper {
             width: 120px;
             height: 120px;
             background: #ddd;
@@ -69,43 +72,43 @@
             background-position: center;
             box-shadow: 0 6px 12px rgba(0,0,0,0.1);
         }
-
-        /* Profile content */
-        .profile-content {
-            padding: 70px 28px 40px 28px;
+        .status-section {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 60px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            margin-bottom: 10px;
         }
-
-        .name-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            margin-bottom: 12px;
-        }
-
-        .worker-name {
-            font-size: 2rem;
-            font-weight: 800;
-        }
-
         .status-badge {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 6px 14px;
+            gap: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 8px 20px;
             border-radius: 50px;
+            background: #d4f5d0;
+            color: #2e6b1f;
         }
 
-        .status-available { background: #d4f5d0; color: #2e6b1f; }
+        /* Profile content */
+        .profile-content {
+            padding: 0 28px 40px 28px;
+        }
 
+        .name-section {
+            margin: 20px 0 8px;
+        }
+        .worker-name {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
         .worker-location {
             color: #6e5e4a;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             font-size: 0.9rem;
         }
-
         .rating {
             display: flex;
             align-items: center;
@@ -113,10 +116,36 @@
             margin-bottom: 24px;
             font-size: 1rem;
         }
-
         .stars {
             color: #f5b042;
             letter-spacing: 2px;
+        }
+
+        /* New info section - dark black text */
+        .info-grid {
+            background: #f9f9f9;
+            border-radius: 28px;
+            padding: 20px;
+            margin: 30px 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+        .info-item {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .info-label {
+            font-weight: 700;
+            min-width: 110px;
+            color: #1a1a1a;
+        }
+        .info-value {
+            color: #1a1a1a;
         }
 
         .section-title {
@@ -132,19 +161,16 @@
             border-radius: 28px;
             padding: 8px 0;
         }
-
         .service-item {
             display: flex;
             justify-content: space-between;
             padding: 14px 20px;
             border-bottom: 1px solid #e9dfd3;
         }
-
         .service-name i {
             color: #87CEEB;
             width: 28px;
         }
-
         .service-price {
             font-weight: 700;
             color: #2c3e2f;
@@ -156,7 +182,6 @@
             gap: 12px;
             margin: 20px 0 10px;
         }
-
         .badge {
             background: #f0e9e1;
             padding: 8px 16px;
@@ -164,13 +189,11 @@
             font-size: 0.8rem;
             font-weight: 500;
         }
-
         .badge i {
             margin-right: 6px;
             color: #87CEEB;
         }
 
-        /* Two new buttons (Portfolio / Upload) */
         .action-row {
             display: flex;
             justify-content: space-between;
@@ -195,7 +218,15 @@
             transform: translateY(-2px);
         }
 
-        /* Gallery Grid (6 images) */
+        /* Blue stripe before gallery */
+        .blue-stripe {
+            background: #87CEEB;
+            height: 4px;
+            width: 80px;
+            margin: 30px 0 20px;
+            border-radius: 4px;
+        }
+
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -216,7 +247,6 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
-        /* Book Now Button - Light Blue */
         .book-btn {
             background: #87CEEB;
             border: none;
@@ -237,32 +267,38 @@
 
         .back-link {
             display: inline-block;
-            margin-bottom: 20px;
+            margin: 20px 0 10px;
             text-decoration: none;
             color: #87CEEB;
             font-weight: 500;
         }
 
         @media (max-width: 680px) {
-            .profile-content { padding: 70px 20px 30px; }
+            .profile-content { padding: 0 20px 30px; }
             .worker-name { font-size: 1.6rem; }
-            .avatar { width: 90px; height: 90px; }
+            .avatar-wrapper { width: 90px; height: 90px; }
             .action-row { flex-direction: column; }
+            .avatar-section { justify-content: center; gap: 20px; }
         }
     </style>
 </head>
 <body>
 
 <div class="profile-container">
-    <!-- Cover Area with new text -->
+    <!-- Cover Area -->
     <div class="cover-area">
         <div class="cover-text">
             <p>🚀 WE WORK FOR YOUR COMFORT</p>
             <p>❤️ WE ARE HAPPY TO SATISFY YOU</p>
         </div>
     </div>
-    <div class="avatar-wrapper">
-        <div class="avatar" id="workerAvatar" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+
+    <!-- Avatar + Available Now button (side by side) -->
+    <div class="avatar-section">
+        <div class="avatar-wrapper" id="workerAvatar" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+        <div class="status-section">
+            <div class="status-badge"><i class="fas fa-circle"></i> Available Now</div>
+        </div>
     </div>
 
     <div class="profile-content">
@@ -270,16 +306,25 @@
 
         <div class="name-section">
             <div class="worker-name" id="workerName">Mike R.</div>
-            <div id="statusContainer"><span class="status-badge status-available"><i class="fas fa-circle"></i> Available Now</span></div>
+            <div class="worker-location" id="workerLocation"><i class="fas fa-map-marker-alt"></i> United States · Speaks English, Spanish</div>
         </div>
-        <div class="worker-location" id="workerLocation"><i class="fas fa-map-marker-alt"></i> United States · Speaks English, Spanish</div>
 
-        <div class="rating" id="ratingArea">
+        <div class="rating">
             <span class="stars">★★★★☆</span> 
             <span id="ratingValue">4.8 (103 reviews)</span>
         </div>
 
-        <!-- Two new buttons: Portfolio & Upload -->
+        <!-- NEW INFO SECTION - Dark black text -->
+        <div class="info-grid" id="extraInfo">
+            <div class="info-item"><span class="info-label">Name :</span><span class="info-value">Mike R.</span></div>
+            <div class="info-item"><span class="info-label">Age :</span><span class="info-value">35 years</span></div>
+            <div class="info-item"><span class="info-label">Skills :</span><span class="info-value">Electrician, Maintenance Technician</span></div>
+            <div class="info-item"><span class="info-label">Driver License :</span><span class="info-value">B</span></div>
+            <div class="info-item"><span class="info-label">Address :</span><span class="info-value">Liège, Belgem, Rue Hesbaye 75</span></div>
+            <div class="info-item"><span class="info-label">Vehicle :</span><span class="info-value">Scooter, Bicycle</span></div>
+            <div class="info-item"><span class="info-label">Notes :</span><span class="info-value">Available on public holidays, 24/7</span></div>
+        </div>
+
         <div class="action-row">
             <button class="action-btn-small" id="portfolioBtn"><i class="fas fa-images"></i> Completed Work Photos</button>
             <button class="action-btn-small" id="uploadBtn"><i class="fas fa-upload"></i> Upload Photos</button>
@@ -291,7 +336,8 @@
         <div class="section-title"><i class="fas fa-check-circle"></i> Credentials</div>
         <div class="badge-group" id="badgesContainer"></div>
 
-        <!-- Gallery Section (6 images) -->
+        <!-- Blue stripe + Gallery -->
+        <div class="blue-stripe"></div>
         <div class="section-title"><i class="fas fa-camera"></i> Work Gallery</div>
         <div class="gallery" id="galleryContainer"></div>
 
@@ -303,12 +349,10 @@
     // Worker data
     const worker = {
         name: "Mike R.",
-        age: 34,
         location: "United States",
         languages: "English, Spanish",
         rating: 4.8,
         reviews: 103,
-        status: "available",
         avatar: "https://randomuser.me/api/portraits/men/32.jpg",
         services: [
             { name: "Furniture Moving", price: 40, icon: "fa-couch" },
@@ -317,12 +361,12 @@
         ],
         badges: ["Licensed & Insured", "Background Checked", "Verified Professional", "Fast Response"],
         gallery: [
-            "https://picsum.photos/id/10/200/150",   // moving furniture
-            "https://picsum.photos/id/20/200/150",   // electrician (tool)
-            "https://picsum.photos/id/26/200/150",   // carrying items
-            "https://picsum.photos/id/55/200/150",   // plumber
-            "https://picsum.photos/id/96/200/150",   // painter
-            "https://picsum.photos/id/58/200/150"    // driver
+            "https://picsum.photos/id/10/200/150",
+            "https://picsum.photos/id/20/200/150",
+            "https://picsum.photos/id/26/200/150",
+            "https://picsum.photos/id/55/200/150",
+            "https://picsum.photos/id/96/200/150",
+            "https://picsum.photos/id/58/200/150"
         ]
     };
 
@@ -331,7 +375,7 @@
     document.getElementById("ratingValue").innerText = `${worker.rating} (${worker.reviews} reviews)`;
     document.getElementById("workerAvatar").style.backgroundImage = `url('${worker.avatar}')`;
 
-    // Render services
+    // Services
     const servicesHtml = worker.services.map(s => `
         <div class="service-item">
             <span class="service-name"><i class="fas ${s.icon}"></i> ${s.name}</span>
@@ -340,19 +384,19 @@
     `).join('');
     document.getElementById("servicesList").innerHTML = servicesHtml;
 
-    // Render badges
+    // Badges
     const badgesHtml = worker.badges.map(b => `<div class="badge"><i class="fas fa-shield-alt"></i> ${b}</div>`).join('');
     document.getElementById("badgesContainer").innerHTML = badgesHtml;
 
-    // Render gallery (6 images)
+    // Gallery
     const galleryHtml = worker.gallery.map(img => `<img src="${img}" alt="work sample" onclick="alert('Full image view coming soon')">`).join('');
     document.getElementById("galleryContainer").innerHTML = galleryHtml;
 
-    // Buttons interactions
+    // Buttons
     document.getElementById("bookNowBtn").addEventListener("click", () => alert("✅ Booking request sent to Mike R."));
     document.getElementById("portfolioBtn").addEventListener("click", () => alert("📸 View completed work photos (full gallery coming soon)."));
     document.getElementById("uploadBtn").addEventListener("click", () => alert("📤 Upload your work photos feature will be available soon."));
 </script>
 
 </body>
-</html>
+    </html>
