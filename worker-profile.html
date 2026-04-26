@@ -16,12 +16,8 @@
         body {
             font-family: 'Inter', sans-serif;
             background: #f0f8ff;
-            padding: 20px;
             color: #1e2a2f;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            /* Removed padding and centering that caused top space */
         }
 
         .profile-container {
@@ -32,6 +28,7 @@
             border-radius: 48px;
             overflow: hidden;
             box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            /* Removed any top margin */
         }
 
         /* Cover Area - Light Blue */
@@ -39,6 +36,7 @@
             background: linear-gradient(135deg, #87CEEB, #A0D2EB);
             height: 100px;
             position: relative;
+            /* No top margin */
         }
 
         .cover-text {
@@ -54,12 +52,12 @@
             margin: 2px 0;
         }
 
-        /* Avatar section - Pushed down to avoid cutting */
+        /* Avatar section - positioned correctly */
         .avatar-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: -30px;  /* Adjusted: moved down */
+            margin-top: -30px;
             margin-bottom: 20px;
         }
         .avatar-wrapper {
@@ -87,7 +85,7 @@
         }
 
         .profile-content {
-            padding: 0 28px 60px 28px;  /* Increased bottom padding to use empty space */
+            padding: 0 28px 40px 28px;
         }
 
         .name-section {
@@ -267,7 +265,7 @@
         }
 
         @media (max-width: 680px) {
-            .profile-content { padding: 0 20px 50px; }
+            .profile-content { padding: 0 20px 30px; }
             .worker-name { font-size: 1.5rem; }
             .avatar-wrapper { width: 100px; height: 100px; }
             .action-row { flex-direction: column; }
