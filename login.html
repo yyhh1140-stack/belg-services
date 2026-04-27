@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Login - BELG SERVICES</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,7 +17,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #fefcf5 0%, #f5efe7 100%);
+            background: linear-gradient(135deg, #fefcf5 0%, #f9f3e9 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -26,7 +26,7 @@
         }
 
         .login-container {
-            max-width: 450px;
+            max-width: 480px;
             width: 100%;
             background: white;
             border-radius: 48px;
@@ -36,14 +36,14 @@
         }
 
         .login-header {
-            background: #427AB5;
+            background: linear-gradient(135deg, #c49a6c, #a57c52);
             padding: 32px 28px;
             text-align: center;
             color: white;
         }
 
         .login-header i {
-            font-size: 3.5rem;
+            font-size: 3rem;
             margin-bottom: 12px;
         }
 
@@ -63,6 +63,73 @@
             padding: 36px 32px;
         }
 
+        /* Social Login Buttons */
+        .social-login {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            border: 1px solid #e2cfbc;
+            background: white;
+            color: #1e2a2f;
+        }
+
+        .social-btn i {
+            font-size: 1.2rem;
+        }
+
+        .social-btn.facebook-btn i {
+            color: #1877f2;
+        }
+
+        .social-btn.google-btn i {
+            color: #db4437;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e2cfbc;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 16px;
+            position: relative;
+            color: #8b7a67;
+            font-size: 0.8rem;
+        }
+
+        /* User Type Selector */
         .user-type-selector {
             display: flex;
             gap: 12px;
@@ -79,7 +146,7 @@
             border: none;
             background: transparent;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             border-radius: 50px;
             cursor: pointer;
             transition: 0.2s;
@@ -87,9 +154,9 @@
         }
 
         .user-type-btn.active {
-            background: #427AB5;
+            background: #c49a6c;
             color: white;
-            box-shadow: 0 4px 10px rgba(66,122,181,0.2);
+            box-shadow: 0 4px 10px rgba(196,154,108,0.2);
         }
 
         .input-group {
@@ -117,15 +184,15 @@
 
         .input-group input:focus {
             outline: none;
-            border-color: #427AB5;
-            box-shadow: 0 0 0 3px rgba(66,122,181,0.1);
+            border-color: #c49a6c;
+            box-shadow: 0 0 0 3px rgba(196,154,108,0.1);
         }
 
         .login-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 18px 0 28px;
+            margin: 20px 0 28px;
             font-size: 0.85rem;
         }
 
@@ -134,12 +201,14 @@
             align-items: center;
             gap: 8px;
             color: #5a6e4a;
+            cursor: pointer;
         }
 
         .forgot-link {
-            color: #427AB5;
+            color: #c49a6c;
             text-decoration: none;
             font-weight: 500;
+            transition: 0.2s;
         }
 
         .forgot-link:hover {
@@ -148,7 +217,7 @@
 
         .login-btn {
             width: 100%;
-            background: #427AB5;
+            background: #c49a6c;
             color: white;
             border: none;
             padding: 14px;
@@ -161,18 +230,18 @@
         }
 
         .login-btn:hover {
-            background: #316194;
+            background: #a57c52;
             transform: translateY(-2px);
         }
 
         .register-link {
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #5a6e4a;
         }
 
         .register-link a {
-            color: #427AB5;
+            color: #c49a6c;
             text-decoration: none;
             font-weight: 600;
         }
@@ -183,11 +252,23 @@
             margin-top: 24px;
             text-decoration: none;
             color: #8b7a67;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .back-home i {
             margin-right: 6px;
+        }
+
+        @media (max-width: 520px) {
+            .login-body {
+                padding: 28px 20px;
+            }
+            .social-login {
+                flex-direction: column;
+            }
+            .user-type-selector {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -200,10 +281,25 @@
         </div>
 
         <div class="login-body">
+            <!-- User Type Selector -->
             <div class="user-type-selector">
                 <button class="user-type-btn active" data-type="client">👤 Client</button>
                 <button class="user-type-btn" data-type="worker">🔧 Worker</button>
                 <button class="user-type-btn" data-type="company">🏢 Company</button>
+            </div>
+
+            <!-- Social Login Buttons -->
+            <div class="social-login">
+                <button class="social-btn facebook-btn" onclick="alert('Facebook login coming soon')">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </button>
+                <button class="social-btn google-btn" onclick="alert('Google login coming soon')">
+                    <i class="fab fa-google"></i> Google
+                </button>
+            </div>
+
+            <div class="divider">
+                <span>or login with email</span>
             </div>
 
             <form id="loginForm">
@@ -236,24 +332,25 @@
     </div>
 
     <script>
-        // Simple interactive for user type
+        // User type selection
         const btns = document.querySelectorAll('.user-type-btn');
         btns.forEach(btn => {
             btn.addEventListener('click', () => {
                 btns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                // Optional: change placeholder text or message
                 const type = btn.getAttribute('data-type');
                 console.log(`Selected user type: ${type}`);
+                // You can redirect to different dashboards based on type in the future
             });
         });
 
+        // Form submission
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const email = document.getElementById('email').value;
             if(email) {
-                alert(`✅ Welcome back! (Demo login for ${email})\nIn a real backend, you would be redirected to your dashboard.`);
-                // You can redirect to respective dashboard later
+                alert(`✅ Welcome back! (Demo login for ${email})\nYou will be redirected to your dashboard.`);
+                // In real backend, redirect based on user type
                 // window.location.href = "dashboard.html";
             } else {
                 alert("Please enter email and password.");
