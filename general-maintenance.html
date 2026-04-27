@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>General Maintenance - BELG SERVICES</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #fefcf5; color: #1e2a2f; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: white; border-bottom: 1px solid #f0e4d8; flex-wrap: wrap; gap: 20px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 45px; width: auto; }
+        .logo-text { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, #c49a6c, #8b5a2b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+        .nav-links a { text-decoration: none; font-weight: 500; color: #2c3e2f; transition: 0.2s; }
+        .nav-links a:hover { color: #c49a6c; }
+        .hero-text { text-align: center; padding: 60px 20px 40px; }
+        .hero-text h1 { font-size: 2.2rem; color: #c49a6c; margin-bottom: 16px; }
+        .hero-text p { font-size: 1.1rem; color: #6e5e4a; }
+        .buttons-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .button-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-bottom: 24px; }
+        .skill-btn { background: white; border: 2px solid #c49a6c; color: #c49a6c; padding: 12px 24px; border-radius: 60px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        .skill-btn:hover { background: #c49a6c; color: white; transform: translateY(-2px); }
+        .add-btn { background: #c49a6c; color: white; border: none; padding: 16px 32px; border-radius: 60px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin: 20px auto; display: block; width: fit-content; transition: 0.2s; }
+        .add-btn:hover { background: #a57c52; transform: scale(1.02); }
+        .footer { background: #2c3e2f; color: white; text-align: center; padding: 30px; margin-top: 60px; }
+        @media (max-width: 768px) { .navbar { padding: 16px 20px; flex-direction: column; } .nav-links { flex-wrap: wrap; justify-content: center; } .skill-btn { padding: 8px 16px; font-size: 0.8rem; } .hero-text h1 { font-size: 1.6rem; } }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo-area"><img src="logo.png" alt="BELG SERVICES" class="logo-img"><span class="logo-text">BELG SERVICES</span></div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="about.html">About</a></li>
+            <li><a href="settings.html" style="font-size: 1.2rem;"><i class="fas fa-cog"></i></a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </div>
+    <div class="hero-text"><h1>🔧 مهاراتك تكسبك الثقة والعمل المستمر</h1><p>سجل مهارتك وانضم إلى نخبة المتخصصين</p></div>
+    <div class="buttons-container">
+        <div class="button-row"><button class="skill-btn" onclick="alert('بناء: سيتم نقلك إلى صفحة خبراء البناء')">🏗️ بناء</button><button class="skill-btn" onclick="alert('بلاط: سيتم نقلك إلى صفحة خبراء البلاط')">🪙 بلاط</button><button class="skill-btn" onclick="alert('صباغ: سيتم نقلك إلى صفحة خبراء الصباغة')">🎨 صباغ</button><button class="skill-btn" onclick="alert('كهربائي: سيتم نقلك إلى صفحة خبراء الكهرباء')">⚡ كهربائي</button><button class="skill-btn" onclick="alert('صحيات: سيتم نقلك إلى صفحة خبراء الصحي')">🚰 صحيات</button></div>
+        <button class="add-btn" onclick="alert('➕ سيتم فتح نموذج لإضافة مهنة جديدة')">➕ أضف مهنتك</button>
+        <div class="button-row"><button class="skill-btn" onclick="alert('ميكانيكي: سيتم نقلك إلى صفحة خبراء الميكانيكا')">🔧 ميكانيكي</button><button class="skill-btn" onclick="alert('حداد: سيتم نقلك إلى صفحة خبراء الحدادة')">⚙️ حداد</button><button class="skill-btn" onclick="alert('اصلاحات سريعة: سيتم نقلك إلى صفحة الخدمات السريعة')">🛠️ اصلاحات سريعة</button><button class="skill-btn" onclick="alert('جزار: سيتم نقلك إلى صفحة الجزارين')">🥩 جزار</button><button class="skill-btn" onclick="alert('صيانة هواتف: سيتم نقلك إلى صفحة صيانة الهواتف')">📱 صيانة هواتف</button></div>
+        <div class="button-row"><button class="skill-btn" onclick="alert('اصلاح الاثاث: سيتم نقلك إلى صفحة خبراء الاثاث')">🪑 اصلاح الاثاث</button><button class="skill-btn" onclick="alert('نجار: سيتم نقلك إلى صفحة النجارين')">🪚 نجار</button><button class="skill-btn" onclick="alert('دراجات هوائية: سيتم نقلك إلى صفحة الدراجات')">🚲 دراجات هوائية</button><button class="skill-btn" onclick="alert('اصلاح دراجات كهربائية: سيتم نقلك إلى صفحة الدراجات الكهربائية')">⚡ دراجات كهربائية</button></div>
+    </div>
+    <div class="footer"><p>© 2025 BELG SERVICES — General Maintenance</p></div>
+</body>
+</html>
