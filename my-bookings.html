@@ -123,7 +123,7 @@
 
         .bookings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 24px;
             margin-bottom: 40px;
         }
@@ -228,6 +228,8 @@
             cursor: pointer;
             transition: 0.2s;
             flex: 1;
+            text-align: center;
+            text-decoration: none;
         }
         .btn-outline:hover {
             background: #c49a6c;
@@ -243,10 +245,29 @@
             cursor: pointer;
             transition: 0.2s;
             flex: 1;
+            text-align: center;
         }
         .btn-danger:hover {
             background: #e6614f;
             color: white;
+        }
+        /* New Pay Now button */
+        .btn-pay {
+            background: #c49a6c;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-pay:hover {
+            background: #a57c52;
+            transform: translateY(-2px);
         }
 
         .bottom-nav {
@@ -317,7 +338,6 @@
 </div>
 
 <script>
-    // Sample bookings data
     const bookings = [
         { id: 1, provider: "Sarah M.", service: "House Cleaning", date: "2025-05-15", time: "10:00 AM", price: 80, status: "confirmed", avatar: "https://randomuser.me/api/portraits/women/1.jpg" },
         { id: 2, provider: "Mike R.", service: "Furniture Moving", date: "2025-05-18", time: "2:00 PM", price: 120, status: "pending", avatar: "https://randomuser.me/api/portraits/men/2.jpg" },
@@ -345,7 +365,9 @@
             container.innerHTML = `<div style="text-align:center; padding:40px;">No bookings match your criteria.</div>`;
             return;
         }
-        container.innerHTML = filtered.map(b => `
+        container.innerHTML = filtered.map(b => {
+            const showPayButton = (b.status === "pending" || b.status === "confirmed");
+            return `
             <div class="booking-card" data-id="${b.id}">
                 <div class="card-header">
                     <div class="avatar" style="background-image: url('${b.avatar}'); background-size: cover;"></div>
@@ -362,11 +384,12 @@
                 <div class="price">$${b.price}</div>
                 <hr>
                 <div class="action-buttons">
+                    ${showPayButton ? `<a href="payment.html" class="btn-pay"><i class="fas fa-credit-card"></i> Pay Now</a>` : ''}
                     <button class="btn-outline" onclick="alert('View details for booking #${b.id}')">View Details</button>
                     ${b.status === 'pending' ? '<button class="btn-danger" onclick="alert(\'Cancel booking request?\')">Cancel</button>' : ''}
                 </div>
             </div>
-        `).join("");
+        `}).join("");
     }
 
     let currentFilter = "all";
