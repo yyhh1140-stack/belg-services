@@ -2,172 +2,325 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register — BELG SERVICES</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Register - BELG SERVICES</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* ----------------------  FOOTER  ---------------------- */
-    .footer {
-      background: #003366;
-      color: white;
-      padding: 20px 10px;
-      text-align: center;
-      margin-top: 40px;
-      font-size: 14px;
-      opacity: 0.9;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fefcf5 0%, #f9f3e9 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
 
-    /* ----------------------  GENERAL  ---------------------- */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      background: #ffffff;
-    }
+        .register-container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 48px;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
 
-    .logo {
-      width: 200px;
-      margin-top: 40px;
-    }
+        .register-header {
+            background: linear-gradient(135deg, #c49a6c, #a57c52);
+            padding: 32px 28px;
+            text-align: center;
+            color: white;
+        }
 
-    h1 {
-      font-size: 32px;
-      margin-top: 10px;
-      font-weight: bold;
-      color: #003366;
-    }
+        .register-header i {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
 
-    /* ----------------------  NAVIGATION  ---------------------- */
-    .top-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: #003366;
-      padding: 12px 0;
-      text-align: center;
-      z-index: 999;
-    }
+        .register-header h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
 
-    .top-nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 16px;
-    }
+        .register-header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 8px;
+        }
 
-    .top-nav a:hover {
-      text-decoration: underline;
-    }
+        .register-body {
+            padding: 36px 32px;
+        }
 
-    header {
-      margin-top: 100px;
-    }
+        /* User Type Selector */
+        .user-type-selector {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+            background: #f5f0ea;
+            padding: 6px;
+            border-radius: 60px;
+        }
 
-    /* ----------------------  REGISTER BOX  ---------------------- */
-    .register-box {
-      max-width: 450px;
-      margin: 40px auto;
-      padding: 25px;
-      background: rgba(0,0,0,0.05);
-      border-radius: 12px;
-      text-align: left;
-    }
+        .user-type-btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #5a4a3a;
+        }
 
-    .register-box label {
-      font-size: 16px;
-      font-weight: bold;
-      color: #003366;
-    }
+        .user-type-btn.active {
+            background: #c49a6c;
+            color: white;
+            box-shadow: 0 4px 10px rgba(196,154,108,0.2);
+        }
 
-    .register-box input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0 20px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
+        /* Social Register Buttons */
+        .social-register {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 28px;
+        }
 
-    .btn-register {
-      width: 100%;
-      background: #f4c542;
-      color: black;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+        .social-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            border: 1px solid #e2cfbc;
+            background: white;
+            color: #1e2a2f;
+        }
 
-    .btn-register:hover {
-      background: #e0b235;
-    }
+        .social-btn i {
+            font-size: 1.2rem;
+        }
 
-    .extra-links {
-      text-align: center;
-      margin-top: 15px;
-    }
+        .social-btn.facebook-btn i {
+            color: #1877f2;
+        }
 
-    .extra-links a {
-      color: #003366;
-      text-decoration: none;
-      font-weight: bold;
-    }
+        .social-btn.google-btn i {
+            color: #db4437;
+        }
 
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e2cfbc;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 16px;
+            position: relative;
+            color: #8b7a67;
+            font-size: 0.8rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #2c3e2f;
+            font-size: 0.85rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #e2cfbc;
+            border-radius: 60px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            background: white;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #c49a6c;
+            box-shadow: 0 0 0 3px rgba(196,154,108,0.1);
+        }
+
+        .register-btn {
+            width: 100%;
+            background: #c49a6c;
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 16px;
+        }
+
+        .register-btn:hover {
+            background: #a57c52;
+            transform: translateY(-2px);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 0.85rem;
+            color: #5a6e4a;
+        }
+
+        .login-link a {
+            color: #c49a6c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #8b7a67;
+            font-size: 0.8rem;
+        }
+
+        .back-home i {
+            margin-right: 6px;
+        }
+
+        @media (max-width: 520px) {
+            .register-body {
+                padding: 28px 20px;
+            }
+            .social-register {
+                flex-direction: column;
+            }
+            .user-type-selector {
+                flex-wrap: wrap;
+            }
+        }
     </style>
 </head>
-
 <body>
+    <div class="register-container">
+        <div class="register-header">
+            <i class="fas fa-user-plus"></i>
+            <h1>Create Account</h1>
+            <p>Join BELG SERVICES today</p>
+        </div>
 
-<!-- ----------------------  NAVIGATION  ---------------------- -->
-<nav class="top-nav">
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="services.html">Services</a>
-  <a href="contact.html">Contact</a>
-  <a href="login.html">Login</a>
-  <a href="register.html">Register</a>
-</nav>
+        <div class="register-body">
+            <!-- User Type Selector -->
+            <div class="user-type-selector">
+                <button class="user-type-btn active" data-type="client">👤 Client</button>
+                <button class="user-type-btn" data-type="worker">🔧 Worker</button>
+                <button class="user-type-btn" data-type="company">🏢 Company</button>
+            </div>
 
-<!-- ----------------------  HEADER  ---------------------- -->
-<header>
-    <img src="logo.png" alt="BELG SERVICES Logo" class="logo">
-    <h1>Create Your Account</h1>
-</header>
+            <!-- Social Registration (Fake buttons for now) -->
+            <div class="social-register">
+                <button class="social-btn facebook-btn" onclick="alert('Facebook sign-up coming soon')">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </button>
+                <button class="social-btn google-btn" onclick="alert('Google sign-up coming soon')">
+                    <i class="fab fa-google"></i> Google
+                </button>
+            </div>
 
-<!-- ----------------------  REGISTER FORM  ---------------------- -->
-<div class="register-box">
+            <div class="divider">
+                <span>or register with email</span>
+            </div>
 
-    <label>Full Name</label>
-    <input type="text" placeholder="Enter your full name" required>
-
-    <label>Email</label>
-    <input type="email" placeholder="Enter your email" required>
-
-    <label>Password</label>
-    <input type="password" placeholder="Create a password" required>
-
-    <label>Confirm Password</label>
-    <input type="password" placeholder="Re-enter your password" required>
-
-    <button class="btn-register">Create Account</button>
-
-    <div class="extra-links">
-        <p>Already have an account? <a href="login.html">Login</a></p>
+            <form id="registerForm">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="John Smith" required>
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" placeholder="hello@belgservices.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Create a strong password" required>
+                </div>
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="register-btn">Create Account →</button>
+                <div class="login-link">
+                    Already have an account? <a href="login.html">Sign In</a>
+                </div>
+                <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
+            </form>
+        </div>
     </div>
 
-</div>
+    <script>
+        // User type selection
+        const btns = document.querySelectorAll('.user-type-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const type = btn.getAttribute('data-type');
+                console.log(`Selected user type: ${type}`);
+            });
+        });
 
-<!-- ----------------------  FOOTER  ---------------------- -->
-<footer class="footer">
-  <p>© 2024 BELG SERVICES — All Rights Reserved</p>
-  <p>Contact: info@belg-services.com</p>
-</footer>
-
+        // Form submission
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("✅ Account created successfully! (Demo mode)\nYou can now log in to your BELG SERVICES account.");
+            // In real backend, redirect to login or dashboard
+            // window.location.href = "login.html";
+        });
+    </script>
 </body>
 </html>
