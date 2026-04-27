@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Gardening - BELG SERVICES</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #fefcf5; color: #1e2a2f; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; background: white; border-bottom: 1px solid #f0e4d8; flex-wrap: wrap; gap: 20px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 45px; width: auto; }
+        .logo-text { font-size: 1.6rem; font-weight: 800; background: linear-gradient(135deg, #c49a6c, #8b5a2b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+        .nav-links a:hover { color: #c49a6c; }
+        .hero-text { text-align: center; padding: 60px 20px 40px; }
+        .hero-text h1 { font-size: 2.2rem; color: #c49a6c; margin-bottom: 16px; }
+        .buttons-container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+        .button-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-bottom: 24px; }
+        .skill-btn { background: white; border: 2px solid #c49a6c; color: #c49a6c; padding: 10px 20px; border-radius: 60px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.85rem; }
+        .skill-btn:hover { background: #c49a6c; color: white; }
+        .add-btn { background: #c49a6c; color: white; border: none; padding: 16px 32px; border-radius: 60px; font-weight: 700; font-size: 1.1rem; cursor: pointer; margin: 20px auto; display: block; width: fit-content; }
+        .footer { background: #2c3e2f; color: white; text-align: center; padding: 30px; margin-top: 60px; }
+        @media (max-width: 768px) { .navbar { padding: 16px 20px; flex-direction: column; } .skill-btn { padding: 6px 12px; font-size: 0.7rem; } }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo-area"><img src="logo.png" alt="BELG SERVICES" class="logo-img"><span class="logo-text">BELG SERVICES</span></div>
+        <ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="services.html">Services</a></li><li><a href="about.html">About</a></li><li><a href="settings.html" style="font-size: 1.2rem;"><i class="fas fa-cog"></i></a></li><li><a href="contact.html">Contact</a></li></ul>
+    </div>
+    <div class="hero-text"><h1>🌿 مهاراتك تكسبك الثقة والعمل المستمر</h1><p>سجل خبرتك في البستنة والحدائق</p></div>
+    <div class="buttons-container">
+        <div class="button-row"><button class="skill-btn" onclick="alert('سائق جرار')">🚜 سائق جرار</button><button class="skill-btn" onclick="alert('تربية مواشي')">🐄 تربية مواشي</button><button class="skill-btn" onclick="alert('الزراعة')">🌾 الزراعة</button><button class="skill-btn" onclick="alert('زراعة البيوت')">🏠 زراعة البيوت</button><button class="skill-btn" onclick="alert('قص الحدائق')">✂️ قص الحدائق</button></div>
+        <button class="add-btn" onclick="alert('➕ إضافة مهارة زراعية جديدة')">➕ أضف مهنتك</button>
+        <div class="button-row"><button class="skill-btn" onclick="alert('قص الأشجار')">🌳 قص الأشجار</button><button class="skill-btn" onclick="alert('بناء سياج مزرعة')">🚧 بناء سياج</button><button class="skill-btn" onclick="alert('زراعة الأشجار')">🌲 زراعة الأشجار</button><button class="skill-btn" onclick="alert('تنسيق الحدائق')">🏞️ تنسيق الحدائق</button><button class="skill-btn" onclick="alert('تصميم مخططات')">📐 تصميم مخططات</button></div>
+    </div>
+    <div class="footer"><p>© 2025 BELG SERVICES — Gardening & Landscaping</p></div>
+</body>
+</html>
