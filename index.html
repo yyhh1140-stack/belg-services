@@ -169,7 +169,7 @@
             max-width: 640px;
         }
 
-        /* 4 Service Cards */
+        /* ===== 4 Service Cards - MODIFIED ===== */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -184,6 +184,9 @@
             transition: all 0.25s;
             box-shadow: 0 6px 14px rgba(0,0,0,0.02);
             border: 1px solid #f0e4d8;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
         .service-card:hover {
             transform: translateY(-6px);
@@ -297,7 +300,6 @@
             border: 1px solid #f3e5d9;
             transition: all 0.2s;
         }
-        /* ... (remaining styles are the same as the working version you had) ... */
         .role-card i {
             font-size: 2.6rem;
             color: #c49a6c;
@@ -320,7 +322,34 @@
             font-weight: 600;
         }
 
-        /* Reduced footer and tools section for brevity, but fully functional */
+        /* ===== NEW: ADS MARQUEE SECTION ===== */
+        .ads-container {
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 30px 0;
+            background: white;
+            border-radius: 60px;
+            padding: 15px 0;
+            border: 1px solid #f0e4d8;
+        }
+        .ads-track {
+            display: inline-block;
+            animation: scrollAds 25s linear infinite;
+        }
+        .ads-track img {
+            height: 60px;
+            width: auto;
+            margin: 0 20px;
+            border-radius: 12px;
+            display: inline-block;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        @keyframes scrollAds {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Footer */
         .footer-socials {
             display: flex;
             justify-content: space-between;
@@ -379,6 +408,7 @@
             .role-showcase { flex-direction: column; }
             .hero { padding: 40px 24px; }
             .action-btn, .auth-btn { padding: 10px 20px; font-size: 0.9rem; }
+            .ads-track img { height: 40px; margin: 0 10px; }
         }
     </style>
 </head>
@@ -406,7 +436,8 @@
             <div class="hero-badge">✦ BELG PREMIUM ✦</div>
             <h1 class="hero-title">Welcome to <br>Elite Service Suite</h1>
             <p class="hero-desc">Sophisticated features, sleek design, and elegant comfort. Connect with trusted clients, expert workers, and top-tier companies. Book now and elevate your experience.</p>
-            <a href="contact.html" class="btn-primary">Book Now →</a>
+            <!-- MODIFIED: Book Now links to worker-dashboard.html -->
+            <a href="worker-dashboard.html" class="btn-primary">Book Now →</a>
         </div>
         <div class="hero-stats">
             <div class="stat-item"><span class="stat-number">2.5k+</span><br>Active Clients</div>
@@ -415,19 +446,48 @@
         </div>
     </div>
 
-    <!-- Services Section (4 cards) -->
+    <!-- Services Section (4 cards - MODIFIED NAMES & LINKS) -->
     <div>
         <h2 class="section-title">What service do you prefer?</h2>
         <p class="section-sub">From professional workforces to premium corporate solutions, we offer tailored selections for every need.</p>
     </div>
     <div class="cards-grid">
-        <div class="service-card"><div class="service-icon">🏢</div><h3>Apartment Care</h3><div class="service-feature">2-3 rooms / 100 sqm support</div></div>
-        <div class="service-card"><div class="service-icon">🏡</div><h3>Home Service</h3><div class="service-feature">3 bedrooms / 140 sqm luxury</div></div>
-        <div class="service-card"><div class="service-icon">🌿</div><h3>Gardening and Landscaping</h3><div class="service-feature">2 bedrooms / 90 sqm outdoor</div></div>
-        <div class="service-card"><div class="service-icon">🚚</div><h3>Logistics Services</h3><div class="service-feature">On‑demand transport & delivery</div></div>
+        <a href="general-maintenance.html" class="service-card">
+            <div class="service-icon">🔧</div>
+            <h3>الصيانة العامة</h3>
+            <div class="service-feature">جميع أعمال الصيانة والتصليحات</div>
+        </a>
+        <a href="home-services.html" class="service-card">
+            <div class="service-icon">🏠</div>
+            <h3>خدمة المنازل</h3>
+            <div class="service-feature">تنظيف - كي - خياطة - تنظيف سجاد</div>
+        </a>
+        <a href="gardening.html" class="service-card">
+            <div class="service-icon">🌿</div>
+            <h3>البستنة والحدائق</h3>
+            <div class="service-feature">تنسيق حدائق - زراعة - خبراء زراعيون</div>
+        </a>
+        <a href="logistics.html" class="service-card">
+            <div class="service-icon">🚚</div>
+            <h3>الخدمات اللوجستية</h3>
+            <div class="service-feature">نقل اثاث - طرود - مواد انشائية</div>
+        </a>
     </div>
 
-    <!-- Two Buttons: LOGIN & SIGN UP -->
+    <!-- NEW: ADS MARQUEE SECTION -->
+    <div class="ads-container">
+        <div class="ads-track">
+            <img src="https://placehold.co/200x60/FFD8A9/8B5A2B?text=شركة+النقل+السريع" alt="ad">
+            <img src="https://placehold.co/200x60/C5E9C5/2E6B1F?text=مؤسسة+البناء+المتميز" alt="ad">
+            <img src="https://placehold.co/200x60/A0D2EB/1e4c8a?text=شركة+الحدائق+العصرية" alt="ad">
+            <!-- Duplicate for seamless loop -->
+            <img src="https://placehold.co/200x60/FFD8A9/8B5A2B?text=شركة+النقل+السريع" alt="ad">
+            <img src="https://placehold.co/200x60/C5E9C5/2E6B1F?text=مؤسسة+البناء+المتميز" alt="ad">
+            <img src="https://placehold.co/200x60/A0D2EB/1e4c8a?text=شركة+الحدائق+العصرية" alt="ad">
+        </div>
+    </div>
+
+    <!-- Two Buttons: LOGIN & SIGN UP (UNCHANGED) -->
     <div class="auth-buttons-section">
         <div class="auth-btn-group">
             <a href="login.html" class="auth-btn btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
@@ -435,7 +495,7 @@
         </div>
     </div>
 
-    <!-- 3 ACTION BUTTONS (ALL LINKS CORRECTED) -->
+    <!-- 3 ACTION BUTTONS (UNCHANGED) -->
     <div class="action-buttons-section">
         <div class="button-group">
             <a href="register.html" class="action-btn btn-worker-join"><i class="fas fa-user-plus"></i> Join as Worker</a>
@@ -444,7 +504,7 @@
         </div>
     </div>
 
-    <!-- Client / Worker / Companies -->
+    <!-- Client / Worker / Companies (UNCHANGED) -->
     <div class="role-showcase">
         <div class="role-card">
             <i class="fas fa-user-tie"></i>
@@ -466,7 +526,7 @@
         </div>
     </div>
 
-    <!-- Footer with more useful links -->
+    <!-- Footer (UNCHANGED) -->
     <div class="footer-socials">
         <div class="social-icons">
             <a href="#"><img src="facebook.png" alt="facebook"></a>
@@ -494,4 +554,4 @@
 </div>
 
 </body>
-    </html>
+                </html>
