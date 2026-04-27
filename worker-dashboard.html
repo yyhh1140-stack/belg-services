@@ -7,7 +7,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -17,7 +17,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #fefcf5;
+            background: #fefcf5; /* Changed to match index */
             color: #1e2a2f;
             padding: 20px;
         }
@@ -31,9 +31,9 @@
             overflow: hidden;
         }
 
-        /* Header with search */
+        /* Header with new color (golden) */
         .header {
-            background: linear-gradient(135deg, #91D06C, #6aab3a);
+            background: linear-gradient(135deg, #c49a6c, #a57c52); /* Changed from green to golden */
             padding: 24px 28px;
             color: white;
         }
@@ -68,11 +68,15 @@
         }
 
         .search-box button {
-            background: #2c3e2f;
+            background: #c49a6c;
             border: none;
             padding: 0 24px;
             color: white;
             cursor: pointer;
+            transition: 0.2s;
+        }
+        .search-box button:hover {
+            background: #a57c52;
         }
 
         .filter-buttons {
@@ -82,17 +86,19 @@
         }
 
         .filter-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
+            background: white;
+            border: 1px solid #c49a6c;
             padding: 8px 20px;
             border-radius: 40px;
-            color: white;
+            color: #c49a6c;
             font-weight: 500;
             cursor: pointer;
+            transition: 0.2s;
         }
 
-        .filter-btn.active {
-            background: #2c3e2f;
+        .filter-btn.active, .filter-btn:hover {
+            background: #c49a6c;
+            color: white;
         }
 
         /* Main content */
@@ -110,7 +116,7 @@
         }
 
         .see-all {
-            color: #91D06C;
+            color: #c49a6c;
             text-decoration: none;
             font-size: 0.85rem;
         }
@@ -162,7 +168,6 @@
             font-weight: 600;
             padding: 4px 10px;
             border-radius: 50px;
-            margin-top: 6px;
         }
 
         .status-available { background: #d4f5d0; color: #2e6b1f; }
@@ -196,6 +201,24 @@
             border-top: 1px solid #ede3d7;
         }
 
+        /* Two-tone button */
+        .view-profile-btn {
+            background: transparent;
+            border: 2px solid #c49a6c;
+            color: #c49a6c;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            margin-top: 12px;
+        }
+        .view-profile-btn:hover {
+            background: #c49a6c;
+            color: white;
+        }
+
         .bottom-nav {
             display: flex;
             justify-content: space-around;
@@ -218,8 +241,25 @@
             margin-bottom: 4px;
         }
 
-        .nav-item.active {
-            color: #91D06C;
+        .nav-item.active, .nav-item:hover {
+            color: #c49a6c;
+        }
+        
+        /* Submit Request Button */
+        .submit-request {
+            background: #c49a6c;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px auto 10px;
+            display: block;
+            width: fit-content;
+        }
+        .submit-request:hover {
+            background: #a57c52;
         }
 
         @media (max-width: 680px) {
@@ -252,14 +292,8 @@
             Available Now Workers
             <a href="#" class="see-all" id="seeAllLink">See All ></a>
         </div>
-        <div class="workers-grid" id="workersContainer">
-            <!-- Cards will be injected via JS -->
-        </div>
-
-        <!-- Submit Request Button (optional) -->
-        <div style="text-align: center; margin: 20px 0 10px;">
-            <button id="submitRequestBtn" style="background: #91D06C; border: none; padding: 12px 32px; border-radius: 40px; color: white; font-weight: bold; cursor: pointer;">+ Submit Request</button>
-        </div>
+        <div class="workers-grid" id="workersContainer"></div>
+        <button class="submit-request" id="submitRequestBtn">+ Submit Request</button>
     </div>
 
     <div class="bottom-nav">
@@ -271,7 +305,7 @@
 </div>
 
 <script>
-    // Worker data
+    // Worker data (unchanged)
     const workers = [
         { id: 1, name: "Sarah M.", title: "House Cleaner", category: "Cleaning", price: 25, rating: 4.9, status: "available", avatar: "https://randomuser.me/api/portraits/women/1.jpg", bio: "Professional cleaning with eco products." },
         { id: 2, name: "Mike R.", title: "Mover & Driver", category: "Moving", price: 40, rating: 4.8, status: "available", avatar: "https://randomuser.me/api/portraits/men/2.jpg", bio: "Fast and careful moving service." },
@@ -312,11 +346,10 @@
                 <div class="price">$${w.price}/hr</div>
                 <hr>
                 <div style="font-size:0.8rem; color:#6f5e49;"><i class="fas fa-briefcase"></i> ${w.bio.substring(0, 60)}</div>
-                <button class="view-profile-btn" data-id="${w.id}" style="margin-top:12px; background:#91D06C; border:none; padding:6px 12px; border-radius:30px; color:white; cursor:pointer;">View Profile →</button>
+                <button class="view-profile-btn" data-id="${w.id}">View Profile →</button>
             </div>
         `).join("");
 
-        // Attach event listeners to buttons
         document.querySelectorAll(".view-profile-btn").forEach(btn => {
             btn.addEventListener("click", (e) => {
                 e.stopPropagation();
@@ -324,11 +357,9 @@
                 const worker = workers.find(w => w.id == id);
                 if (worker) {
                     alert(`📍 ${worker.name}\n👤 ${worker.title}\n⭐ Rating: ${worker.rating}\n💰 $${worker.price}/hr\n📝 ${worker.bio}\n(Full profile page coming soon)`);
-                    // In real version: window.location.href = `worker-profile.html?id=${id}`;
                 }
             });
         });
-        // Click on card also shows details
         document.querySelectorAll(".worker-card").forEach(card => {
             card.addEventListener("click", (e) => {
                 if(e.target.classList.contains("view-profile-btn")) return;
@@ -339,7 +370,6 @@
         });
     }
 
-    // Filter buttons logic
     let currentFilter = "all";
     let currentSearch = "";
     document.querySelectorAll(".filter-btn").forEach(btn => {
@@ -362,7 +392,6 @@
     });
     document.getElementById("submitRequestBtn").addEventListener("click", () => {
         alert("Submit a service request form will open here.");
-        // window.location.href = "submit-request.html";
     });
     document.getElementById("seeAllLink").addEventListener("click", (e) => {
         e.preventDefault();
