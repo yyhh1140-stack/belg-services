@@ -1,281 +1,427 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chat — BELG SERVICES</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Messages - BELG SERVICES</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  background: #f7f7f7;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fefcf5;
+            color: #1e2a2f;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-/* NAV */
-.top-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #003366;
-  padding: 12px 0;
-  text-align: center;
-  z-index: 999;
-}
+        /* Header Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 40px;
+            background: white;
+            border-bottom: 1px solid #f0e4d8;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-img {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+        }
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #c49a6c, #8b5a2b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2c3e2f;
+            transition: 0.2s;
+        }
+        .nav-links a:hover { color: #c49a6c; }
 
-.top-nav a {
-  color: white;
-  margin: 0 15px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 16px;
-}
+        /* Chat Container */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            max-width: 1400px;
+            margin: 20px auto;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.08);
+            border: 1px solid #f0e4d8;
+            height: calc(100vh - 100px);
+        }
 
-/* CHAT CONTAINER */
-.chat-container {
-  max-width: 800px;
-  margin: 100px auto 20px auto;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  height: 80vh;
-}
+        /* Conversations List (Left Side) */
+        .conversations-list {
+            width: 320px;
+            background: #ffffff;
+            border-right: 1px solid #f0e4d8;
+            display: flex;
+            flex-direction: column;
+        }
+        .search-conversation {
+            padding: 16px;
+            border-bottom: 1px solid #f0e4d8;
+        }
+        .search-conversation input {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid #e2cfbc;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            border-bottom: 1px solid #f0e4d8;
+        }
+        .conversation-item:hover {
+            background: #fefcf5;
+        }
+        .conversation-item.active {
+            background: #fef5ea;
+            border-left: 4px solid #c49a6c;
+        }
+        .conversation-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            flex-shrink: 0;
+        }
+        .conversation-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .conversation-name {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .conversation-last-msg {
+            font-size: 0.75rem;
+            color: #8b7a67;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .conversation-time {
+            font-size: 0.7rem;
+            color: #c49a6c;
+        }
 
-/* HEADER */
-.chat-header {
-  padding: 15px 20px;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+        /* Chat Area (Right Side) */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fefcf5;
+        }
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #f0e4d8;
+            background: white;
+        }
+        .chat-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .chat-header p {
+            font-size: 0.8rem;
+            color: #8b7a67;
+        }
+        .messages-container {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .message {
+            max-width: 70%;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .message.received {
+            background: white;
+            border: 1px solid #f0e4d8;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+        .message.sent {
+            background: #c49a6c;
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+        .message-time {
+            font-size: 0.7rem;
+            margin-top: 4px;
+            opacity: 0.7;
+        }
+        .chat-input-area {
+            padding: 16px;
+            background: white;
+            border-top: 1px solid #f0e4d8;
+            display: flex;
+            gap: 12px;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 12px 18px;
+            border: 1px solid #e2cfbc;
+            border-radius: 60px;
+            outline: none;
+            font-size: 0.9rem;
+        }
+        .chat-input-area button {
+            background: #c49a6c;
+            border: none;
+            padding: 0 24px;
+            border-radius: 60px;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .chat-input-area button:hover {
+            background: #a57c52;
+        }
 
-.chat-header h2 {
-  margin: 0;
-  color: #003366;
-}
+        /* Bottom Navigation (for small screens) */
+        .bottom-nav {
+            display: none;
+            justify-content: space-around;
+            background: white;
+            padding: 12px 20px;
+            border-top: 1px solid #ede3d7;
+        }
+        .nav-item {
+            text-align: center;
+            color: #8b7a67;
+            text-decoration: none;
+            font-size: 0.7rem;
+        }
+        .nav-item i {
+            font-size: 1.3rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .nav-item.active, .nav-item:hover {
+            color: #c49a6c;
+        }
 
-.chat-header small {
-  color: #777;
-}
-
-/* WARNING BAR */
-.warning-bar {
-  background: #fff3cd;
-  color: #856404;
-  padding: 10px 15px;
-  font-size: 14px;
-  border-bottom: 1px solid #ffeeba;
-}
-
-/* MESSAGES */
-.chat-messages {
-  flex: 1;
-  padding: 15px;
-  overflow-y: auto;
-  background: #f5f5f5;
-}
-
-.message {
-  max-width: 70%;
-  padding: 10px 14px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-.message.client {
-  background: #003366;
-  color: white;
-  margin-left: auto;
-}
-
-.message.worker {
-  background: #e0e0e0;
-  color: #333;
-  margin-right: auto;
-}
-
-/* CONTACT BOX (HIDDEN UNTIL PAID) */
-.contact-box {
-  padding: 12px 15px;
-  background: #e8f5e9;
-  border-top: 1px solid #c8e6c9;
-  font-size: 14px;
-  display: none;
-}
-
-/* INPUT AREA */
-.chat-input {
-  border-top: 1px solid #ddd;
-  padding: 10px;
-  display: flex;
-  gap: 10px;
-}
-
-.chat-input input {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-.chat-input button {
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-  background: #003366;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* PAY BUTTON */
-.pay-btn {
-  background: #f4c542;
-  color: black;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.pay-btn:hover {
-  background: #e0b235;
-}
-
-/* FOOTER */
-.footer {
-  background: #003366;
-  color: white;
-  padding: 10px;
-  text-align: center;
-  font-size: 13px;
-}
-</style>
+        @media (max-width: 768px) {
+            .navbar { padding: 12px 20px; flex-direction: column; }
+            .nav-links { flex-wrap: wrap; justify-content: center; }
+            .chat-container { margin: 10px; height: auto; flex-direction: column; }
+            .conversations-list { width: 100%; max-height: 200px; overflow-y: auto; }
+            .chat-area { min-height: 400px; }
+            .bottom-nav { display: flex; }
+            .nav-links { display: none; }
+        }
+    </style>
 </head>
 <body>
-<nav style="background:#111; padding:12px; display:flex; flex-wrap:wrap; gap:12px;">
-  <a href="index.html" style="color:white;">Home</a>
-  <a href="about.html" style="color:white;">About</a>
-  <a href="services.html" style="color:white;">Services</a>
-  <a href="contact.html" style="color:white;">Contact</a>
 
-  <a href="faq.html" style="color:white;">FAQ</a>
-  <a href="pricing.html" style="color:white;">Pricing</a>
-  <a href="payment.html" style="color:white;">Payment</a>
-
-  <a href="login.html" style="color:white;">Login</a>
-  <a href="register.html" style="color:white;">Register</a>
-
-  <a href="dashboard.html" style="color:white;">Dashboard</a>
-</nav>
-<!-- NAV -->
-<nav class="top-nav">
-  <a href="dashboard.html">Dashboard</a>
-  <a href="services.html">Services</a>
-  <a href="chat.html">Chat</a>
-  <a href="settings.html">Settings</a>
-</nav>
-
-<!-- CHAT UI -->
-<div class="chat-container">
-
-  <div class="chat-header">
-    <div>
-      <h2>Chat with Worker</h2>
-      <small>Job: Cleaning Service — 50€</small>
+    <!-- Header -->
+    <div class="navbar">
+        <div class="logo-area">
+            <img src="logo.png" alt="BELG SERVICES" class="logo-img" onerror="this.src='https://placehold.co/50x50?text=BS'">
+            <span class="logo-text">BELG SERVICES</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
     </div>
-    <button class="pay-btn" onclick="simulatePayment()">Pay & Unlock Contact</button>
-  </div>
 
-  <div class="warning-bar" id="warningBar">
-    ⚠️ For your safety, phone numbers, addresses and external contacts are blocked until payment is confirmed.
-  </div>
+    <!-- Chat Container -->
+    <div class="chat-container">
+        <!-- Conversations List -->
+        <div class="conversations-list">
+            <div class="search-conversation">
+                <input type="text" id="searchChat" placeholder="Search conversations...">
+            </div>
+            <div id="conversationsContainer"></div>
+        </div>
 
-  <div class="chat-messages" id="chatMessages">
-    <div class="message worker">
-      Hello, I am available for your request. Can you confirm the time?
+        <!-- Chat Area -->
+        <div class="chat-area" id="chatArea">
+            <div class="chat-header" id="chatHeader">
+                <h3>Select a conversation</h3>
+                <p>Click on any chat to start messaging</p>
+            </div>
+            <div class="messages-container" id="messagesContainer"></div>
+            <div class="chat-input-area" id="chatInputArea" style="display: none;">
+                <input type="text" id="messageInput" placeholder="Type your message...">
+                <button id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
     </div>
-    <div class="message client">
-      Yes, today at 16:00 is perfect.
+
+    <!-- Bottom Navigation (Mobile) -->
+    <div class="bottom-nav">
+        <a href="index.html" class="nav-item"><i class="fas fa-home"></i> Home</a>
+        <a href="my-bookings.html" class="nav-item"><i class="fas fa-clipboard-list"></i> Bookings</a>
+        <a href="chat.html" class="nav-item active"><i class="fas fa-comment-dots"></i> Chat</a>
+        <a href="worker-profile.html" class="nav-item"><i class="fas fa-user"></i> Profile</a>
     </div>
-  </div>
 
-  <div class="contact-box" id="contactBox">
-    ✅ Payment confirmed.  
-    Worker phone: +32 4 123 45 678  
-    Client address: Rue de Exemple 10, 4000 Liège  
-    You can now coordinate directly for arrival and details.
-  </div>
+    <script>
+        // Chat data
+        const conversations = [
+            { id: 1, name: "Sarah M.", role: "House Cleaner", avatar: "https://randomuser.me/api/portraits/women/1.jpg", lastMsg: "Your cleaning is scheduled for tomorrow", time: "10:30 AM" },
+            { id: 2, name: "Mike R.", role: "Mover", avatar: "https://randomuser.me/api/portraits/men/2.jpg", lastMsg: "I'll be there at 2 PM", time: "Yesterday" },
+            { id: 3, name: "Luis G.", role: "Painter", avatar: "https://randomuser.me/api/portraits/men/3.jpg", lastMsg: "Paint color confirmed", time: "Yesterday" }
+        ];
 
-  <div class="chat-input">
-    <input type="text" id="messageInput" placeholder="Type your message here...">
-    <button onclick="sendMessage()">Send</button>
-  </div>
+        const messagesData = {
+            1: [
+                { text: "Hi Sarah, when can you start?", sender: "sent", time: "10:00 AM" },
+                { text: "Hello! I can start tomorrow at 9 AM. Is that okay?", sender: "received", time: "10:05 AM" },
+                { text: "Perfect! See you tomorrow.", sender: "sent", time: "10:10 AM" },
+                { text: "Great! I'll bring all my equipment.", sender: "received", time: "10:12 AM" }
+            ],
+            2: [
+                { text: "Hello Mike, can you help with furniture moving?", sender: "sent", time: "Yesterday" },
+                { text: "Yes sure! What time works for you?", sender: "received", time: "Yesterday" },
+                { text: "2 PM tomorrow?", sender: "sent", time: "Yesterday" },
+                { text: "I'll be there at 2 PM sharp!", sender: "received", time: "Yesterday" }
+            ],
+            3: [
+                { text: "Hi Luis, what colors do you recommend for living room?", sender: "sent", time: "Yesterday" },
+                { text: "Beige or light gray are very popular now.", sender: "received", time: "Yesterday" },
+                { text: "Let's go with beige. Thanks!", sender: "sent", time: "Yesterday" },
+                { text: "Confirmed! I'll prepare the materials.", sender: "received", time: "Yesterday" }
+            ]
+        };
 
-</div>
+        let activeConversation = null;
 
-<footer class="footer">
-  © 2024 BELG SERVICES — All Rights Reserved
-</footer>
+        function renderConversations(filter = "") {
+            const container = document.getElementById("conversationsContainer");
+            let filtered = conversations.filter(c => c.name.toLowerCase().includes(filter));
+            container.innerHTML = filtered.map(c => `
+                <div class="conversation-item" data-id="${c.id}">
+                    <div class="conversation-avatar" style="background-image: url('${c.avatar}');"></div>
+                    <div class="conversation-info">
+                        <div class="conversation-name">${c.name}</div>
+                        <div class="conversation-last-msg">${c.lastMsg}</div>
+                    </div>
+                    <div class="conversation-time">${c.time}</div>
+                </div>
+            `).join("");
 
-<script>
-let isPaid = false; // حالة الدفع
+            document.querySelectorAll(".conversation-item").forEach(item => {
+                item.addEventListener("click", () => {
+                    const id = parseInt(item.getAttribute("data-id"));
+                    openConversation(id);
+                    document.querySelectorAll(".conversation-item").forEach(i => i.classList.remove("active"));
+                    item.classList.add("active");
+                });
+            });
+        }
 
-// فلترة الرسائل لمنع الأرقام والعناوين والروابط
-function filterMessage(text) {
-  const forbiddenPatterns = [
-    /\d{8,}/g,                 // أرقام طويلة (هاتف)
-    /@/g,                      // إيميل
-    /(http|www\.)/gi,          // روابط
-    /(whatsapp|phone|call)/gi,
-    /(address|location|adresse|locatie)/gi,
-    /(numéro|gsm)/gi
-  ];
+        function openConversation(id) {
+            activeConversation = conversations.find(c => c.id === id);
+            if (!activeConversation) return;
 
-  for (let pattern of forbiddenPatterns) {
-    if (pattern.test(text)) {
-      return "⚠️ This message was blocked because it contains contact information (phone, address, email or link). Please use the platform only.";
-    }
-  }
+            document.getElementById("chatHeader").innerHTML = `
+                <h3><i class="fas fa-user-circle"></i> ${activeConversation.name}</h3>
+                <p>${activeConversation.role} • Typically replies within minutes</p>
+            `;
+            
+            const messages = messagesData[id] || [];
+            const messagesContainer = document.getElementById("messagesContainer");
+            messagesContainer.innerHTML = messages.map(m => `
+                <div class="message ${m.sender}">
+                    ${m.text}
+                    <div class="message-time">${m.time}</div>
+                </div>
+            `).join("");
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            document.getElementById("chatInputArea").style.display = "flex";
+        }
 
-  return text;
-}
+        function sendMessage() {
+            const input = document.getElementById("messageInput");
+            const text = input.value.trim();
+            if (!text || !activeConversation) return;
+            
+            const now = new Date();
+            const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // Add message to UI
+            const messagesContainer = document.getElementById("messagesContainer");
+            const newMsg = document.createElement("div");
+            newMsg.className = "message sent";
+            newMsg.innerHTML = `${text}<div class="message-time">${time}</div>`;
+            messagesContainer.appendChild(newMsg);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            // Clear input
+            input.value = "";
+            
+            // Simulate reply after 1 second
+            setTimeout(() => {
+                const reply = document.createElement("div");
+                reply.className = "message received";
+                reply.innerHTML = `Thanks for your message! I'll get back to you soon.<div class="message-time">${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>`;
+                messagesContainer.appendChild(reply);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 1000);
+        }
 
-// إرسال رسالة من العميل
-function sendMessage() {
-  const input = document.getElementById("messageInput");
-  let text = input.value.trim();
-  if (!text) return;
+        document.getElementById("searchChat").addEventListener("keyup", (e) => {
+            renderConversations(e.target.value.toLowerCase());
+        });
+        document.getElementById("sendBtn").addEventListener("click", sendMessage);
+        document.getElementById("messageInput").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") sendMessage();
+        });
 
-  let filtered = filterMessage(text);
-
-  const chat = document.getElementById("chatMessages");
-  const div = document.createElement("div");
-  div.classList.add("message", "client");
-  div.textContent = filtered;
-  chat.appendChild(div);
-
-  chat.scrollTop = chat.scrollHeight;
-  input.value = "";
-}
-
-// محاكاة الدفع وفتح المعلومات
-function simulatePayment() {
-  isPaid = true;
-  document.getElementById("contactBox").style.display = "block";
-  document.getElementById("warningBar").textContent =
-    "✅ Payment confirmed. Contact information is now available for this job.";
-}
-</script>
-
+        renderConversations();
+    </script>
 </body>
 </html>
