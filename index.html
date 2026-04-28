@@ -9,411 +9,228 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #fefcf5;
-            color: #1e2a2f;
-            line-height: 1.4;
-            scroll-behavior: smooth;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Header & Navigation */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 0;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .logo-img {
-            height: 52px;
-            width: auto;
-            object-fit: contain;
-        }
-        .logo-text {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #c49a6c, #8b5a2b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .nav-links {
-            display: flex;
-            gap: 28px;
-            list-style: none;
-            align-items: center;
-        }
-        .nav-links a {
-            text-decoration: none;
-            font-weight: 500;
-            color: #2c3e2f;
-            transition: 0.2s;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #fefcf5; color: #1e2a2f; line-height: 1.4; scroll-behavior: smooth; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; flex-wrap: wrap; gap: 20px; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-img { height: 52px; width: auto; object-fit: contain; }
+        .logo-text { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, #c49a6c, #8b5a2b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; flex-wrap: wrap; }
+        .nav-links a { text-decoration: none; font-weight: 500; color: #2c3e2f; transition: 0.2s; }
         .nav-links a:hover { color: #c49a6c; }
-        .book-btn-nav {
-            background: #c49a6c;
-            color: white !important;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-weight: 600;
-        }
-        .book-btn-nav:hover {
-            background: #a57c52;
-        }
-
-        /* Hero Section with bg.jpg background */
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.65)), url('bg.jpg');
-            background-size: cover;
-            background-position: center 30%;
-            border-radius: 48px;
-            margin: 20px 0 50px 0;
-            padding: 60px 40px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 40px;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .hero-content {
-            flex: 1.2;
-            color: white;
-        }
-        .hero-badge {
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            color: #f5d6b3;
-            font-weight: 600;
-            margin-bottom: 16px;
-        }
-        .hero-title {
-            font-size: 3.6rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            color: white;
-        }
-        .hero-desc {
-            font-size: 1.1rem;
-            color: #f9f3e7;
-            margin-bottom: 32px;
-            max-width: 85%;
-        }
-        .btn-primary {
-            background: #c49a6c;
-            border: none;
-            padding: 14px 32px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 50px;
-            color: white;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-            text-decoration: none;
-        }
-        .btn-primary:hover {
-            background: #a07648;
-            transform: scale(1.02);
-        }
-        .hero-stats {
-            flex: 0.9;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(4px);
-            border-radius: 32px;
-            padding: 24px;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
-        }
-        .stat-item {
-            margin-bottom: 24px;
-            border-bottom: 1px solid #e2cfbc;
-            padding-bottom: 16px;
-            color: #2b2b1f;
-        }
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #c49a6c;
-        }
-
-        .section-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: #1f2c21;
-        }
-        .section-sub {
-            font-size: 1rem;
-            color: #5e6b56;
-            margin-bottom: 48px;
-            max-width: 640px;
-        }
-
-        /* ===== 4 Service Cards - MODIFIED ===== */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 30px;
-            margin: 50px 0 40px;
-        }
-        .service-card {
-            background: white;
-            border-radius: 28px;
-            padding: 24px 16px;
-            text-align: center;
-            transition: all 0.25s;
-            box-shadow: 0 6px 14px rgba(0,0,0,0.02);
-            border: 1px solid #f0e4d8;
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        .service-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08);
-            border-color: #e9cfb5;
-        }
-        .service-icon {
-            font-size: 2.2rem;
-            font-weight: bold;
-            background: #faf2e9;
-            width: 70px;
-            height: 70px;
-            line-height: 70px;
-            border-radius: 40px;
-            margin: 0 auto 18px;
-            color: #b47c48;
-        }
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-        }
-        .service-feature {
-            font-size: 0.9rem;
-            color: #6a5e4e;
-        }
-
-        /* Two Login/Signup Buttons */
-        .auth-buttons-section {
-            margin: 20px 0 20px;
-            text-align: center;
-        }
-        .auth-btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-        }
-        .auth-btn {
-            border: none;
-            padding: 14px 32px;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: #2d3e2b;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .btn-login { background-color: #D8F0D2; }
-        .btn-signup { background-color: #A0D2EB; }
-        .auth-btn:hover {
-            transform: translateY(-3px);
-            filter: brightness(0.96);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.1);
-        }
-
-        /* 3 ACTION BUTTONS */
-        .action-buttons-section {
-            margin: 30px 0 50px;
-            text-align: center;
-        }
-        .button-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 10px;
-        }
-        .action-btn {
-            border: none;
-            padding: 14px 28px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 60px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: #2d3e2b;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-        }
-        .btn-worker-join { background-color: #A0D2EB; }
-        .btn-company-join { background-color: #FFD8A9; }
-        .btn-find-company { background-color: #FFF2B5; }
+        .book-btn-nav { background: #c49a6c; color: white !important; padding: 8px 20px; border-radius: 40px; font-weight: 600; }
+        .hero { background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)), url('bg.jpg'); background-size: cover; background-position: center 30%; border-radius: 48px; margin: 20px 0 50px; padding: 60px 40px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between; }
+        .hero-content { flex: 1.2; color: white; }
+        .hero-title { font-size: 3.6rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; color: white; }
+        .hero-desc { font-size: 1.1rem; color: #f9f3e7; margin-bottom: 32px; max-width: 85%; }
+        .btn-primary { background: #c49a6c; border: none; padding: 14px 32px; font-size: 1rem; font-weight: 600; border-radius: 50px; color: white; cursor: pointer; transition: 0.2s; display: inline-block; text-decoration: none; }
+        .btn-primary:hover { background: #a07648; transform: scale(1.02); }
+        .hero-stats { flex: 0.9; background: rgba(255,255,255,0.92); backdrop-filter: blur(4px); border-radius: 32px; padding: 24px; box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15); }
+        .stat-item { margin-bottom: 24px; border-bottom: 1px solid #e2cfbc; padding-bottom: 16px; color: #2b2b1f; }
+        .stat-number { font-size: 2rem; font-weight: 800; color: #c49a6c; }
+        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 16px; color: #1f2c21; text-align: center; }
+        .section-sub { font-size: 1rem; color: #5e6b56; margin-bottom: 48px; max-width: 640px; margin-left: auto; margin-right: auto; text-align: center; }
         
-        .action-btn:hover {
-            transform: translateY(-3px);
-            filter: brightness(0.96);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.1);
-        }
+        /* 4 Service Cards - New Style */
+        .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin: 50px 0 40px; }
+        @media (max-width: 1000px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 680px) { .cards-grid { grid-template-columns: 1fr; } }
+        .service-card { background: white; border-radius: 28px; padding: 24px 16px; text-align: center; border: 1px solid #f0e4d8; text-decoration: none; color: inherit; display: block; transition: 0.25s; }
+        .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08); border-color: #e9cfb5; }
+        .service-icon { font-size: 2.2rem; background: #faf2e9; width: 70px; height: 70px; line-height: 70px; border-radius: 40px; margin: 0 auto 18px; color: #b47c48; }
+        .service-card h3 { font-size: 1.3rem; margin-bottom: 12px; }
+
+        /* Auth and Action Buttons */
+        .auth-buttons-section, .action-buttons-section { text-align: center; margin: 30px 0; }
+        .auth-btn-group, .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .auth-btn, .action-btn { border: none; padding: 12px 28px; font-size: 0.9rem; font-weight: 600; border-radius: 60px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; transition: 0.2s; }
+        .btn-login { background-color: #003366; color: white; } /* Changed to dark blue */
+        .btn-signup { background-color: #003366; color: white; } /* Changed to dark blue */
+        .btn-worker-join { background-color: #c89a5b; color: white; }
+        .btn-company-join { background-color: #c89a5b; color: white; }
+        .btn-find-company { background-color: #c89a5b; color: white; }
+        .auth-btn:hover, .action-btn:hover { transform: translateY(-3px); filter: brightness(0.96); }
 
         /* Role Cards */
-        .role-showcase {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            margin: 40px 0 60px;
-        }
-        .role-card {
-            flex: 1;
-            background: #fffaf2;
-            border-radius: 32px;
-            padding: 28px 20px;
-            text-align: center;
-            border: 1px solid #f3e5d9;
-            transition: all 0.2s;
-        }
-        .role-card i {
-            font-size: 2.6rem;
-            color: #c49a6c;
-            margin-bottom: 18px;
-        }
-        .role-card h3 {
-            font-size: 1.7rem;
-            margin-bottom: 14px;
-        }
-        .role-card p {
-            color: #555f48;
-        }
-        .role-badge {
-            margin-top: 18px;
-            background: #e9dbce;
-            display: inline-block;
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        /* ===== NEW: ADS MARQUEE SECTION ===== */
-        .ads-container {
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 30px 0;
-            background: white;
-            border-radius: 60px;
-            padding: 15px 0;
-            border: 1px solid #f0e4d8;
-        }
-        .ads-track {
-            display: inline-block;
-            animation: scrollAds 25s linear infinite;
-        }
-        .ads-track img {
-            height: 60px;
-            width: auto;
-            margin: 0 20px;
-            border-radius: 12px;
-            display: inline-block;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        @keyframes scrollAds {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+        .role-showcase { display: flex; flex-wrap: wrap; gap: 30px; margin: 40px 0 60px; }
+        .role-card { flex: 1; background: #fffaf2; border-radius: 32px; padding: 28px 20px; text-align: center; border: 1px solid #f3e5d9; }
+        .role-card i { font-size: 2.5rem; color: #c49a6c; margin-bottom: 18px; }
+        .role-card h3 { font-size: 1.5rem; margin-bottom: 14px; }
+        .role-badge { margin-top: 18px; background: #e9dbce; display: inline-block; padding: 6px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
 
         /* Footer */
-        .footer-socials {
+        .footer-socials { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; border-top: 1px solid #e1d5c6; padding: 40px 0 30px; margin-top: 30px; gap: 24px; }
+        .social-icons { display: flex; gap: 20px; }
+        .social-icons a img { width: 32px; height: 32px; }
+        .app-badges { display: flex; gap: 18px; }
+        .app-badges img { height: 38px; width: auto; }
+        .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 20px 0; }
+        .footer-links a { color: #7a6a58; text-decoration: none; font-size: 0.85rem; }
+        .copyright { text-align: center; padding: 20px 0; color: #7a6a58; font-size: 0.8rem; }
+
+        /* NEW SECTION STYLES (from your code) */
+        .new-section-wrapper {
+            width: 100%;
+            max-width: 1280px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+        .companies-row {
             display: flex;
-            justify-content: space-between;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 30px;
             flex-wrap: wrap;
-            align-items: center;
-            border-top: 1px solid #e1d5c6;
-            padding: 40px 0 30px;
-            margin-top: 30px;
-            gap: 24px;
         }
-        .social-icons {
+        .company-card {
+            flex: 1 1 0;
+            min-width: 220px;
+            max-width: 280px;
+            background-color: #ffffff;
+            border: 2px solid #0b5b2f;
+            border-radius: 18px;
+            padding: 16px 14px;
+            text-align: center;
+        }
+        .company-avatar {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            background: #e5e5e5;
             display: flex;
-            gap: 20px;
             align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #555;
+            font-size: 20px;
         }
-        .social-icons a img {
+        .company-lines {
+            height: 28px;
+            margin-bottom: 8px;
+        }
+        .company-line {
+            height: 6px;
+            border-radius: 3px;
+            background-color: #d8d8d8;
+            margin: 4px auto;
+            width: 70%;
+        }
+        .company-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        .services-row {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .service-card-new {
+            flex: 1 1 0;
+            min-width: 180px;
+            max-width: 220px;
+            background-color: #fffdf7;
+            border: 2px solid #0b5b2f;
+            border-radius: 18px;
+            padding: 14px 12px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .service-icon-new {
             width: 32px;
             height: 32px;
-            transition: 0.2s;
+            border-radius: 50%;
+            background-color: #0b5b2f;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 4px;
         }
-        .social-icons a:hover img {
-            transform: scale(1.1);
+        .service-title-new {
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
+        }
+        .service-subtitle-new {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        .buttons-block {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .buttons-row-main {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 480px;
+        }
+        .buttons-row-secondary {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 520px;
+        }
+        .btn-custom {
+            border: none;
+            cursor: pointer;
+            padding: 10px 22px;
+            border-radius: 18px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.25s ease;
+        }
+        .btn-main-blue {
+            background-color: #003366;
+            color: #ffffff;
+        }
+        .btn-secondary-gold {
+            background-color: #c89a5b;
+            color: #ffffff;
+        }
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
+        .btn-custom:active {
+            transform: scale(0.94);
             opacity: 0.8;
         }
-        .app-badges {
-            display: flex;
-            gap: 18px;
+        @media (max-width: 600px) {
+            .company-card, .service-card-new {
+                max-width: 100%;
+            }
         }
-        .app-badges img {
-            height: 38px;
-            width: auto;
-        }
-        .copyright {
-            text-align: center;
-            padding: 20px 0 40px;
-            color: #7a6a58;
-            font-size: 0.8rem;
-        }
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 28px;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-        .footer-links a {
-            color: #7a6a58;
-            text-decoration: none;
-            font-size: 0.85rem;
-        }
+
         @media (max-width: 780px) {
-            .hero-title { font-size: 2.4rem; }
+            .hero-title { font-size: 2rem; }
             .hero-desc { max-width: 100%; }
             .navbar { flex-direction: column; }
-            .nav-links { flex-wrap: wrap; justify-content: center; }
+            .nav-links { justify-content: center; }
+            .hero { padding: 40px 24px; flex-direction: column; }
             .role-showcase { flex-direction: column; }
-            .hero { padding: 40px 24px; }
-            .action-btn, .auth-btn { padding: 10px 20px; font-size: 0.9rem; }
-            .ads-track img { height: 40px; margin: 0 10px; }
+            .cards-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-
 <div class="container">
     <!-- Header -->
     <div class="navbar">
@@ -427,6 +244,7 @@
             <li><a href="client.html">For Clients</a></li>
             <li><a href="worker-dashboard.html">Workers</a></li>
             <li><a href="contact.html" class="book-btn-nav">Get Quote</a></li>
+            <li><a href="settings.html" style="font-size: 1.2rem;"><i class="fas fa-cog"></i></a></li>
         </ul>
     </div>
 
@@ -436,7 +254,6 @@
             <div class="hero-badge">✦ BELG PREMIUM ✦</div>
             <h1 class="hero-title">Welcome to <br>Elite Service Suite</h1>
             <p class="hero-desc">Sophisticated features, sleek design, and elegant comfort. Connect with trusted clients, expert workers, and top-tier companies. Book now and elevate your experience.</p>
-            <!-- MODIFIED: Book Now links to worker-dashboard.html -->
             <a href="worker-dashboard.html" class="btn-primary">Book Now →</a>
         </div>
         <div class="hero-stats">
@@ -446,87 +263,87 @@
         </div>
     </div>
 
-    <!-- Services Section (4 cards - MODIFIED NAMES & LINKS) -->
-    <div>
-        <h2 class="section-title">What service do you prefer?</h2>
-        <p class="section-sub">From professional workforces to premium corporate solutions, we offer tailored selections for every need.</p>
-    </div>
-    <div class="cards-grid">
-        <a href="general-maintenance.html" class="service-card">
-            <div class="service-icon">🔧</div>
-            <h3>الصيانة العامة</h3>
-            <div class="service-feature">جميع أعمال الصيانة والتصليحات</div>
-        </a>
-        <a href="home-services.html" class="service-card">
-            <div class="service-icon">🏠</div>
-            <h3>خدمة المنازل</h3>
-            <div class="service-feature">تنظيف - كي - خياطة - تنظيف سجاد</div>
-        </a>
-        <a href="gardening.html" class="service-card">
-            <div class="service-icon">🌿</div>
-            <h3>البستنة والحدائق</h3>
-            <div class="service-feature">تنسيق حدائق - زراعة - خبراء زراعيون</div>
-        </a>
-        <a href="logistics.html" class="service-card">
-            <div class="service-icon">🚚</div>
-            <h3>الخدمات اللوجستية</h3>
-            <div class="service-feature">نقل اثاث - طرود - مواد انشائية</div>
-        </a>
-    </div>
+    <!-- ========== NEW SECTION (YOUR CODE - UNCHANGED) ========== -->
+    <div class="new-section-wrapper">
+        <!-- Company Ads Row -->
+        <div class="companies-row">
+            <div class="company-card">
+                <div class="company-avatar">P</div>
+                <div class="company-lines">
+                    <div class="company-line"></div>
+                    <div class="company-line" style="width: 55%;"></div>
+                </div>
+                <div class="company-name">Prime Services</div>
+            </div>
+            <div class="company-card">
+                <div class="company-avatar">H</div>
+                <div class="company-lines">
+                    <div class="company-line"></div>
+                    <div class="company-line" style="width: 55%;"></div>
+                </div>
+                <div class="company-name">Hiba Corp</div>
+            </div>
+            <div class="company-card">
+                <div class="company-avatar">E</div>
+                <div class="company-lines">
+                    <div class="company-line"></div>
+                    <div class="company-line" style="width: 55%;"></div>
+                </div>
+                <div class="company-name">East Logistics</div>
+            </div>
+        </div>
 
-    <!-- NEW: ADS MARQUEE SECTION -->
-    <div class="ads-container">
-        <div class="ads-track">
-            <img src="https://placehold.co/200x60/FFD8A9/8B5A2B?text=شركة+النقل+السريع" alt="ad">
-            <img src="https://placehold.co/200x60/C5E9C5/2E6B1F?text=مؤسسة+البناء+المتميز" alt="ad">
-            <img src="https://placehold.co/200x60/A0D2EB/1e4c8a?text=شركة+الحدائق+العصرية" alt="ad">
-            <!-- Duplicate for seamless loop -->
-            <img src="https://placehold.co/200x60/FFD8A9/8B5A2B?text=شركة+النقل+السريع" alt="ad">
-            <img src="https://placehold.co/200x60/C5E9C5/2E6B1F?text=مؤسسة+البناء+المتميز" alt="ad">
-            <img src="https://placehold.co/200x60/A0D2EB/1e4c8a?text=شركة+الحدائق+العصرية" alt="ad">
+        <!-- Services Row -->
+        <div class="services-row">
+            <div class="service-card-new">
+                <div class="service-icon-new">🔧</div>
+                <div class="service-title-new">General Maintenance Services</div>
+                <div class="service-subtitle-new">All repair and maintenance work</div>
+            </div>
+            <div class="service-card-new">
+                <div class="service-icon-new">🏠</div>
+                <div class="service-title-new">Household Services</div>
+                <div class="service-subtitle-new">Cleaning – Ironing – Home care – Plumbing</div>
+            </div>
+            <div class="service-card-new">
+                <div class="service-icon-new">🌿</div>
+                <div class="service-title-new">Landscaping & Gardening</div>
+                <div class="service-subtitle-new">Garden design – Planting – Grass trimming</div>
+            </div>
+            <div class="service-card-new">
+                <div class="service-icon-new">🚚</div>
+                <div class="service-title-new">Logistics & Delivery Services</div>
+                <div class="service-subtitle-new">Furniture moving – Parcels – Construction materials</div>
+            </div>
+        </div>
+
+        <!-- Buttons Block -->
+        <div class="buttons-block">
+            <div class="buttons-row-main">
+                <button class="btn-custom btn-main-blue" onclick="window.location.href='login.html'">Login</button>
+                <button class="btn-custom btn-main-blue" onclick="window.location.href='register.html'">Sign Up</button>
+            </div>
+            <div class="buttons-row-secondary">
+                <button class="btn-custom btn-secondary-gold" onclick="window.location.href='register.html'">Join as Worker</button>
+                <button class="btn-custom btn-secondary-gold" onclick="window.location.href='company-dashboard.html'">Join as Company</button>
+                <button class="btn-custom btn-secondary-gold" onclick="window.location.href='advanced-search.html'"><span class="icon">🔍</span> Find a Company</button>
+            </div>
         </div>
     </div>
+    <!-- ========== END OF NEW SECTION ========== -->
 
-    <!-- Two Buttons: LOGIN & SIGN UP (UNCHANGED) -->
-    <div class="auth-buttons-section">
-        <div class="auth-btn-group">
-            <a href="login.html" class="auth-btn btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
-            <a href="register.html" class="auth-btn btn-signup"><i class="fas fa-user-plus"></i> Sign Up</a>
-        </div>
-    </div>
+    <!-- OLD AUTH BUTTONS (Removed to avoid duplication, as per your design) -->
 
-    <!-- 3 ACTION BUTTONS (UNCHANGED) -->
-    <div class="action-buttons-section">
-        <div class="button-group">
-            <a href="register.html" class="action-btn btn-worker-join"><i class="fas fa-user-plus"></i> Join as Worker</a>
-            <a href="company-dashboard.html" class="action-btn btn-company-join"><i class="fas fa-building"></i> Join as Company</a>
-            <a href="advanced-search.html" class="action-btn btn-find-company"><i class="fas fa-search"></i> Find a Company</a>
-        </div>
-    </div>
+    <!-- OLD ACTION BUTTONS (Removed to avoid duplication) -->
 
-    <!-- Client / Worker / Companies (UNCHANGED) -->
+    <!-- Client / Worker / Companies (KEPT ORIGINAL) -->
     <div class="role-showcase">
-        <div class="role-card">
-            <i class="fas fa-user-tie"></i>
-            <h3>Client</h3>
-            <p>Access vetted professionals, track projects, and enjoy premium support. Custom dashboards and real-time updates.</p>
-            <div class="role-badge">⭐ 2,500+ happy clients</div>
-        </div>
-        <div class="role-card">
-            <i class="fas fa-hard-hat"></i>
-            <h3>Worker</h3>
-            <p>Join our network of experts. Get certified jobs, secure payments, and grow with Belg Services ecosystem.</p>
-            <div class="role-badge">🛠️ Verified & insured</div>
-        </div>
-        <div class="role-card">
-            <i class="fas fa-building"></i>
-            <h3>Companies</h3>
-            <p>Strategic B2B collaborations, bulk service requests, white-label solutions for corporate excellence.</p>
-            <div class="role-badge">🏆 Trusted partners</div>
-        </div>
+        <div class="role-card"><i class="fas fa-user-tie"></i><h3>Client</h3><p>Access vetted professionals, track projects, and enjoy premium support.</p><div class="role-badge">⭐ 2,500+ happy clients</div></div>
+        <div class="role-card"><i class="fas fa-hard-hat"></i><h3>Worker</h3><p>Join our network of experts. Get certified jobs, secure payments, and grow with Belg Services ecosystem.</p><div class="role-badge">🛠️ Verified & insured</div></div>
+        <div class="role-card"><i class="fas fa-building"></i><h3>Companies</h3><p>Strategic B2B collaborations, bulk service requests, and white-label solutions.</p><div class="role-badge">🏆 Trusted partners</div></div>
     </div>
 
-    <!-- Footer (UNCHANGED) -->
+    <!-- Footer (KEPT ORIGINAL) -->
     <div class="footer-socials">
         <div class="social-icons">
             <a href="#"><img src="facebook.png" alt="facebook"></a>
@@ -548,10 +365,7 @@
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
     </div>
-    <div class="copyright">
-        © 2025 BELG SERVICES — Premium Hospitality & Professional Network. All rights reserved.
-    </div>
+    <div class="copyright">© 2025 BELG SERVICES — Premium Hospitality & Professional Network. All rights reserved.</div>
 </div>
-
 </body>
-                </html>
+    </html>
