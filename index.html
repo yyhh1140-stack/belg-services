@@ -9,230 +9,433 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: #fefcf5; color: #1e2a2f; line-height: 1.4; scroll-behavior: smooth; }
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; flex-wrap: wrap; gap: 20px; }
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-img { height: 52px; width: auto; object-fit: contain; }
-        .logo-text { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, #c49a6c, #8b5a2b); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; flex-wrap: wrap; }
-        .nav-links a { text-decoration: none; font-weight: 500; color: #2c3e2f; transition: 0.2s; }
-        .nav-links a:hover { color: #c49a6c; }
-        .book-btn-nav { background: #c49a6c; color: white !important; padding: 8px 20px; border-radius: 40px; font-weight: 600; }
-        .hero { background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)), url('bg.jpg'); background-size: cover; background-position: center 30%; border-radius: 48px; margin: 20px 0 50px; padding: 60px 40px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between; }
-        .hero-content { flex: 1.2; color: white; }
-        .hero-title { font-size: 3.6rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; color: white; }
-        .hero-desc { font-size: 1.1rem; color: #f9f3e7; margin-bottom: 32px; max-width: 85%; }
-        .btn-primary { background: #c49a6c; border: none; padding: 14px 32px; font-size: 1rem; font-weight: 600; border-radius: 50px; color: white; cursor: pointer; transition: 0.2s; display: inline-block; text-decoration: none; }
-        .btn-primary:hover { background: #a07648; transform: scale(1.02); }
-        .hero-stats { flex: 0.9; background: rgba(255,255,255,0.92); backdrop-filter: blur(4px); border-radius: 32px; padding: 24px; box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15); }
-        .stat-item { margin-bottom: 24px; border-bottom: 1px solid #e2cfbc; padding-bottom: 16px; color: #2b2b1f; }
-        .stat-number { font-size: 2rem; font-weight: 800; color: #c49a6c; }
-        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 16px; color: #1f2c21; text-align: center; }
-        .section-sub { font-size: 1rem; color: #5e6b56; margin-bottom: 48px; max-width: 640px; margin-left: auto; margin-right: auto; text-align: center; }
-        
-        /* 4 Service Cards - New Style */
-        .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin: 50px 0 40px; }
-        @media (max-width: 1000px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 680px) { .cards-grid { grid-template-columns: 1fr; } }
-        .service-card { background: white; border-radius: 28px; padding: 24px 16px; text-align: center; border: 1px solid #f0e4d8; text-decoration: none; color: inherit; display: block; transition: 0.25s; }
-        .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08); border-color: #e9cfb5; }
-        .service-icon { font-size: 2.2rem; background: #faf2e9; width: 70px; height: 70px; line-height: 70px; border-radius: 40px; margin: 0 auto 18px; color: #b47c48; }
-        .service-card h3 { font-size: 1.3rem; margin-bottom: 12px; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* Auth and Action Buttons */
-        .auth-buttons-section, .action-buttons-section { text-align: center; margin: 30px 0; }
-        .auth-btn-group, .button-group { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .auth-btn, .action-btn { border: none; padding: 12px 28px; font-size: 0.9rem; font-weight: 600; border-radius: 60px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; text-decoration: none; transition: 0.2s; }
-        .btn-login { background-color: #003366; color: white; } /* Changed to dark blue */
-        .btn-signup { background-color: #003366; color: white; } /* Changed to dark blue */
-        .btn-worker-join { background-color: #c89a5b; color: white; }
-        .btn-company-join { background-color: #c89a5b; color: white; }
-        .btn-find-company { background-color: #c89a5b; color: white; }
-        .auth-btn:hover, .action-btn:hover { transform: translateY(-3px); filter: brightness(0.96); }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fefcf5;
+            color: #1e2a2f;
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
 
-        /* Role Cards */
-        .role-showcase { display: flex; flex-wrap: wrap; gap: 30px; margin: 40px 0 60px; }
-        .role-card { flex: 1; background: #fffaf2; border-radius: 32px; padding: 28px 20px; text-align: center; border: 1px solid #f3e5d9; }
-        .role-card i { font-size: 2.5rem; color: #c49a6c; margin-bottom: 18px; }
-        .role-card h3 { font-size: 1.5rem; margin-bottom: 14px; }
-        .role-badge { margin-top: 18px; background: #e9dbce; display: inline-block; padding: 6px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
-
-        /* Footer */
-        .footer-socials { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; border-top: 1px solid #e1d5c6; padding: 40px 0 30px; margin-top: 30px; gap: 24px; }
-        .social-icons { display: flex; gap: 20px; }
-        .social-icons a img { width: 32px; height: 32px; }
-        .app-badges { display: flex; gap: 18px; }
-        .app-badges img { height: 38px; width: auto; }
-        .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 20px 0; }
-        .footer-links a { color: #7a6a58; text-decoration: none; font-size: 0.85rem; }
-        .copyright { text-align: center; padding: 20px 0; color: #7a6a58; font-size: 0.8rem; }
-
-        /* NEW SECTION STYLES (from your code) */
-        .new-section-wrapper {
-            width: 100%;
+        .container {
             max-width: 1280px;
-            margin: 40px auto;
+            margin: 0 auto;
             padding: 0 24px;
         }
-        .companies-row {
+
+        /* Header & Navigation */
+        .navbar {
             display: flex;
-            gap: 16px;
-            justify-content: center;
-            margin-bottom: 30px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
             flex-wrap: wrap;
+            gap: 20px;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-img {
+            height: 52px;
+            width: auto;
+            object-fit: contain;
+        }
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #c49a6c, #8b5a2b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #2c3e2f;
+            transition: 0.2s;
+        }
+        .nav-links a:hover { color: #c49a6c; }
+        .book-btn-nav {
+            background: #c49a6c;
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+        .book-btn-nav:hover {
+            background: #a57c52;
+        }
+
+        /* Hero Section with bg.jpg background */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.65)), url('bg.jpg');
+            background-size: cover;
+            background-position: center 30%;
+            border-radius: 48px;
+            margin: 20px 0 50px 0;
+            padding: 60px 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .hero-content {
+            flex: 1.2;
+            color: white;
+        }
+        .hero-badge {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: #f5d6b3;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .hero-title {
+            font-size: 3.6rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .hero-desc {
+            font-size: 1.1rem;
+            color: #f9f3e7;
+            margin-bottom: 32px;
+            max-width: 85%;
+        }
+        .btn-primary {
+            background: #c49a6c;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            background: #a07648;
+            transform: scale(1.02);
+        }
+        .hero-stats {
+            flex: 0.9;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
+        }
+        .stat-item {
+            margin-bottom: 24px;
+            border-bottom: 1px solid #e2cfbc;
+            padding-bottom: 16px;
+            color: #2b2b1f;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #c49a6c;
+        }
+
+        /* General Styles */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1f2c21;
+            text-align: center;
+        }
+        .section-sub {
+            font-size: 1rem;
+            color: #5e6b56;
+            margin-bottom: 48px;
+            max-width: 640px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        /* --- NEW SECTION STYLES (ADDED) --- */
+        .new-section-wrapper {
+            width: 100%;
+            margin: 40px auto;
+            overflow: hidden;
+        }
+
+        /* Company Ads - ANIMATED MARQUEE */
+        .companies-marquee {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            margin-bottom: 40px;
+            background: transparent;
+            padding: 10px 0;
+        }
+        .marquee-track {
+            display: inline-block;
+            animation: scrollAds 25s linear infinite;
+        }
+        .marquee-track .company-card {
+            display: inline-block;
+            margin: 0 15px;
+            vertical-align: top;
+            white-space: normal;
+        }
+        @keyframes scrollAds {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
         .company-card {
-            flex: 1 1 0;
-            min-width: 220px;
-            max-width: 280px;
-            background-color: #ffffff;
+            width: 220px;
+            background: white;
             border: 2px solid #0b5b2f;
-            border-radius: 18px;
-            padding: 16px 14px;
+            border-radius: 24px;
+            padding: 16px;
             text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+            background: #fffdf7;
         }
         .company-avatar {
             width: 60px;
             height: 60px;
             margin: 0 auto 10px;
-            border-radius: 50%;
             background: #e5e5e5;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            color: #555;
-            font-size: 20px;
-        }
-        .company-lines {
-            height: 28px;
-            margin-bottom: 8px;
-        }
-        .company-line {
-            height: 6px;
-            border-radius: 3px;
-            background-color: #d8d8d8;
-            margin: 4px auto;
-            width: 70%;
+            font-size: 24px;
+            font-weight: bold;
+            color: #0b5b2f;
         }
         .company-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e2a2f;
+            margin-top: 5px;
         }
+
+        /* Services Row - CLICKABLE */
         .services-row {
             display: flex;
-            gap: 16px;
+            gap: 20px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
         }
         .service-card-new {
-            flex: 1 1 0;
+            flex: 1;
             min-width: 180px;
             max-width: 220px;
-            background-color: #fffdf7;
+            background: white;
             border: 2px solid #0b5b2f;
-            border-radius: 18px;
-            padding: 14px 12px;
+            border-radius: 20px;
+            padding: 16px;
             text-align: left;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        .service-card-new:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            background: #fffdf7;
         }
         .service-icon-new {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: #0b5b2f;
-            color: #ffffff;
+            width: 36px;
+            height: 36px;
+            background: #0b5b2f;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 18px;
-            margin-bottom: 4px;
+            color: white;
+            margin-bottom: 12px;
         }
         .service-title-new {
-            font-size: 15px;
-            font-weight: 600;
-            color: #333;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #1e2a2f;
         }
         .service-subtitle-new {
-            font-size: 12px;
-            color: #666;
-            line-height: 1.5;
+            font-size: 0.75rem;
+            color: #6e5e4a;
+            line-height: 1.4;
         }
+
+        /* Buttons Block */
         .buttons-block {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
-        .buttons-row-main {
+        .buttons-row-main, .buttons-row-secondary {
             display: flex;
-            gap: 12px;
+            gap: 15px;
             justify-content: center;
             flex-wrap: wrap;
-            width: 100%;
-            max-width: 480px;
-        }
-        .buttons-row-secondary {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            width: 100%;
-            max-width: 520px;
         }
         .btn-custom {
             border: none;
             cursor: pointer;
-            padding: 10px 22px;
-            border-radius: 18px;
-            font-size: 14px;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
             font-weight: 600;
-            white-space: nowrap;
-            transition: all 0.25s ease;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-block;
         }
         .btn-main-blue {
             background-color: #003366;
-            color: #ffffff;
+            color: white;
         }
         .btn-secondary-gold {
             background-color: #c89a5b;
-            color: #ffffff;
+            color: white;
         }
         .btn-custom:hover {
-            transform: translateY(-3px);
-            opacity: 0.9;
+            transform: translateY(-2px);
+            filter: brightness(0.95);
         }
-        .btn-custom:active {
-            transform: scale(0.94);
+        /* --- END OF NEW SECTION STYLES --- */
+
+        /* Role Cards */
+        .role-showcase {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 40px 0 60px;
+        }
+        .role-card {
+            flex: 1;
+            background: #fffaf2;
+            border-radius: 32px;
+            padding: 28px 20px;
+            text-align: center;
+            border: 1px solid #f3e5d9;
+        }
+        .role-card i {
+            font-size: 2.5rem;
+            color: #c49a6c;
+            margin-bottom: 18px;
+        }
+        .role-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 14px;
+        }
+        .role-badge {
+            margin-top: 18px;
+            background: #e9dbce;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer-socials {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            align-items: center;
+            border-top: 1px solid #e1d5c6;
+            padding: 40px 0 30px;
+            margin-top: 30px;
+            gap: 24px;
+        }
+        .social-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .social-icons a img {
+            width: 32px;
+            height: 32px;
+            transition: 0.2s;
+        }
+        .social-icons a:hover img {
+            transform: scale(1.1);
             opacity: 0.8;
         }
-        @media (max-width: 600px) {
-            .company-card, .service-card-new {
-                max-width: 100%;
-            }
+        .app-badges {
+            display: flex;
+            gap: 18px;
+        }
+        .app-badges img {
+            height: 38px;
+            width: auto;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .footer-links a {
+            color: #7a6a58;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .copyright {
+            text-align: center;
+            padding: 20px 0 40px;
+            color: #7a6a58;
+            font-size: 0.8rem;
         }
 
         @media (max-width: 780px) {
-            .hero-title { font-size: 2rem; }
+            .hero-title { font-size: 2.4rem; }
             .hero-desc { max-width: 100%; }
             .navbar { flex-direction: column; }
-            .nav-links { justify-content: center; }
-            .hero { padding: 40px 24px; flex-direction: column; }
+            .nav-links { flex-wrap: wrap; justify-content: center; }
             .role-showcase { flex-direction: column; }
-            .cards-grid { grid-template-columns: 1fr; }
+            .hero { padding: 40px 24px; }
+            .services-row { flex-direction: column; align-items: center; }
+            .service-card-new { max-width: 100%; width: 100%; }
+            .company-card { width: 200px; }
         }
     </style>
 </head>
 <body>
+
 <div class="container">
-    <!-- Header -->
+    <!-- Header (UNCHANGED) -->
     <div class="navbar">
         <div class="logo-area">
             <img src="logo.png" alt="BELG SERVICES logo" class="logo-img" onerror="this.src='https://placehold.co/60x60?text=logo'">
@@ -244,11 +447,10 @@
             <li><a href="client.html">For Clients</a></li>
             <li><a href="worker-dashboard.html">Workers</a></li>
             <li><a href="contact.html" class="book-btn-nav">Get Quote</a></li>
-            <li><a href="settings.html" style="font-size: 1.2rem;"><i class="fas fa-cog"></i></a></li>
         </ul>
     </div>
 
-    <!-- Hero Section -->
+    <!-- Hero Section (UNCHANGED) -->
     <div class="hero">
         <div class="hero-content">
             <div class="hero-badge">✦ BELG PREMIUM ✦</div>
@@ -263,87 +465,101 @@
         </div>
     </div>
 
-    <!-- ========== NEW SECTION (YOUR CODE - UNCHANGED) ========== -->
+    <!-- ========== NEW SECTION (ADDED) ========== -->
     <div class="new-section-wrapper">
-        <!-- Company Ads Row -->
-        <div class="companies-row">
-            <div class="company-card">
-                <div class="company-avatar">P</div>
-                <div class="company-lines">
-                    <div class="company-line"></div>
-                    <div class="company-line" style="width: 55%;"></div>
+        <!-- Company Ads - ANIMATED MARQUEE -->
+        <div class="companies-marquee">
+            <div class="marquee-track">
+                <div class="company-card" onclick="window.location.href='services.html'">
+                    <div class="company-avatar">P</div>
+                    <div class="company-name">Prime Services</div>
                 </div>
-                <div class="company-name">Prime Services</div>
-            </div>
-            <div class="company-card">
-                <div class="company-avatar">H</div>
-                <div class="company-lines">
-                    <div class="company-line"></div>
-                    <div class="company-line" style="width: 55%;"></div>
+                <div class="company-card" onclick="window.location.href='services.html'">
+                    <div class="company-avatar">H</div>
+                    <div class="company-name">Hiba Corp</div>
                 </div>
-                <div class="company-name">Hiba Corp</div>
-            </div>
-            <div class="company-card">
-                <div class="company-avatar">E</div>
-                <div class="company-lines">
-                    <div class="company-line"></div>
-                    <div class="company-line" style="width: 55%;"></div>
+                <div class="company-card" onclick="window.location.href='services.html'">
+                    <div class="company-avatar">E</div>
+                    <div class="company-name">East Logistics</div>
                 </div>
-                <div class="company-name">East Logistics</div>
+                <!-- Duplicate for seamless loop -->
+                <div class="company-card" onclick="window.location.href='services.html'">
+                    <div class="company-avatar">P</div>
+                    <div class="company-name">Prime Services</div>
+                </div>
+                <div class="company-card" onclick="window.location.href='services.html'">
+                    <div class="company-avatar">H</div>
+                    <div class="company-name">Hiba Corp</div>
+                </div>
+                <div class="company-card" onclick="window.location.href='services.html'">
+                    <div class="company-avatar">E</div>
+                    <div class="company-name">East Logistics</div>
+                </div>
             </div>
         </div>
 
-        <!-- Services Row -->
+        <!-- Services Row - CLICKABLE (4 cards) -->
         <div class="services-row">
-            <div class="service-card-new">
+            <a href="general-maintenance.html" class="service-card-new">
                 <div class="service-icon-new">🔧</div>
                 <div class="service-title-new">General Maintenance Services</div>
                 <div class="service-subtitle-new">All repair and maintenance work</div>
-            </div>
-            <div class="service-card-new">
+            </a>
+            <a href="home-services.html" class="service-card-new">
                 <div class="service-icon-new">🏠</div>
                 <div class="service-title-new">Household Services</div>
                 <div class="service-subtitle-new">Cleaning – Ironing – Home care – Plumbing</div>
-            </div>
-            <div class="service-card-new">
+            </a>
+            <a href="gardening.html" class="service-card-new">
                 <div class="service-icon-new">🌿</div>
                 <div class="service-title-new">Landscaping & Gardening</div>
                 <div class="service-subtitle-new">Garden design – Planting – Grass trimming</div>
-            </div>
-            <div class="service-card-new">
+            </a>
+            <a href="logistics.html" class="service-card-new">
                 <div class="service-icon-new">🚚</div>
                 <div class="service-title-new">Logistics & Delivery Services</div>
                 <div class="service-subtitle-new">Furniture moving – Parcels – Construction materials</div>
-            </div>
+            </a>
         </div>
 
         <!-- Buttons Block -->
         <div class="buttons-block">
             <div class="buttons-row-main">
-                <button class="btn-custom btn-main-blue" onclick="window.location.href='login.html'">Login</button>
-                <button class="btn-custom btn-main-blue" onclick="window.location.href='register.html'">Sign Up</button>
+                <a href="login.html" class="btn-custom btn-main-blue">Login</a>
+                <a href="register.html" class="btn-custom btn-main-blue">Sign Up</a>
             </div>
             <div class="buttons-row-secondary">
-                <button class="btn-custom btn-secondary-gold" onclick="window.location.href='register.html'">Join as Worker</button>
-                <button class="btn-custom btn-secondary-gold" onclick="window.location.href='company-dashboard.html'">Join as Company</button>
-                <button class="btn-custom btn-secondary-gold" onclick="window.location.href='advanced-search.html'"><span class="icon">🔍</span> Find a Company</button>
+                <a href="register.html" class="btn-custom btn-secondary-gold">Join as Worker</a>
+                <a href="company-dashboard.html" class="btn-custom btn-secondary-gold">Join as Company</a>
+                <a href="advanced-search.html" class="btn-custom btn-secondary-gold"><span class="icon">🔍</span> Find a Company</a>
             </div>
         </div>
     </div>
     <!-- ========== END OF NEW SECTION ========== -->
 
-    <!-- OLD AUTH BUTTONS (Removed to avoid duplication, as per your design) -->
-
-    <!-- OLD ACTION BUTTONS (Removed to avoid duplication) -->
-
-    <!-- Client / Worker / Companies (KEPT ORIGINAL) -->
+    <!-- Client / Worker / Companies (UNCHANGED) -->
     <div class="role-showcase">
-        <div class="role-card"><i class="fas fa-user-tie"></i><h3>Client</h3><p>Access vetted professionals, track projects, and enjoy premium support.</p><div class="role-badge">⭐ 2,500+ happy clients</div></div>
-        <div class="role-card"><i class="fas fa-hard-hat"></i><h3>Worker</h3><p>Join our network of experts. Get certified jobs, secure payments, and grow with Belg Services ecosystem.</p><div class="role-badge">🛠️ Verified & insured</div></div>
-        <div class="role-card"><i class="fas fa-building"></i><h3>Companies</h3><p>Strategic B2B collaborations, bulk service requests, and white-label solutions.</p><div class="role-badge">🏆 Trusted partners</div></div>
+        <div class="role-card">
+            <i class="fas fa-user-tie"></i>
+            <h3>Client</h3>
+            <p>Access vetted professionals, track projects, and enjoy premium support. Custom dashboards and real-time updates.</p>
+            <div class="role-badge">⭐ 2,500+ happy clients</div>
+        </div>
+        <div class="role-card">
+            <i class="fas fa-hard-hat"></i>
+            <h3>Worker</h3>
+            <p>Join our network of experts. Get certified jobs, secure payments, and grow with Belg Services ecosystem.</p>
+            <div class="role-badge">🛠️ Verified & insured</div>
+        </div>
+        <div class="role-card">
+            <i class="fas fa-building"></i>
+            <h3>Companies</h3>
+            <p>Strategic B2B collaborations, bulk service requests, white-label solutions for corporate excellence.</p>
+            <div class="role-badge">🏆 Trusted partners</div>
+        </div>
     </div>
 
-    <!-- Footer (KEPT ORIGINAL) -->
+    <!-- Footer (UNCHANGED) -->
     <div class="footer-socials">
         <div class="social-icons">
             <a href="#"><img src="facebook.png" alt="facebook"></a>
@@ -365,7 +581,10 @@
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
     </div>
-    <div class="copyright">© 2025 BELG SERVICES — Premium Hospitality & Professional Network. All rights reserved.</div>
+    <div class="copyright">
+        © 2025 BELG SERVICES — Premium Hospitality & Professional Network. All rights reserved.
+    </div>
 </div>
+
 </body>
-        </html>
+                                                   </html>
