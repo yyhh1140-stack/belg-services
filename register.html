@@ -442,7 +442,9 @@
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Create Account →';
-            }
+            }window.onerror = function(message, source, lineno, colno, error) {
+    alert("خطأ في JavaScript:\n" + message + "\nالسطر: " + lineno);
+};
         });
     </script>
 </body>
