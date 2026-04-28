@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -233,6 +235,25 @@
             margin-right: 6px;
         }
 
+        /* Alert message styling */
+        .alert-message {
+            padding: 12px 16px;
+            border-radius: 60px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .alert-error {
+            background: #ffe0e0;
+            color: #b33;
+            border: 1px solid #ffb3b3;
+        }
+        .alert-success {
+            background: #d4f5d0;
+            color: #2e6b1f;
+            border: 1px solid #b8e0b0;
+        }
+
         @media (max-width: 520px) {
             .register-body {
                 padding: 28px 20px;
@@ -255,6 +276,9 @@
         </div>
 
         <div class="register-body">
+            <!-- Alert messages will appear here -->
+            <div id="alertContainer"></div>
+
             <!-- User Type Selector -->
             <div class="user-type-selector">
                 <button class="user-type-btn active" data-type="client">👤 Client</button>
@@ -262,7 +286,7 @@
                 <button class="user-type-btn" data-type="company">🏢 Company</button>
             </div>
 
-            <!-- Social Registration (Fake buttons for now) -->
+            <!-- Social Registration -->
             <div class="social-register">
                 <button class="social-btn facebook-btn" onclick="alert('Facebook sign-up coming soon')">
                     <i class="fab fa-facebook-f"></i> Facebook
@@ -279,19 +303,19 @@
             <form id="registerForm">
                 <div class="input-group">
                     <label>Full Name</label>
-                    <input type="text" placeholder="John Smith" required>
+                    <input type="text" id="fullName" placeholder="John Smith" required>
                 </div>
                 <div class="input-group">
                     <label>Email Address</label>
-                    <input type="email" placeholder="hello@belgservices.com" required>
+                    <input type="email" id="email" placeholder="hello@belgservices.com" required>
                 </div>
                 <div class="input-group">
                     <label>Password</label>
-                    <input type="password" placeholder="Create a strong password" required>
+                    <input type="password" id="password" placeholder="Create a strong password" required>
                 </div>
                 <div class="input-group">
                     <label>Confirm Password</label>
-                    <input type="password" placeholder="Confirm your password" required>
+                    <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
                 </div>
                 <button type="submit" class="register-btn">Create Account →</button>
                 <div class="login-link">
@@ -303,23 +327,122 @@
     </div>
 
     <script>
-        // User type selection
-        const btns = document.querySelectorAll('.user-type-btn');
-        btns.forEach(btn => {
+        // ⚠️ IMPORTANT: Replace these with your actual Supabase keys ⚠️
+        const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+        const SUPABASE_ANON_KEY = sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM
+        
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // Get user type buttons
+        const typeBtns = document.querySelectorAll('.user-type-btn');
+        let selectedUserType = 'client'; // default
+        
+        typeBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                btns.forEach(b => b.classList.remove('active'));
+                typeBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                const type = btn.getAttribute('data-type');
-                console.log(`Selected user type: ${type}`);
+                selectedUserType = btn.getAttribute('data-type');
+                console.log(`Selected user type: ${selectedUserType}`);
             });
         });
-
-        // Form submission
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+        
+        // Helper function to show alert messages
+        function showAlert(message, type = 'error') {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `<div class="alert-message alert-${type}">${message}</div>`;
+            setTimeout(() => {
+                alertContainer.innerHTML = '';
+            }, 5000);
+        }
+        
+        // Register form submission
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            alert("✅ Account created successfully! (Demo mode)\nYou can now log in to your BELG SERVICES account.");
-            // In real backend, redirect to login or dashboard
-            // window.location.href = "login.html";
+            
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Validation
+            if (!fullName || !email || !password) {
+                showAlert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showAlert('Passwords do not match');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showAlert('Password must be at least 6 characters');
+                return;
+            }
+            
+            // Disable button to prevent double submission
+            const submitBtn = document.querySelector('.register-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating account...';
+            
+            try {
+                // Step 1: Sign up user with Supabase Auth
+                const { data: authData, error: authError } = await supabase.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            full_name: fullName,
+                            user_type: selectedUserType
+                        }
+                    }
+                });
+                
+                if (authError) {
+                    console.error('Auth error:', authError);
+                    showAlert(authError.message);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Create Account →';
+                    return;
+                }
+                
+                if (authData.user) {
+                    // Step 2: Save additional user info to 'profiles' table
+                    const { error: profileError } = await supabase
+                        .from('profiles')
+                        .insert([
+                            {
+                                id: authData.user.id,
+                                full_name: fullName,
+                                email: email,
+                                user_type: selectedUserType,
+                                created_at: new Date().toISOString()
+                            }
+                        ]);
+                    
+                    if (profileError) {
+                        console.error('Profile error:', profileError);
+                        // User was created in Auth but profile save failed
+                        showAlert('Account created but profile setup failed. Please contact support.');
+                    } else {
+                        showAlert('✅ Account created successfully! Please check your email to confirm your account.', 'success');
+                        // Reset form
+                        document.getElementById('registerForm').reset();
+                        // Redirect to login after 3 seconds
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 3000);
+                    }
+                }
+                
+            } catch (error) {
+                console.error('Unexpected error:', error);
+                showAlert('An unexpected error occurred. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Create Account →';
+            }
         });
     </script>
 </body>
