@@ -375,7 +375,47 @@
                 showAlert('Passwords do not match');
                 return;
             }
-            
+            // Create user in Supabase Auth
+const { data: authData, error: authError } = await supabase.auth.signUp({
+  email: email,
+  password: password
+});
+
+if (authError) {
+  console.error(authError);
+  showAlert('Registration failed: ' + authError.message);
+  return;
+}
+
+// Insert profile data
+const { error: profileError } = await supabase
+  .from('profiles')
+  .insert([
+    {
+      id: authData.user.id,
+      full_name: fullName,
+      email: email,
+      user_type: selectedUserType,
+      created_at: new Date().toISOString()
+    }
+  ]);
+
+if (profileError) {
+  console.error(profileError);
+  showAlert('Account created but profile setup failed.');
+  return;
+}
+
+// Success
+showAlert('Account created successfully! Please check your email.', 'success');
+
+// Reset form
+document.getElementById('registerForm').reset();
+
+// Redirect after 3 seconds
+setTimeout(() => {
+  window.location.href = 'login.html';
+}, 3000);
             if (password.length < 6) {
                 showAlert('Password must be at least 6 characters');
                 return;
