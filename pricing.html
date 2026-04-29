@@ -1,149 +1,245 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نظام التسعير والعمولة</title>
+<title>Pricing — BELG SERVICES</title>
 
 <style>
-    body {
-        font-family: "Tajawal", sans-serif;
-        background-color: #FFF7E6; /* الخلفية الذهبية الدافئة */
-        margin: 0;
-        padding: 0;
-        color: #000;
-    }
 
-    .container {
-        width: 90%;
-        max-width: 900px;
-        margin: 30px auto;
-    }
+/* خلفية داكنة مثل الرئيسية */
+body {
+  background: #050814;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+}
 
-    h1, h2 {
-        color: #004D26; /* الأخضر الداكن */
-        text-align: center;
-        margin-bottom: 20px;
-    }
+/* NAV */
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  padding: 12px 0;
+  text-align: center;
+  z-index: 999;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
 
-    .card {
-        background: #FFFFFF; /* مربعات بيضاء */
-        border: 2px solid #004D26; /* حدود خضراء */
-        border-radius: 10px;
-        padding: 20px;
-        margin-bottom: 25px;
-    }
+.top-nav a {
+  color: #ffffff;
+  margin: 0 18px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 15px;
-    }
+/* HEADER */
+header {
+  margin-top: 120px;
+  text-align: center;
+  padding: 20px;
+}
 
-    table th {
-        background-color: #004D26;
-        color: white;
-        padding: 12px;
-        font-size: 16px;
-    }
+.logo-floating {
+  width: 160px;
+  animation: floatLogo 4s ease-in-out infinite;
+}
 
-    table td {
-        background-color: #FFFFFF;
-        border: 1px solid #004D26;
-        padding: 10px;
-        font-size: 15px;
-    }
+@keyframes floatLogo {
+  0% { transform: translateY(-6px); }
+  50% { transform: translateY(6px); }
+  100% { transform: translateY(-6px); }
+}
 
-    .note {
-        background: #FFFFFF;
-        border-left: 5px solid #004D26;
-        padding: 12px;
-        margin-top: 15px;
-        font-size: 15px;
-    }
+h1 {
+  font-size: 38px;
+  color: #00c6ff;
+  margin-top: 10px;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: rgba(255,255,255,0.7);
+}
+
+/* CONTENT */
+.pricing-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+/* صندوق زجاجي A2 */
+.pricing-box {
+  background: rgba(255,255,255,0.40);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 25px;
+  border-radius: 22px;
+  margin-bottom: 30px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+}
+
+.pricing-box h2 {
+  color: #00c6ff;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.pricing-box p {
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 1.7;
+}
+
+/* TABLE */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+  background: rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+table th {
+  background: rgba(255,255,255,0.15);
+  color: #00c6ff;
+  padding: 14px;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+table td {
+  padding: 14px;
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* FOOTER */
+.footer {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  color: white;
+  padding: 20px 10px;
+  text-align: center;
+  margin-top: 40px;
+  font-size: 14px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- NAV -->
+<nav class="top-nav">
+  <a href="index.html">Home</a>
+  <a href="services.html">Services</a>
+  <a href="how.html">How It Works</a>
+  <a href="pricing.html">Pricing</a>
+  <a href="contact.html">Contact</a>
+</nav>
 
-    <h1>نظام التسعير والعمولة</h1>
-    <p style="text-align:center; font-size:18px;">
-        بسيط وشفاف وعادل للجميع
+<!-- HEADER -->
+<header>
+  <img class="logo-floating" src="images/logo.png">
+  <h1>Pricing & Commission System</h1>
+  <p class="subtitle">Simple, transparent, and fair for everyone</p>
+</header>
+
+<!-- CONTENT -->
+<div class="pricing-container">
+
+  <div class="pricing-box">
+    <h2>Commission System</h2>
+    <p>
+      BELG SERVICES uses a simple percentage-based model.  
+      Both clients and workers pay a small 5% fee only after the job is completed.  
+      Companies do not pay commission — they use monthly subscription plans.
+    </p>
+  </div>
+
+  <div class="pricing-box">
+    <h2>Commission Fees</h2>
+
+    <table>
+      <tr>
+        <th>Category</th>
+        <th>Fee</th>
+        <th>Notes</th>
+      </tr>
+      <tr>
+        <td>Clients</td>
+        <td>5%</td>
+        <td>Paid after job completion</td>
+      </tr>
+      <tr>
+        <td>Workers</td>
+        <td>5%</td>
+        <td>Deducted after job completion</td>
+      </tr>
+      <tr>
+        <td>Companies</td>
+        <td>0%</td>
+        <td>Companies use subscription plans instead</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="pricing-box">
+    <h2>Company Subscription Plans</h2>
+
+    <table>
+      <tr>
+        <th>Plan</th>
+        <th>Price</th>
+        <th>Benefits</th>
+      </tr>
+      <tr>
+        <td>Basic</td>
+        <td>19€/month</td>
+        <td>Normal visibility</td>
+      </tr>
+      <tr>
+        <td>Advanced</td>
+        <td>39€/month</td>
+        <td>Top pages + 15 days ads</td>
+      </tr>
+      <tr>
+        <td>Premium</td>
+        <td>79€/month</td>
+        <td>Homepage + 30 days ads + support</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="pricing-box">
+    <h2>Referral Rewards</h2>
+    <p><strong>Clients & Workers:</strong><br>
+       Every 10 users registered with your code →  
+       <strong>15 days without commission (0%)</strong>.
     </p>
 
-    <!-- قسم العمولة -->
-    <div class="card">
-        <h2>رسوم العمولة</h2>
-        <table>
-            <tr>
-                <th>الفئة</th>
-                <th>الرسوم</th>
-                <th>ملاحظات</th>
-            </tr>
-            <tr>
-                <td>العملاء</td>
-                <td>5%</td>
-                <td>يتم الدفع بعد إتمام العمل</td>
-            </tr>
-            <tr>
-                <td>العمال</td>
-                <td>5%</td>
-                <td>يتم الخصم بعد إتمام العمل</td>
-            </tr>
-            <tr>
-                <td>الشركات</td>
-                <td>0%</td>
-                <td>تستخدم خطط الاشتراك بدلًا من ذلك</td>
-            </tr>
-        </table>
-    </div>
-
-    <!-- خطط الاشتراك -->
-    <div class="card">
-        <h2>خطط اشتراك الشركات</h2>
-        <table>
-            <tr>
-                <th>الخطة</th>
-                <th>السعر</th>
-                <th>الفوائد</th>
-            </tr>
-            <tr>
-                <td>طبيعي</td>
-                <td>19€ شهريًا</td>
-                <td>رؤية طبيعية</td>
-            </tr>
-            <tr>
-                <td>أساسي</td>
-                <td>39€ شهريًا</td>
-                <td>الصفحات الأولى + إعلانات لمدة 15 يومًا</td>
-            </tr>
-            <tr>
-                <td>متقدم</td>
-                <td>79€ شهريًا</td>
-                <td>الصفحة الرئيسية + إعلانات لمدة 30 يومًا + دعم</td>
-            </tr>
-        </table>
-    </div>
-
-    <!-- مكافآت الإحالة -->
-    <div class="card">
-        <h2>مكافآت الإحالة</h2>
-
-        <div class="note">
-            <strong>العملاء والعمال:</strong><br>
-            15 يومًا بدون عمولة (0%) عند تسجيل 10 مستخدمين باستخدام رابطك.
-        </div>
-
-        <div class="note">
-            <strong>الشركات:</strong><br>
-            15 يومًا من الإعلانات المجانية عند جلب 5 شركات.<br>
-            15 يومًا من الإعلانات المجانية عند جلب 20 مستخدمًا.
-        </div>
-    </div>
+    <p><strong>Companies:</strong><br>
+       • Bring 5 companies → <strong>15 days free ads</strong><br>
+       • Bring 20 users → <strong>15 days free ads</strong>
+    </p>
+  </div>
 
 </div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  © 2024 BELG SERVICES — All Rights Reserved
+</footer>
 
 </body>
 </html>
