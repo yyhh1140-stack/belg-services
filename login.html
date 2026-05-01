@@ -333,29 +333,58 @@
 
     <script>
         // User type selection
-        const btns = document.querySelectorAll('.user-type-btn');
-        btns.forEach(btn => {
+                // Supabase Configuration
+        const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // User type selection logic
+        const typeBtns = document.querySelectorAll('.user-type-btn');
+        let selectedType = 'client';
+
+        typeBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                btns.forEach(b => b.classList.remove('active'));
+                typeBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                const type = btn.getAttribute('data-type');
-                console.log(`Selected user type: ${type}`);
-                // You can redirect to different dashboards based on type in the future
+                selectedType = btn.getAttribute('data-type');
             });
         });
 
-        // Form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        // Login Logic
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            if(email) {
-                alert(`✅ Welcome back! (Demo login for ${email})\nYou will be redirected to your dashboard.`);
-                // In real backend, redirect based on user type
-                // window.location.href = "dashboard.html";
-            } else {
-                alert("Please enter email and password.");
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const loginBtn = document.querySelector('.login-btn');
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Verifying...';
+
+            try {
+                // 1. Authenticate user
+                const { data: authData, error: authError } = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password,
+                });
+
+                if (authError) throw authError;
+
+                // 2. Success - Redirect based on type
+                alert("Login Successful! Redirecting...");
+                
+                // You can add logic here to fetch the actual type from 'profiles' table
+                // For now, it will redirect based on the button selected or default
+                window.location.href = selectedType + '-dashboard.html';
+
+            } catch (error) {
+                alert("Error: " + error.message);
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Sign In →';
             }
         });
+        
     </script>
 </body>
 </html>
