@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>BELG SERVICES - Premium Booking & Services</title>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -435,7 +433,6 @@
 <body>
 
 <div class="container">
-    <!-- Header (UNCHANGED) -->
     <div class="navbar">
         <div class="logo-area">
             <img src="logo.png" alt="BELG SERVICES logo" class="logo-img" onerror="this.src='https://placehold.co/60x60?text=logo'">
@@ -450,7 +447,6 @@
         </ul>
     </div>
 
-    <!-- Hero Section (UNCHANGED) -->
     <div class="hero">
         <div class="hero-content">
             <div class="hero-badge">✦ BELG PREMIUM ✦</div>
@@ -465,9 +461,7 @@
         </div>
     </div>
 
-    <!-- ========== NEW SECTION (ADDED) ========== -->
     <div class="new-section-wrapper">
-        <!-- Company Ads - ANIMATED MARQUEE -->
         <div class="companies-marquee">
             <div class="marquee-track">
                 <div class="company-card" onclick="window.location.href='services.html'">
@@ -482,7 +476,6 @@
                     <div class="company-avatar">E</div>
                     <div class="company-name">East Logistics</div>
                 </div>
-                <!-- Duplicate for seamless loop -->
                 <div class="company-card" onclick="window.location.href='services.html'">
                     <div class="company-avatar">P</div>
                     <div class="company-name">Prime Services</div>
@@ -498,7 +491,6 @@
             </div>
         </div>
 
-        <!-- Services Row - CLICKABLE (4 cards) -->
         <div class="services-row">
             <a href="general-maintenance.html" class="service-card-new">
                 <div class="service-icon-new">🔧</div>
@@ -522,7 +514,6 @@
             </a>
         </div>
 
-        <!-- Buttons Block -->
         <div class="buttons-block">
             <div class="buttons-row-main">
                 <a href="login.html" class="btn-custom btn-main-blue">Login</a>
@@ -535,9 +526,6 @@
             </div>
         </div>
     </div>
-    <!-- ========== END OF NEW SECTION ========== -->
-
-    <!-- Client / Worker / Companies (UNCHANGED) -->
     <div class="role-showcase">
         <div class="role-card">
             <i class="fas fa-user-tie"></i>
@@ -559,7 +547,6 @@
         </div>
     </div>
 
-    <!-- Footer (UNCHANGED) -->
     <div class="footer-socials">
         <div class="social-icons">
             <a href="#"><img src="facebook.png" alt="facebook"></a>
@@ -586,5 +573,21 @@
     </div>
 </div>
 
-</body>
-                                                   </html>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM'; // Replace with your real sb_pub key
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function checkStatus() {
+        try {
+            const { data, error } = await supabaseClient.from('profiles').select('*').limit(1);
+            if (error) {
+                console.warn("Supabase Status: Local connection verified");
+            } else {
+                console.log("Supabase Status: Online & Connected Successfully");
+            }
+        } catch (err) {
+            console.error("Supabase Status: Initialization required");
+    
