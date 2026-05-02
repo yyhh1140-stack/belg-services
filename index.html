@@ -6,103 +6,136 @@
     <title>BELG SERVICES - Premium Booking & Services</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: #fefcf5; color: #1e2a2f; line-height: 1.4; }
+        body { font-family: 'Inter', sans-serif; background-color: #fefcf5; color: #1e2a2f; line-height: 1.4; scroll-behavior: smooth; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
 
-        /* Header */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; }
+        /* Header & Navigation */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; flex-wrap: wrap; gap: 20px; }
         .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-img { height: 52px; }
-        .logo-text { font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, #c49a6c, #8b5a2b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .logo-img { height: 52px; width: auto; object-fit: contain; }
+        .logo-text { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.5px; background: linear-gradient(135deg, #c49a6c, #8b5a2b); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+        .nav-links a { text-decoration: none; font-weight: 500; color: #2c3e2f; transition: 0.2s; }
+        .nav-links a:hover { color: #c49a6c; }
+        .book-btn-nav { background: #c49a6c; color: white !important; padding: 8px 20px; border-radius: 40px; font-weight: 600; }
 
-        /* Hero */
-        .hero { background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.65)), url('bg.jpg'); background-size: cover; background-position: center; border-radius: 48px; padding: 60px 40px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between; margin-top: 20px; }
+        /* Hero Section */
+        .hero { background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.65)), url('bg.jpg'); background-size: cover; background-position: center 30%; border-radius: 48px; margin: 20px 0 50px 0; padding: 60px 40px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between; }
         .hero-content { flex: 1.2; color: white; }
-        .hero-title { font-size: 3.6rem; font-weight: 800; line-height: 1.2; }
-        .btn-primary { background: #c49a6c; padding: 14px 32px; border-radius: 50px; color: white; text-decoration: none; font-weight: 600; display: inline-block; margin-top: 20px; }
+        .hero-title { font-size: 3.6rem; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+        .hero-desc { font-size: 1.1rem; color: #f9f3e7; margin-bottom: 32px; max-width: 85%; }
+        .btn-primary { background: #c49a6c; padding: 14px 32px; font-weight: 600; border-radius: 50px; color: white; text-decoration: none; display: inline-block; }
+        .hero-stats { flex: 0.9; background: rgba(255, 255, 255, 0.92); border-radius: 32px; padding: 24px; }
+        .stat-number { font-size: 2rem; font-weight: 800; color: #c49a6c; }
 
-        /* Services */
-        .services-row { display: flex; gap: 20px; justify-content: center; margin: 40px 0; flex-wrap: wrap; }
-        .service-card-new { flex: 1; min-width: 200px; background: white; border: 2px solid #0b5b2f; border-radius: 20px; padding: 20px; text-decoration: none; color: inherit; text-align: center; transition: 0.3s; }
-        .service-card-new:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        /* Marquee & Services */
+        .marquee-track { display: inline-block; animation: scrollAds 25s linear infinite; }
+        @keyframes scrollAds { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .company-card { width: 220px; background: white; border: 2px solid #0b5b2f; border-radius: 24px; padding: 16px; text-align: center; margin: 0 15px; display: inline-block; text-decoration: none; color: inherit; }
+        .services-row { display: flex; gap: 20px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+        .service-card-new { flex: 1; min-width: 180px; max-width: 220px; background: white; border: 2px solid #0b5b2f; border-radius: 20px; padding: 16px; text-decoration: none; color: inherit; }
 
-        /* Footer & Socials (التي اختفت) */
-        .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 30px 0; border-top: 1px solid #e1d5c6; padding-top: 30px; }
-        .footer-links a { color: #7a6a58; text-decoration: none; font-size: 0.9rem; font-weight: 500; }
-        .footer-links a:hover { color: #c49a6c; }
-        .social-icons { display: flex; justify-content: center; gap: 20px; margin-bottom: 20px; }
-        .social-icons a { font-size: 1.5rem; color: #c49a6c; transition: 0.3s; }
-        .social-icons a:hover { transform: scale(1.2); color: #8b5a2b; }
+        /* Buttons Block (المنطقة الذكية) */
+        .buttons-block { display: flex; flex-direction: column; gap: 15px; align-items: center; margin-bottom: 50px; }
+        .btn-custom { padding: 10px 24px; border-radius: 40px; font-size: 0.85rem; font-weight: 600; text-decoration: none; display: inline-block; }
+        .btn-main-blue { background-color: #003366; color: white; }
+        .btn-secondary-gold { background-color: #c89a5b; color: white; }
 
-        /* User UI Style */
-        .badge-green { background: #27ae60; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; }
-        .avatar-circle { width: 42px; height: 42px; border-radius: 50%; background: #c49a6c; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        /* Footer */
+        .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 20px 0; }
+        .footer-links a { color: #7a6a58; text-decoration: none; font-size: 0.85rem; }
+        .copyright { text-align: center; padding: 20px 0 40px; color: #7a6a58; font-size: 0.8rem; border-top: 1px solid #e1d5c6; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header class="navbar">
+    <div class="navbar">
         <div class="logo-area">
-            <img src="logo.png" class="logo-img" alt="Logo">
+            <img src="logo.png" alt="Logo" class="logo-img" onerror="this.src='https://placehold.co/60x60?text=logo'">
             <span class="logo-text">BELG SERVICES</span>
         </div>
-        <div id="auth-ui">
-            <div id="guest-ui">
-                <a href="login.html" style="text-decoration:none; color:#2c3e2f; font-weight:600; margin-right:15px;">Login</a>
-                <a href="register.html" style="background:#FF6600; color:white; padding:8px 20px; border-radius:40px; text-decoration:none; font-weight:700;">Join Now</a>
-            </div>
-            <div id="user-ui" style="display:none; align-items:center; gap:12px;">
-                <div style="text-align: right;">
-                    <div id="nav-user-name" style="font-weight:700; font-size:0.85rem;">User</div>
-                    <span id="nav-role-badge" class="badge-green">...</span>
-                </div>
-                <div class="avatar-circle">
-                    <span id="nav-initials">U</span>
-                </div>
-                <button onclick="handleLogout()" style="background:none; border:none; color:#ff4757; cursor:pointer; font-size: 1.1rem;"><i class="fas fa-power-off"></i></button>
+        
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html" class="book-btn-nav">Get Quote</a></li>
+        </ul>
+
+        <div id="nav-auth-ui">
+            <div id="user-ui-header" style="display:none; align-items:center; gap:10px;">
+                <span id="header-user-name" style="font-weight:700; font-size:0.85rem;">...</span>
+                <div style="width:35px; height:35px; border-radius:50%; background:#c49a6c; color:white; display:flex; align-items:center; justify-content:center; font-weight:800;" id="header-initials">U</div>
             </div>
         </div>
-    </header>
-
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Welcome to <br>Elite Service Suite</h1>
-            <p>Your premium gateway to professional services in Belgium.</p>
-            <a href="services.html" class="btn-primary">Explore Services →</a>
-        </div>
-        <div style="background: rgba(255,255,255,0.9); padding: 30px; border-radius: 30px; text-align: center;">
-            <div style="font-size: 2rem; font-weight: 800; color: #c49a6c;">2.5k+</div>
-            <div style="color: #555;">Active Clients</div>
-        </div>
-    </section>
-
-    <div class="services-row">
-        <a href="maintenance.html" class="service-card-new">🔧<br>Maintenance</a>
-        <a href="household.html" class="service-card-new">🏠<br>Household</a>
-        <a href="gardening.html" class="service-card-new">🌿<br>Gardening</a>
-        <a href="logistics.html" class="service-card-new">🚚<br>Logistics</a>
     </div>
 
-    <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-whatsapp"></i></a>
+    <div class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">✦ BELG PREMIUM ✦</div>
+            <h1 class="hero-title">Welcome to <br>Elite Service Suite</h1>
+            <p class="hero-desc">Connect with trusted clients, expert workers, and top-tier companies. Book now and elevate your experience.</p>
+            <a href="services.html" class="btn-primary">Book Now →</a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item"><span class="stat-number">2.5k+</span><br>Active Clients</div>
+            <div class="stat-item"><span class="stat-number">860+</span><br>Verified Workers</div>
+        </div>
+    </div>
+
+    <div class="new-section-wrapper">
+        <div class="companies-marquee" style="overflow: hidden; white-space: nowrap;">
+            <div class="marquee-track">
+                <div class="company-card">Prime Services</div>
+                <div class="company-card">Hiba Corp</div>
+                <div class="company-card">East Logistics</div>
+                <div class="company-card">Prime Services</div>
+                <div class="company-card">Hiba Corp</div>
+                <div class="company-card">East Logistics</div>
+            </div>
+        </div>
+
+        <div class="services-row">
+            <a href="maintenance.html" class="service-card-new">🔧 Maintenance</a>
+            <a href="household.html" class="service-card-new">🏠 Household</a>
+            <a href="gardening.html" class="service-card-new">🌿 Gardening</a>
+            <a href="logistics.html" class="service-card-new">🚚 Logistics</a>
+        </div>
+    </div>
+
+    <div id="auth-section" class="buttons-block">
+        <div id="guest-view">
+            <div class="buttons-row-main">
+                <a href="login.html" class="btn-custom btn-main-blue">Login</a>
+                <a href="register.html" class="btn-custom btn-main-blue">Sign Up</a>
+            </div>
+            <div class="buttons-row-secondary" style="margin-top:10px;">
+                <a href="register.html" class="btn-custom btn-secondary-gold">Join as Worker</a>
+                <a href="company-dashboard.html" class="btn-custom btn-secondary-gold">Join as Company</a>
+            </div>
+        </div>
+
+        <div id="user-view" style="display: none; align-items: center; gap: 15px; background: rgba(196, 154, 108, 0.1); padding: 15px 25px; border-radius: 50px; border: 1px solid #c49a6c;">
+            <div id="user-circle" style="width: 45px; height: 45px; border-radius: 50%; background: #c49a6c; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold;">U</div>
+            <div style="text-align: left;">
+                <span id="display-name" style="display: block; font-weight: bold; color: #003366;">...</span>
+                <a href="javascript:void(0)" onclick="handleLogout()" style="color: #ff4d4d; font-size: 12px; text-decoration: none;">[ Logout / تسجيل الخروج ]</a>
+            </div>
+        </div>
     </div>
 
     <div class="footer-links">
         <a href="about.html">About Us</a>
         <a href="terms.html">Terms & Conditions</a>
-        <a href="contact.html">Get a Quote</a>
-        <a href="faq.html">FAQ</a>
+        <a href="pricing.html">Pricing / التسعيرة</a>
+        <a href="contact.html">Contact</a>
     </div>
-
-    <footer style="text-align: center; padding-bottom: 40px; color: #7a6a58; font-size: 0.8rem;">
+    <div class="copyright">
         © 2026 BELG SERVICES — Belgium Business Portal
-    </footer>
+    </div>
 </div>
 
 <script>
@@ -110,26 +143,29 @@
     const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function init() {
+    async function checkAuth() {
         const { data: { user } } = await _supabase.auth.getUser();
         if (user) {
             const { data: profiles } = await _supabase.from('profiles').select('*').eq('id', user.id);
             if (profiles && profiles.length > 0) {
                 const p = profiles[0];
-                document.getElementById('guest-ui').style.display = 'none';
-                document.getElementById('user-ui').style.display = 'flex';
-                document.getElementById('nav-user-name').innerText = p.full_name || 'User';
-                const roleMap = { 'company': 'شركة', 'worker': 'عامل', 'client': 'زبون' };
-                document.getElementById('nav-role-badge').innerText = roleMap[p.user_type] || 'عضو';
-                document.getElementById('nav-initials').innerText = (p.full_name || 'U').charAt(0).toUpperCase();
+                document.getElementById('guest-view').style.display = 'none';
+                document.getElementById('user-view').style.display = 'flex';
+                document.getElementById('user-ui-header').style.display = 'flex';
+                
+                document.getElementById('display-name').innerText = p.full_name || user.email;
+                document.getElementById('header-user-name').innerText = p.full_name || 'User';
+                document.getElementById('user-circle').innerText = (p.full_name || 'U').charAt(0).toUpperCase();
             }
         }
     }
+
     async function handleLogout() {
         await _supabase.auth.signOut();
         window.location.reload();
     }
-    init();
+
+    checkAuth();
 </script>
 </body>
 </html>
