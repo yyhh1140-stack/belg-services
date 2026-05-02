@@ -572,22 +572,13 @@
         © 2025 BELG SERVICES — Premium Hospitality & Professional Network. All rights reserved.
     </div>
 </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM'; // Replace with your real sb_pub key
-
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    async function checkStatus() {
-        try {
-            const { data, error } = await supabaseClient.from('profiles').select('*').limit(1);
-            if (error) {
-                console.warn("Supabase Status: Local connection verified");
-            } else {
-                console.log("Supabase Status: Online & Connected Successfully");
-            }
-        } catch (err) {
-            console.error("Supabase Status: Initialization required");
+    <script>
+        const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        console.log("BELG SERVICES: System Ready");
+    </script>
     
