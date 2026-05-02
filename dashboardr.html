@@ -2,83 +2,158 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Company Dashboard - Manage Your Business</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard | BELG SERVICES</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Inter', sans-serif; background: #fffaf5; padding: 40px; }
-        .dashboard-box { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid #FF6600; }
-        label { display: block; margin-top: 15px; font-weight: bold; color: #444; }
-        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ddd; }
-        .btn-save { background: #FF6600; color: white; border: none; width: 100%; padding: 15px; margin-top: 25px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        :root { --primary: #FF6600; --bg: #fffaf5; --dark: #1e293b; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); margin: 0; padding: 0; }
+        
+        /* Sidebar & Layout */
+        .wrapper { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background: white; border-right: 1px solid #ffe0cc; padding: 30px 20px; }
+        .main-content { flex: 1; padding: 40px; }
+        
+        .logo-dash { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 40px; display: block; }
+        
+        /* Card & Forms */
+        .dash-card { background: white; border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(255, 102, 0, 0.05); border: 1px solid #ffe0cc; }
+        h1 { margin-top: 0; font-size: 2rem; border-bottom: 2px solid var(--primary); width: fit-content; padding-bottom: 10px; margin-bottom: 30px; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .full-width { grid-column: 1 / -1; }
+        
+        label { display: block; font-weight: 600; margin-bottom: 8px; color: #64748b; font-size: 0.9rem; }
+        input, select, textarea { width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; background: #fcfcfc; box-sizing: border-box; }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 4px rgba(255, 102, 0, 0.1); }
+        
+        .btn-save { background: var(--primary); color: white; border: none; padding: 18px 40px; border-radius: 12px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 20px; }
+        .btn-save:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 102, 0, 0.2); }
+        
+        .logout-btn { color: #ef4444; text-decoration: none; font-weight: 600; margin-top: auto; display: block; padding-top: 50px; }
     </style>
 </head>
 <body>
 
-    <div class="dashboard-box">
-        <h2 style="color: #FF6600;">Welcome, Partner</h2>
-        <p>Edit your business profile information below:</p>
-        
-        <form id="dashForm">
-            <label>Company Name</label>
-            <input type="text" id="compName" placeholder="e.g. Brussels Cleaning Co.">
-
-            <label>Category</label>
-            <select id="compCat">
-                <option value="Cleaning">Cleaning</option>
-                <option value="Moving">Moving</option>
-                <option value="Construction">Construction</option>
-            </select>
-
-            <label>WhatsApp Number</label>
-            <input type="text" id="compWa" placeholder="+32 XXX XX XX XX">
-
-            <label>Business Description</label>
-            <textarea id="compBio" rows="4"></textarea>
-
-            <button type="submit" class="btn-save">Update Profile & Live Sync</button>
-        </form>
-        
-        <button onclick="logout()" style="margin-top: 20px; background: none; border: none; color: red; cursor: pointer;">Sign Out</button>
+<div class="wrapper">
+    <div class="sidebar">
+        <span class="logo-dash">BELG SERVICES</span>
+        <nav>
+            <p style="color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Company Menu</p>
+            <a href="#" style="color: var(--primary); text-decoration: none; font-weight: 700; display: block; margin: 15px 0;"><i class="fas fa-user-edit"></i> Edit Profile</a>
+            <a href="index.html" style="color: var(--dark); text-decoration: none; display: block; margin: 15px 0;"><i class="fas fa-home"></i> View Website</a>
+        </nav>
+        <a href="#" onclick="logout()" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
 
-    <script>
-        const SB_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-        const SB_KEY = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D';
-        const supabase = window.supabase.createClient(SB_URL, SB_KEY);
-
-        async function loadProfile() {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) { location.href = 'login.html'; return; }
-
-            const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-            if (profile) {
-                document.getElementById('compName').value = profile.full_name || '';
-                document.getElementById('compCat').value = profile.business_category || 'Cleaning';
-                document.getElementById('compWa').value = profile.whatsapp_number || '';
-                document.getElementById('compBio').value = profile.business_description || '';
-            }
-        }
-
-        document.getElementById('dashForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const { data: { user } } = await supabase.auth.getUser();
+    <div class="main-content">
+        <div class="dash-card">
+            <h1>Business Profile Management</h1>
+            <p style="color: #64748b; margin-bottom: 30px;">Update your company details. This information will be visible to all customers on the main portal.</p>
             
-            const { error } = await supabase.from('profiles').update({
-                full_name: document.getElementById('compName').value,
-                business_category: document.getElementById('compCat').value,
-                whatsapp_number: document.getElementById('compWa').value,
-                business_description: document.getElementById('compBio').value
-            }).eq('id', user.id);
+            <form id="profileForm">
+                <div class="form-grid">
+                    <div>
+                        <label>Company Legal Name</label>
+                        <input type="text" id="fullName" placeholder="e.g. Brussels Master Cleaning" required>
+                    </div>
+                    <div>
+                        <label>Business Category</label>
+                        <select id="category">
+                            <option value="Cleaning">🧹 Cleaning Services</option>
+                            <option value="Moving">🚚 Moving & Transport</option>
+                            <option value="Construction">🏗️ Construction & Renovation</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label><i class="fab fa-whatsapp"></i> WhatsApp Number (International format)</label>
+                        <input type="text" id="whatsapp" placeholder="+32 XXX XX XX XX">
+                    </div>
+                    <div>
+                        <label><i class="fab fa-facebook"></i> Facebook Page Link</label>
+                        <input type="url" id="facebook" placeholder="https://facebook.com/yourpage">
+                    </div>
+                    <div class="full-width">
+                        <label>Company Bio / Services Description</label>
+                        <textarea id="bio" rows="5" placeholder="Write a professional summary of your services..."></textarea>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-save" id="saveBtn">Save Changes & Sync Live</button>
+            </form>
+        </div>
+    </div>
+</div>
 
-            if (!error) alert("Profile Updated Successfully!");
-        };
+<script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-        async function logout() {
-            await supabase.auth.signOut();
-            location.href = 'login.html';
+    const supabaseUrl = 'https://dhvdohzjfmxmfxbinqsj.supabase.co'
+    const supabaseKey = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D' 
+    const supabase = createClient(supabaseUrl, supabaseKey)
+
+    let userId = null;
+
+    // 1. جلب بيانات الشركة عند فتح الصفحة
+    async function loadProfile() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            window.location.href = 'login.html';
+            return;
         }
+        userId = user.id;
 
-        loadProfile();
-    </script>
+        const { data, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', userId)
+            .single();
+
+        if (data) {
+            document.getElementById('fullName').value = data.full_name || '';
+            document.getElementById('category').value = data.business_category || 'Cleaning';
+            document.getElementById('whatsapp').value = data.whatsapp_number || '';
+            document.getElementById('facebook').value = data.facebook_url || '';
+            document.getElementById('bio').value = data.business_description || '';
+        }
+    }
+
+    // 2. تحديث البيانات عند الضغط على الزر
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('saveBtn');
+        btn.innerText = "Processing Update...";
+        btn.disabled = true;
+
+        const { error } = await supabase
+            .from('profiles')
+            .update({
+                full_name: document.getElementById('fullName').value,
+                business_category: document.getElementById('category').value,
+                whatsapp_number: document.getElementById('whatsapp').value,
+                facebook_url: document.getElementById('facebook').value,
+                business_description: document.getElementById('bio').value
+            })
+            .eq('id', userId);
+
+        if (error) {
+            alert("Error: " + error.message);
+        } else {
+            alert("Success! Your profile is now live with the new information.");
+        }
+        
+        btn.innerText = "Save Changes & Sync Live";
+        btn.disabled = false;
+    });
+
+    window.logout = async () => {
+        await supabase.auth.signOut();
+        window.location.href = 'login.html';
+    };
+
+    loadProfile();
+</script>
+
 </body>
 </html>
