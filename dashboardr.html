@@ -2,147 +2,93 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Dashboard | BELG SERVICES</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #FF6600; --bg: #fffaf5; --dark: #1e293b; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); margin: 0; padding: 0; }
-        .wrapper { display: flex; min-height: 100vh; }
-        .sidebar { width: 260px; background: white; border-right: 1px solid #ffe0cc; padding: 30px 20px; display: flex; flex-direction: column; }
-        .main-content { flex: 1; padding: 40px; }
-        .dash-card { background: white; border-radius: 24px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.05); border: 1px solid #ffe0cc; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
-        .full-width { grid-column: 1 / -1; }
-        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.9rem; }
-        input, select, textarea { width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 12px; box-sizing: border-box; }
-        .btn-save { background: var(--primary); color: white; border: none; padding: 18px; border-radius: 12px; font-size: 1.1rem; font-weight: 800; cursor: pointer; width: 100%; margin-top: 20px; }
-        .btn-save:hover { background: #e65c00; }
-        .logo-text { font-size: 1.6rem; font-weight: 800; color: var(--primary); text-decoration: none; margin-bottom: 40px; display: block; }
+        body { font-family: sans-serif; background: #fffaf5; margin: 0; padding: 20px; text-align: center; }
+        .card { background: white; max-width: 500px; margin: 50px auto; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 5px solid #FF6600; }
+        input, select, textarea { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .btn { background: #FF6600; color: white; border: none; padding: 15px; width: 100%; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        #statusMessage { color: red; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="wrapper" id="mainWrapper" style="display:none;">
-    <div class="sidebar">
-        <a href="index.html" class="logo-text">BELG SERVICES</a>
-        <p><strong>Company Panel</strong></p>
-        <hr style="width:100%; border:0; border-top:1px solid #eee; margin: 20px 0;">
-        <a href="index.html" style="text-decoration:none; color:var(--dark);"><i class="fas fa-home"></i> View Site</a>
-        <br>
-        <a href="#" onclick="handleLogout()" style="color:red; text-decoration:none; margin-top:20px; display:block;"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-
-    <div class="main-content">
-        <div class="dash-card">
-            <h1>Update Business Profile</h1>
-            <p style="color: #64748b;">This information will be displayed on your public profile page.</p>
-            
-            <form id="profileForm">
-                <div class="form-grid">
-                    <div>
-                        <label>Company Name</label>
-                        <input type="text" id="fullName" required>
-                    </div>
-                    <div>
-                        <label>Service Category</label>
-                        <select id="category">
-                            <option value="Cleaning">Cleaning Services</option>
-                            <option value="Moving">Moving & Transport</option>
-                            <option value="Construction">Construction & Renovation</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>WhatsApp Number</label>
-                        <input type="text" id="whatsapp">
-                    </div>
-                    <div>
-                        <label>Facebook Page</label>
-                        <input type="url" id="facebook">
-                    </div>
-                    <div class="full-width">
-                        <label>About Business</label>
-                        <textarea id="bio" rows="5"></textarea>
-                    </div>
-                </div>
-                <button type="submit" class="btn-save" id="saveBtn">Save & Sync Live</button>
-            </form>
-        </div>
+<div class="card" id="mainCard">
+    <h2 style="color:#FF6600">Business Control Panel</h2>
+    <div id="statusMessage">Checking connection...</div>
+    
+    <div id="formContent" style="display:none;">
+        <label>Business Name</label>
+        <input type="text" id="fn">
+        
+        <label>WhatsApp</label>
+        <input type="text" id="wa">
+        
+        <label>About Services</label>
+        <textarea id="bio" rows="4"></textarea>
+        
+        <button class="btn" onclick="updateData()">Save & Update Live</button>
+        <p><a href="#" onclick="logout()" style="color:gray; font-size:12px;">Sign Out</a></p>
     </div>
 </div>
 
 <script>
-    // استخدام المتغيرات العادية بدلاً من Module لتجنب مشاكل المتصفح
-    const supabaseUrl = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-    const supabaseKey = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D';
-    const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    // استخدمنا المفتاح العام المباشر
+    const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+    const KEY = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D';
+    const sb = supabase.createClient(URL, KEY);
 
-    let currentUserId = null;
-
-    async function start() {
-        // فحص الجلسة بدون تعقيد
-        const { data: { session } } = await _supabase.auth.getSession();
-
+    async function init() {
+        const status = document.getElementById('statusMessage');
+        
+        // 1. فحص الجلسة
+        const { data: { session } } = await sb.auth.getSession();
         if (!session) {
-            alert("No active session. Redirecting to login...");
-            window.location.href = 'login.html';
+            status.innerText = "Error: Please login first.";
+            setTimeout(() => window.location.href = 'login.html', 2000);
             return;
         }
 
-        currentUserId = session.user.id;
-        
-        // جلب البيانات
-        const { data: profile, error } = await _supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', currentUserId)
-            .single();
+        // 2. جلب البيانات (استخدام try-catch لتجنب الصفحة البيضاء)
+        try {
+            const { data: profile, error } = await sb.from('profiles').select('*').eq('id', session.user.id).single();
+            
+            if (error || !profile) {
+                status.innerText = "Error: Profile not found. Are you registered as a company?";
+                return;
+            }
 
-        if (profile) {
-            document.getElementById('fullName').value = profile.full_name || '';
-            document.getElementById('category').value = profile.business_category || 'Cleaning';
-            document.getElementById('whatsapp').value = profile.whatsapp_number || '';
-            document.getElementById('facebook').value = profile.facebook_url || '';
+            // ملء البيانات
+            document.getElementById('fn').value = profile.full_name || '';
+            document.getElementById('wa').value = profile.whatsapp_number || '';
             document.getElementById('bio').value = profile.business_description || '';
             
-            // إظهار المحتوى بعد التأكد من كل شيء
-            document.getElementById('mainWrapper').style.display = 'flex';
-        } else {
-            alert("Profile not found.");
+            // إظهار النموذج
+            status.style.display = 'none';
+            document.getElementById('formContent').style.display = 'block';
+        } catch (e) {
+            status.innerText = "Connection Error. Please refresh.";
         }
     }
 
-    document.getElementById('profileForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const btn = document.getElementById('saveBtn');
-        btn.innerText = "Saving...";
-        btn.disabled = true;
-
-        const { error } = await _supabase.from('profiles').update({
-            full_name: document.getElementById('fullName').value,
-            business_category: document.getElementById('category').value,
-            whatsapp_number: document.getElementById('whatsapp').value,
-            facebook_url: document.getElementById('facebook').value,
+    async function updateData() {
+        const { data: { session } } = await sb.auth.getSession();
+        const { error } = await sb.from('profiles').update({
+            full_name: document.getElementById('fn').value,
+            whatsapp_number: document.getElementById('wa').value,
             business_description: document.getElementById('bio').value
-        }).eq('id', currentUserId);
+        }).eq('id', session.user.id);
 
-        if (error) alert("Error: " + error.message);
-        else alert("Update Successful!");
-        
-        btn.innerText = "Save & Sync Live";
-        btn.disabled = false;
-    };
-
-    function handleLogout() {
-        _supabase.auth.signOut().then(() => {
-            window.location.href = 'login.html';
-        });
+        if (error) alert("Update failed: " + error.message);
+        else alert("Update Successful! Your business card is now live.");
     }
 
-    // انطلاق!
-    start();
-</script>
+    function logout() {
+        sb.auth.signOut().then(() => window.location.href = 'login.html');
+    }
 
+    init();
+</script>
 </body>
 </html>
