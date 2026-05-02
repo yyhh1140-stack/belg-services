@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Company Dashboard - Manage Your Business</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #fffaf5; padding: 40px; }
+        .dashboard-box { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 5px solid #FF6600; }
+        label { display: block; margin-top: 15px; font-weight: bold; color: #444; }
+        input, select, textarea { width: 100%; padding: 12px; margin-top: 5px; border-radius: 8px; border: 1px solid #ddd; }
+        .btn-save { background: #FF6600; color: white; border: none; width: 100%; padding: 15px; margin-top: 25px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-box">
+        <h2 style="color: #FF6600;">Welcome, Partner</h2>
+        <p>Edit your business profile information below:</p>
+        
+        <form id="dashForm">
+            <label>Company Name</label>
+            <input type="text" id="compName" placeholder="e.g. Brussels Cleaning Co.">
+
+            <label>Category</label>
+            <select id="compCat">
+                <option value="Cleaning">Cleaning</option>
+                <option value="Moving">Moving</option>
+                <option value="Construction">Construction</option>
+            </select>
+
+            <label>WhatsApp Number</label>
+            <input type="text" id="compWa" placeholder="+32 XXX XX XX XX">
+
+            <label>Business Description</label>
+            <textarea id="compBio" rows="4"></textarea>
+
+            <button type="submit" class="btn-save">Update Profile & Live Sync</button>
+        </form>
+        
+        <button onclick="logout()" style="margin-top: 20px; background: none; border: none; color: red; cursor: pointer;">Sign Out</button>
+    </div>
+
+    <script>
+        const SB_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+        const SB_KEY = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D';
+        const supabase = window.supabase.createClient(SB_URL, SB_KEY);
+
+        async function loadProfile() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) { location.href = 'login.html'; return; }
+
+            const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+            if (profile) {
+                document.getElementById('compName').value = profile.full_name || '';
+                document.getElementById('compCat').value = profile.business_category || 'Cleaning';
+                document.getElementById('compWa').value = profile.whatsapp_number || '';
+                document.getElementById('compBio').value = profile.business_description || '';
+            }
+        }
+
+        document.getElementById('dashForm').onsubmit = async (e) => {
+            e.preventDefault();
+            const { data: { user } } = await supabase.auth.getUser();
+            
+            const { error } = await supabase.from('profiles').update({
+                full_name: document.getElementById('compName').value,
+                business_category: document.getElementById('compCat').value,
+                whatsapp_number: document.getElementById('compWa').value,
+                business_description: document.getElementById('compBio').value
+            }).eq('id', user.id);
+
+            if (!error) alert("Profile Updated Successfully!");
+        };
+
+        async function logout() {
+            await supabase.auth.signOut();
+            location.href = 'login.html';
+        }
+
+        loadProfile();
+    </script>
+</body>
+</html>
