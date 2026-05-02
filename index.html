@@ -434,7 +434,36 @@
 
 <div class="container">
     <div class="navbar">
-        <div class="logo-area">
+    <div class="logo-area">
+        <img src="logo.png" alt="BELG SERVICES logo" class="logo-img" onerror="this.src='https://placehold.co/60x60?text=logo'">
+        <span class="logo-text">BELG SERVICES</span>
+    </div>
+
+    <div class="user-nav-section" style="display: flex; align-items: center; gap: 15px;">
+        
+        <div id="guest-ui">
+            <a href="login.html" style="text-decoration:none; color:#2c3e2f; font-weight:600; margin-right:15px;">Login</a>
+            <a href="register.html" style="background:#FF6600; color:white; padding:8px 20px; border-radius:20px; text-decoration:none; font-weight:700;">Join Now</a>
+        </div>
+
+        <div id="user-ui" style="display:none; align-items:center; gap:12px;">
+            <div style="text-align: right;">
+                <div id="nav-user-name" style="font-weight:700; font-size:0.85rem; color:#2c3e2f;">...</div>
+                <span id="nav-role-badge" style="background:#27ae60; color:white; padding:2px 8px; border-radius:4px; font-size:0.65rem; font-weight:800; display:inline-block;"></span>
+            </div>
+
+            <div id="nav-avatar" style="width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg, #FF6600, #FF8C00); color:white; display:flex; align-items:center; justify-content:center; font-weight:800; cursor:pointer; border:2px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,0.1); overflow:hidden;">
+                <span id="nav-initials"></span>
+                <img id="nav-img" src="" style="display:none; width:100%; height:100%; object-fit:cover;">
+            </div>
+
+            <button onclick="handleLogout()" style="background:none; border:none; color:#ff4757; cursor:pointer; font-size: 1.1rem;" title="Logout">
+                <i class="fas fa-power-off"></i>
+            </button>
+        </div>
+    </div>
+    </div>
+    
             <img src="logo.png" alt="BELG SERVICES logo" class="logo-img" onerror="this.src='https://placehold.co/60x60?text=logo'">
             <span class="logo-text">BELG SERVICES</span>
         </div>
@@ -585,39 +614,60 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+    // 1. إعداد الاتصال لمرة واحدة فقط
     const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function checkUserStatus() {
+    async function initUserNav() {
         try {
-            const { data: { user } } = await supabaseClient.auth.getUser();
-            const guestView = document.getElementById('guest-view');
-            const userView = document.getElementById('user-view');
-            
+            const { data: { user } } = await _supabase.auth.getUser();
+
             if (user) {
-                if(guestView) guestView.style.display = 'none';
-                if(userView) {
-                    userView.style.display = 'flex';
-                    document.getElementById('display-email').innerText = user.email;
-                    document.getElementById('user-circle').innerText = user.email.charAt(0).toUpperCase();
+                // جلب بيانات البروفايل (الاسم والرتبة)
+                const { data: profile } = await _supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', user.id)
+                    .single();
+
+                if (profile) {
+                    // إخفاء أزرار الزوار وإظهار لوحة المستخدم
+                    if(document.getElementById('guest-ui')) document.getElementById('guest-ui').style.display = 'none';
+                    if(document.getElementById('user-ui')) document.getElementById('user-ui').style.display = 'flex';
+
+                    // وضع الاسم والرتبة بالعربي
+                    const roles = { 'company': 'شركة', 'worker': 'عامل', 'client': 'زبون' };
+                    document.getElementById('nav-user-name').innerText = profile.full_name || user.email.split('@')[0];
+                    document.getElementById('nav-role-badge').innerText = roles[profile.user_type] || 'مستخدم';
+
+                    // وضع الحرف الأول في الدائرة
+                    const firstLetter = (profile.full_name || user.email).charAt(0).toUpperCase();
+                    document.getElementById('nav-initials').innerText = firstLetter;
+
+                    // إذا كان لديه صورة، نعرضها
+                    if (profile.avatar_url) {
+                        const img = document.getElementById('nav-img');
+                        img.src = profile.avatar_url;
+                        img.style.display = 'block';
+                        document.getElementById('nav-initials').style.display = 'none';
+                    }
                 }
-            } else {
-                if(guestView) guestView.style.display = 'block';
-                if(userView) userView.style.display = 'none';
             }
-        } catch (e) { console.error("Auth Error:", e); }
+        } catch (e) { console.error("Nav Error:", e); }
     }
 
     async function handleLogout() {
-        if(confirm("Are you sure you want to logout?")) {
-            await supabaseClient.auth.signOut();
+        if(confirm('هل تريد تسجيل الخروج؟')) {
+            await _supabase.auth.signOut();
             window.location.reload();
         }
     }
 
-    checkUserStatus();
-    console.log("BELG SERVICES: System Protected & Ready");
+    initUserNav();
 </script>
-<head>   
+        
+    
+</script>
+        <head>   
 </html>  
