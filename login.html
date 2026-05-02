@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* سأترك التنسيقات كما هي لضمان عدم تغير الواجهة */
+        /* التنسيقات الخاصة بك كما هي تماماً */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #fefcf5; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .login-container { max-width: 450px; width: 100%; background: white; border-radius: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
@@ -47,7 +47,7 @@
                     <label>Password</label>
                     <input type="password" id="password" required placeholder="••••••••">
                 </div>
-                <button type="submit" class="login-btn">Sign In</button>
+                <button type="submit" class="login-btn" id="submitBtn">Sign In</button>
                 <div class="register-link">
                     New here? <a href="register.html" style="color: #c49a6c;">Join now</a>
                 </div>
@@ -57,48 +57,61 @@
     </div>
 
     <script>
-        // --- THE SURGERY: Fixing the Logic ---
+        // إعدادات الاتصال بقاعدة البيانات
         const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // User Type Toggle
+        // تبديل شكل الأزرار (Client / Worker)
         const btns = document.querySelectorAll('.user-type-btn');
-        let selectedType = 'client';
-
         btns.forEach(b => {
             b.addEventListener('click', () => {
                 btns.forEach(x => x.classList.remove('active'));
                 b.classList.add('active');
-                selectedType = b.getAttribute('data-type');
             });
         });
 
-        // Login Action
+        // محرك تسجيل الدخول والتحقق من نوع المستخدم
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-            const btn = document.querySelector('.login-btn');
+            const btn = document.getElementById('submitBtn');
 
             btn.disabled = true;
-            btn.textContent = 'Checking...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
 
             try {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                // خطوة 1: التأكد من الإيميل والباسورد
+                const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
                     email: email,
                     password: password
                 });
 
-                if (error) throw error;
+                if (authError) throw authError;
 
-                alert('Access Granted! Welcome.');
+                // خطوة 2: معرفة هل هو (شركة / عامل / عميل) من جدول البروفايل
+                const { data: profile, error: profileError } = await _supabase
+                    .from('profiles')
+                    .select('user_type')
+                    .eq('id', authData.user.id)
+                    .single();
+
+                if (profileError) throw profileError;
+
+                // خطوة 3: التوجيه التلقائي للصفحة الصحيحة
+                const userType = profile.user_type;
                 
-                // الانتقال للصفحة الرئيسية لضمان عدم ظهور صفحة بيضاء
-                window.location.href = 'index.html';
+                if (userType === 'company') {
+                    window.location.href = 'company-dashboard.html';
+                } else if (userType === 'worker') {
+                    window.location.href = 'worker-dashboard.html';
+                } else {
+                    window.location.href = 'client-dashboard.html';
+                }
 
             } catch (err) {
-                alert('Login Error: ' + err.message);
+                alert('Error: ' + err.message);
                 btn.disabled = false;
                 btn.textContent = 'Sign In';
             }
