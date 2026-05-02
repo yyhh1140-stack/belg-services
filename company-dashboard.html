@@ -1,164 +1,212 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم الشركة | BELG SERVICES</title>
+    <title>Company Dashboard | BELG SERVICES</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #FF6600; --dark: #0f172a; --gray: #1e293b; }
-        body { font-family: 'Cairo', sans-serif; background: #0c121d; color: white; margin: 0; padding: 20px; }
-        .dashboard-container { max-width: 1000px; margin: 0 auto; background: var(--gray); border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h1 { color: var(--primary); text-align: center; margin-bottom: 30px; }
+        :root { 
+            --primary: #FF6600; 
+            --bg-premium: #fffaf5; /* لون كريمي برتقالي فاتح جداً */
+            --text-main: #1e293b;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-premium); 
+            color: var(--text-main); 
+            margin: 0; padding: 20px; 
+        }
+        .dashboard-card { 
+            max-width: 850px; 
+            margin: 50px auto; 
+            background: white; 
+            border-radius: 20px; 
+            padding: 40px; 
+            box-shadow: 0 15px 35px rgba(255, 102, 0, 0.05); 
+            border: 1px solid #ffe8d6;
+        }
+        h1 { color: var(--primary); font-weight: 800; margin-bottom: 35px; text-align: left; }
         
-        .section-box { background: #2d333d; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #3d4450; }
-        .section-title { font-size: 1.2rem; margin-bottom: 15px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        .form-section { 
+            background: #ffffff; 
+            padding: 20px; 
+            border-radius: 12px; 
+            margin-bottom: 25px; 
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+        .section-header { 
+            font-size: 1.1rem; font-weight: 700; margin-bottom: 15px; 
+            color: var(--text-main); display: flex; align-items: center; gap: 10px; 
+        }
         
-        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #94a3b8; }
-        input, textarea, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #475569; background: #1e293b; color: white; margin-bottom: 10px; }
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 0.85rem; font-weight: 600; color: #475569; }
+        input, textarea, select { 
+            width: 100%; padding: 12px; border-radius: 8px; 
+            border: 1px solid #e2e8f0; background: #fcfcfc; 
+            color: var(--text-main); font-size: 0.95rem;
+        }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.1); }
         
-        .btn-save { background: var(--primary); color: white; border: none; padding: 15px 40px; border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1rem; transition: 0.3s; }
-        .btn-save:hover { background: #e65c00; transform: translateY(-2px); }
-        
-        .badge-premium { background: #fbbf24; color: #000; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .btn-update { 
+            background: var(--primary); color: white; border: none; 
+            padding: 16px; border-radius: 10px; cursor: pointer; 
+            font-weight: 700; width: 100%; font-size: 1rem; transition: 0.2s;
+            margin-top: 10px;
+        }
+        .btn-update:hover { background: #e65c00; transform: translateY(-1px); }
+
+        .premium-lock {
+            background: #fff9f5; border: 1px dashed #ff6600;
+            padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px; opacity: 0.8;
+        }
     </style>
 </head>
 <body>
 
-<div class="dashboard-container">
-    <h1><i class="fas fa-chart-line"></i> لوحة إدارة الشركة</h1>
+<div class="dashboard-card">
+    <h1><i class="fas fa-sliders-h"></i> Company Control Center</h1>
     
-    <div id="loading" style="text-align:center;">جاري جلب بيانات ملفك...</div>
+    <div id="loader" style="text-align:center; padding: 40px;">
+        <i class="fas fa-circle-notch fa-spin" style="color: var(--primary); font-size: 2.5rem;"></i>
+        <p style="margin-top: 15px; font-weight: 500;">Retrieving your business profile...</p>
+    </div>
 
-    <form id="updateForm" style="display:none;">
-        <div class="section-box">
-            <div class="section-title"><i class="fas fa-info-circle"></i> الهوية التجارية</div>
-            <div class="grid-inputs">
+    <form id="profileForm" style="display:none;">
+        <div class="form-section">
+            <div class="section-header"><i class="fas fa-briefcase"></i> Business Information</div>
+            <div class="input-grid">
                 <div>
-                    <label>اسم الشركة</label>
-                    <input type="text" id="fullName" required>
+                    <label>Official Company Name</label>
+                    <input type="text" id="companyName" required>
                 </div>
                 <div>
-                    <label>التخصص (Category)</label>
-                    <select id="category">
-                        <option value="Cleaning">🧹 تنظيف (Cleaning)</option>
-                        <option value="Moving">🚚 نقل أثاث (Moving)</option>
-                        <option value="Construction">🏗️ مقاولات (Construction)</option>
+                    <label>Service Category</label>
+                    <select id="bizCategory">
+                        <option value="Cleaning">Cleaning Services</option>
+                        <option value="Moving">Moving & Logistics</option>
+                        <option value="Construction">Construction & Renovation</option>
+                        <option value="Maintenance">Maintenance & Repair</option>
                     </select>
                 </div>
             </div>
-            <label>وصف الخدمات (نبذة تظهر للعملاء)</label>
-            <textarea id="bio" rows="3"></textarea>
+            <div style="margin-top: 20px;">
+                <label>Company Description (BIO)</label>
+                <textarea id="bizBio" rows="4" placeholder="Tell your customers what you do..."></textarea>
+            </div>
         </div>
 
-        <div class="section-box">
-            <div class="section-title"><i class="fas fa-share-alt"></i> روابط التواصل (WhatsApp & Social)</div>
-            <div class="grid-inputs">
+        <div class="form-section">
+            <div class="section-header"><i class="fas fa-globe"></i> Digital Presence</div>
+            <div class="input-grid">
                 <div>
-                    <label><i class="fab fa-whatsapp"></i> رقم الواتساب (بالصيغة الدولية)</label>
-                    <input type="text" id="whatsapp" placeholder="+32XXXXXXX">
+                    <label><i class="fab fa-whatsapp"></i> WhatsApp Business Number</label>
+                    <input type="text" id="waNum" placeholder="+32 XXX XX XX XX">
                 </div>
                 <div>
-                    <label><i class="fab fa-facebook"></i> رابط الفيسبوك</label>
-                    <input type="text" id="facebook">
+                    <label><i class="fab fa-facebook"></i> Facebook Page</label>
+                    <input type="url" id="fbLink">
                 </div>
                 <div>
-                    <label><i class="fab fa-linkedin"></i> رابط LinkedIn</label>
-                    <input type="text" id="linkedin">
+                    <label><i class="fab fa-linkedin"></i> LinkedIn Profile</label>
+                    <input type="url" id="lnLink">
                 </div>
                 <div>
-                    <label><i class="fab fa-x-twitter"></i> رابط منصة X</label>
-                    <input type="text" id="twitter">
+                    <label><i class="fab fa-x-twitter"></i> X (Twitter) Account</label>
+                    <input type="url" id="xLink">
                 </div>
             </div>
         </div>
 
-        <div class="section-box" style="border: 1px dashed var(--primary);">
-            <div class="section-title">
-                <i class="fas fa-video"></i> الفيديوهات والمميزات 
-                <span class="badge-premium">باقة 25€ قريباً</span>
+        <div class="form-section">
+            <div class="premium-lock">
+                <i class="fas fa-video" style="color: var(--primary); font-size: 1.2rem;"></i>
+                <div>
+                    <span style="font-weight: 700; display: block; color: var(--primary);">Video Portfolio (Coming Soon)</span>
+                    <small>Showcase your projects with 2 high-quality videos for only 25€.</small>
+                </div>
             </div>
-            <p style="font-size: 0.8rem; color: #94a3b8;">هنا ستتمكن قريباً من رفع فيديوهات مشاريعك وتفعيل أيقونة "الاستجابة السريعة".</p>
         </div>
 
-        <button type="submit" class="btn-save">حفظ التغييرات ونشر الملف</button>
+        <button type="submit" class="btn-update">Save Changes & Update Profile</button>
     </form>
 </div>
 
 <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
+    // الربط بمشروعك بناءً على الصور المرفقة
     const supabaseUrl = 'https://dhvdohzjfmxmfxbinqsj.supabase.co'
-    const supabaseKey = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D' // استخدم مفتاحك الخاص
+    const supabaseKey = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D' 
     const supabase = createClient(supabaseUrl, supabaseKey)
 
-    let userId = null;
+    let currentUserId = null;
 
-    // 1. التحقق من هوية الشركة المسجلة
-    async function checkUser() {
+    async function initializeDashboard() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) {
-            alert('يجب تسجيل الدخول أولاً');
-            window.location.href = 'company-join.html';
+            window.location.href = 'login.html'; // إذا لم يسجل دخول سيعود لصفحة الدخول
             return;
         }
-        userId = user.id;
-        loadData();
+        currentUserId = user.id;
+        fetchProfileData();
     }
 
-    // 2. جلب البيانات القديمة لعرضها في الخانات
-    async function loadData() {
+    async function fetchProfileData() {
         const { data, error } = await supabase
             .from('profiles')
             .select('*')
-            .eq('id', userId)
+            .eq('id', currentUserId)
             .single();
 
         if (data) {
-            document.getElementById('fullName').value = data.full_name || '';
-            document.getElementById('bio').value = data.business_description || '';
-            document.getElementById('category').value = data.business_category || 'Cleaning';
-            document.getElementById('whatsapp').value = data.whatsapp_number || '';
-            document.getElementById('facebook').value = data.facebook_url || '';
-            document.getElementById('linkedin').value = data.linkedin_url || '';
-            document.getElementById('twitter').value = data.twitter_url || '';
+            document.getElementById('companyName').value = data.full_name || '';
+            document.getElementById('bizBio').value = data.business_description || '';
+            document.getElementById('bizCategory').value = data.business_category || 'Cleaning';
+            document.getElementById('waNum').value = data.whatsapp_number || '';
+            document.getElementById('fbLink').value = data.facebook_url || '';
+            document.getElementById('lnLink').value = data.linkedin_url || '';
+            document.getElementById('xLink').value = data.twitter_url || '';
             
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('updateForm').style.display = 'block';
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('profileForm').style.display = 'block';
         }
     }
 
-    // 3. حفظ التعديلات
-    document.getElementById('updateForm').addEventListener('submit', async (e) => {
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const btn = e.target.querySelector('button');
-        btn.innerText = "جاري الحفظ...";
+        const submitBtn = e.target.querySelector('button');
+        submitBtn.innerText = "Syncing with Database...";
+        submitBtn.disabled = true;
 
         const { error } = await supabase
             .from('profiles')
             .update({
-                full_name: document.getElementById('fullName').value,
-                business_description: document.getElementById('bio').value,
-                business_category: document.getElementById('category').value,
-                whatsapp_number: document.getElementById('whatsapp').value,
-                facebook_url: document.getElementById('facebook').value,
-                linkedin_url: document.getElementById('linkedin').value,
-                twitter_url: document.getElementById('twitter').value,
-                user_type: 'company' // نضمن بقاء النوع شركة
+                full_name: document.getElementById('companyName').value,
+                business_description: document.getElementById('bizBio').value,
+                business_category: document.getElementById('bizCategory').value,
+                whatsapp_number: document.getElementById('waNum').value,
+                facebook_url: document.getElementById('fbLink').value,
+                linkedin_url: document.getElementById('lnLink').value,
+                twitter_url: document.getElementById('xLink').value,
+                user_type: 'company'
             })
-            .eq('id', userId);
+            .eq('id', currentUserId);
 
         if (error) {
-            alert('خطأ في الحفظ: ' + error.message);
+            alert('Update Failed: ' + error.message);
         } else {
-            alert('تم تحديث بروفايل شركتك بنجاح! سيظهر الآن للعملاء بالبيانات الجديدة.');
+            alert('Your profile has been published successfully!');
         }
-        btn.innerText = "حفظ التغييرات ونشر الملف";
+        submitBtn.innerText = "Save Changes & Update Profile";
+        submitBtn.disabled = false;
     });
 
-    checkUser();
+    initializeDashboard();
 </script>
 
 </body>
