@@ -513,73 +513,111 @@
                 <div class="service-subtitle-new">Furniture moving – Parcels – Construction materials</div>
             </a>
         </div>
-
-        <div class="buttons-block">
-            <div class="buttons-row-main">
-                <a href="login.html" class="btn-custom btn-main-blue">Login</a>
-                <a href="register.html" class="btn-custom btn-main-blue">Sign Up</a>
-            </div>
-            <div class="buttons-row-secondary">
-                <a href="register.html" class="btn-custom btn-secondary-gold">Join as Worker</a>
-                <a href="company-dashboard.html" class="btn-custom btn-secondary-gold">Join as Company</a>
-                <a href="advanced-search.html" class="btn-custom btn-secondary-gold"><span class="icon">🔍</span> Find a Company</a>
-            </div>
+<div id="auth-section" class="buttons-block">
+    
+    <div id="guest-view">
+        <div class="buttons-row-main">
+            <a href="login.html" class="btn-custom btn-main-blue">Login</a>
+            <a href="register.html" class="btn-custom btn-main-blue">Sign Up</a>
         </div>
-    </div>
-    <div class="role-showcase">
-        <div class="role-card">
-            <i class="fas fa-user-tie"></i>
-            <h3>Client</h3>
-            <p>Access vetted professionals, track projects, and enjoy premium support. Custom dashboards and real-time updates.</p>
-            <div class="role-badge">⭐ 2,500+ happy clients</div>
-        </div>
-        <div class="role-card">
-            <i class="fas fa-hard-hat"></i>
-            <h3>Worker</h3>
-            <p>Join our network of experts. Get certified jobs, secure payments, and grow with Belg Services ecosystem.</p>
-            <div class="role-badge">🛠️ Verified & insured</div>
-        </div>
-        <div class="role-card">
-            <i class="fas fa-building"></i>
-            <h3>Companies</h3>
-            <p>Strategic B2B collaborations, bulk service requests, white-label solutions for corporate excellence.</p>
-            <div class="role-badge">🏆 Trusted partners</div>
+        <div class="buttons-row-secondary">
+            <a href="register.html" class="btn-custom btn-secondary-gold">Join as Worker</a>
+            <a href="company-dashboard.html" class="btn-custom btn-secondary-gold">Join as Company</a>
+            <a href="advanced-search.html" class="btn-custom btn-secondary-gold"><span class="icon">🔍</span> Find a Company</a>
         </div>
     </div>
 
-    <div class="footer-socials">
-        <div class="social-icons">
-            <a href="#"><img src="facebook.png" alt="facebook"></a>
-            <a href="#"><img src="linkedin.png" alt="linkedin"></a>
-            <a href="#"><img src="x.png" alt="x"></a>
-            <a href="#"><img src="whatsapp.png" alt="whatsapp"></a>
-            <a href="#"><img src="youtube.png" alt="youtube"></a>
+    <div id="user-view" style="display: none; align-items: center; justify-content: center; gap: 12px; background: rgba(196, 154, 108, 0.1); padding: 15px 25px; border-radius: 50px; border: 1px solid #c49a6c; width: fit-content; margin: 10px auto;">
+        <div id="user-circle" style="width: 45px; height: 45px; border-radius: 50%; background: #c49a6c; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 20px; box-shadow: 0 4px 12px rgba(196, 154, 108, 0.3);">U</div>
+        <div style="text-align: left;">
+            <span id="display-email" style="display: block; color: #002d5b; font-size: 14px; font-weight: bold; font-family: 'Inter', sans-serif;">...</span>
+            <a href="javascript:void(0)" onclick="handleLogout()" style="color: #ff4d4d; font-size: 12px; text-decoration: none; font-weight: bold; border-bottom: 1px dashed #ff4d4d;">[ Logout / تسجيل الخروج ]</a>
         </div>
-        <div class="app-badges">
-            <img src="apple.png" alt="App Store">
-            <img src="google.png" alt="Google Play">
-        </div>
-    </div>
-    <div class="footer-links">
-        <a href="about.html">About</a>
-        <a href="faq.html">FAQ</a>
-        <a href="how-it-works.html">How it works</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-    </div>
-    <div class="copyright">
-        © 2025 BELG SERVICES — Premium Hospitality & Professional Network. All rights reserved.
     </div>
 </div>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div class="role-showcase">
+    <div class="role-card">
+        <i class="fas fa-user-tie"></i>
+        <h3>Client</h3>
+        <p>Access vetted professionals, track projects, and enjoy premium support. Custom dashboards and real-time updates.</p>
+        <div class="role-badge">⭐ 2,500+ happy clients</div>
+    </div>
+    <div class="role-card">
+        <i class="fas fa-hard-hat"></i>
+        <h3>Worker</h3>
+        <p>Join our network of experts. Get certified jobs, secure payments, and grow with Belg Services ecosystem.</p>
+        <div class="role-badge">🛠️ Verified & insured</div>
+    </div>
+    <div class="role-card">
+        <i class="fas fa-building"></i>
+        <h3>Companies</h3>
+        <p>Strategic B2B collaborations, bulk service requests, white-label solutions for corporate excellence.</p>
+        <div class="role-badge">🏆 Trusted partners</div>
+    </div>
+</div>
 
-    <script>
-        const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
-        console.log("BELG SERVICES: System Ready");
-    </script>
-   < body>
-<html>
+<div class="footer-socials">
+    <div class="social-icons">
+        <a href="#"><img src="facebook.png" alt="facebook"></a>
+        <a href="#"><img src="linkedin.png" alt="linkedin"></a>
+        <a href="#"><img src="x.png" alt="x"></a>
+        <a href="#"><img src="whatsapp.png" alt="whatsapp"></a>
+        <a href="#"><img src="youtube.png" alt="youtube"></a>
+    </div>
+    <div class="app-badges">
+        <img src="apple.png" alt="App Store">
+        <img src="google.png" alt="Google Play">
+    </div>
+</div>
+
+<div class="footer-links">
+    <a href="about.html">About</a>
+    <a href="faq.html">FAQ</a>
+    <a href="how-it-works.html">How it works</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+</div>
+
+<div class="copyright">
+    © 2025 BELG SERVICES — Premium Hospitality & Professional Network. All rights reserved.
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function checkUserStatus() {
+        try {
+            const { data: { user } } = await supabaseClient.auth.getUser();
+            const guestView = document.getElementById('guest-view');
+            const userView = document.getElementById('user-view');
+            
+            if (user) {
+                if(guestView) guestView.style.display = 'none';
+                if(userView) {
+                    userView.style.display = 'flex';
+                    document.getElementById('display-email').innerText = user.email;
+                    document.getElementById('user-circle').innerText = user.email.charAt(0).toUpperCase();
+                }
+            } else {
+                if(guestView) guestView.style.display = 'block';
+                if(userView) userView.style.display = 'none';
+            }
+        } catch (e) { console.error("Auth Error:", e); }
+    }
+
+    async function handleLogout() {
+        if(confirm("Are you sure you want to logout?")) {
+            await supabaseClient.auth.signOut();
+            window.location.reload();
+        }
+    }
+
+    checkUserStatus();
+    console.log("BELG SERVICES: System Protected & Ready");
+</script>
+<head>   
+</html>  
