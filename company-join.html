@@ -3,92 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>انضم كشركة - منصة الخدمات</title>
+    <title>انضم كشركة - خدمات بلجيكا</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #121212; /* خلفية داكنة لتناسب الموقع */
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .join-container {
-            background-color: #1e1e1e;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            width: 90%;
-            max-width: 500px;
-            border-top: 5px solid #ff9800; /* الخط البرتقالي المميز */
-        }
-
-        h2 {
-            text-align: center;
-            color: #ff9800;
-            margin-bottom: 30px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #333;
-            background-color: #2a2a2a;
-            color: white;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        input:focus, textarea:focus {
-            border-color: #ff9800;
-        }
-
-        .btn-register {
-            width: 100%;
-            padding: 15px;
-            background-color: #ff9800;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
-
-        .btn-register:hover {
-            background-color: #e68a00;
-            transform: translateY(-2px);
-        }
-
-        .upload-section {
-            border: 2px dashed #444;
-            padding: 20px;
-            text-align: center;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            cursor: pointer;
-        }
-
-        .upload-section:hover {
-            border-color: #ff9800;
-        }
+        body { font-family: 'Cairo', sans-serif; background-color: #121212; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .join-container { background-color: #1e1e1e; padding: 30px; border-radius: 15px; width: 90%; max-width: 450px; border-top: 5px solid #ff9800; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { text-align: center; color: #ff9800; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; }
+        input, textarea, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #333; background-color: #2a2a2a; color: white; box-sizing: border-box; }
+        .btn-register { width: 100%; padding: 12px; background-color: #ff9800; border: none; border-radius: 8px; color: white; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .btn-register:hover { background-color: #e68a00; }
+        .btn-register:disabled { background-color: #555; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -97,42 +23,88 @@
     <h2>سجل شركتك الآن 🚀</h2>
     <form id="joinForm">
         <div class="input-group">
-            <label>اسم الشركة التجاري</label>
-            <input type="text" placeholder="مثال: شركة السلام للمقاولات" required>
+            <label>اسم الشركة</label>
+            <input type="text" id="compName" placeholder="مثال: شركة السلام" required>
         </div>
-
         <div class="input-group">
-            <label>البريد الإلكتروني الرسمي</label>
-            <input type="email" placeholder="email@company.com" required>
+            <label>البريد الإلكتروني</label>
+            <input type="email" id="compEmail" placeholder="email@company.com" required>
         </div>
-
         <div class="input-group">
             <label>كلمة المرور</label>
-            <input type="password" placeholder="********" required>
+            <input type="password" id="compPass" placeholder="********" required>
         </div>
-
         <div class="input-group">
-            <label>تخصص الشركة الرئيسي</label>
-            <select>
-                <option>خدمات لوجستية</option>
-                <option>صيانة ومقاولات</option>
-                <option>تنظيف وتعقيم</option>
-                <option>تأجير معدات</option>
+            <label>تخصص الشركة</label>
+            <select id="compSpecialty">
+                <option value="مقاولات">مقاولات وبناء</option>
+                <option value="تنظيف">تنظيف وتعقيم</option>
+                <option value="نقل">نقل أثاث</option>
+                <option value="صيانة">صيانة عامة</option>
             </select>
         </div>
-
         <div class="input-group">
-            <label>نبذة عن الشركة (تظهر للعملاء)</label>
-            <textarea rows="3" placeholder="اكتب نبذة مختصرة عن تاريخ شركتكم وخدماتكم..."></textarea>
+            <label>نبذة مختصرة</label>
+            <textarea id="compBio" rows="2" placeholder="ماذا تقدم شركتكم؟"></textarea>
         </div>
-
-        <div class="upload-section">
-            <span>📁 اضغط هنا لرفع شعار الشركة (Logo)</span>
-        </div>
-
-        <button type="submit" class="btn-register">إنشاء ملف الشركة</button>
+        <button type="submit" id="submitBtn" class="btn-register">إنشاء حساب الشركة</button>
     </form>
 </div>
+
+<script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
+    // بيانات مشروعك مدمجة وجاهزة
+    const supabaseUrl = 'https://dhvdohzjfmxmfxbinqsj.supabase.co'
+    const supabaseKey = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D' // وضعنا الـ Anon Key الخاص بك هنا
+    const supabase = createClient(supabaseUrl, supabaseKey)
+
+    const joinForm = document.getElementById('joinForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    joinForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        submitBtn.innerText = "جاري الحفظ...";
+        submitBtn.disabled = true;
+
+        const name = document.getElementById('compName').value;
+        const email = document.getElementById('compEmail').value;
+        const pass = document.getElementById('compPass').value;
+        const specialty = document.getElementById('compSpecialty').value;
+        const bio = document.getElementById('compBio').value;
+
+        try {
+            // 1. إنشاء الحساب
+            const { data: authData, error: authError } = await supabase.auth.signUp({
+                email: email,
+                password: pass,
+            });
+
+            if (authError) throw authError;
+
+            if (authData.user) {
+                // 2. تحديث بيانات البروفايل لتصبح شركة (اللون الأخضر)
+                const { error: profileError } = await supabase
+                    .from('profiles')
+                    .update({
+                        full_name: name,
+                        user_type: 'company',
+                        email: email
+                    })
+                    .eq('id', authData.user.id);
+
+                if (profileError) throw profileError;
+
+                alert('تم تسجيل شركتك بنجاح يا دكتور!');
+                window.location.href = 'index.html'; // سيعود للرئيسية ويجد كرت الشركة أخضر
+            }
+        } catch (error) {
+            alert('خطأ: ' + error.message);
+            submitBtn.innerText = "إنشاء حساب الشركة";
+            submitBtn.disabled = false;
+        }
+    });
+</script>
 
 </body>
 </html>
