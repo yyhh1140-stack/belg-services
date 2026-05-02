@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -9,17 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* التنسيقات الخاصة بك كما هي تماماً */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #fefcf5; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
         .login-container { max-width: 450px; width: 100%; background: white; border-radius: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
         .login-header { background: #c49a6c; padding: 30px; text-align: center; color: white; }
         .login-body { padding: 30px; }
-        .user-type-selector { display: flex; gap: 10px; margin-bottom: 20px; background: #f5f0ea; padding: 5px; border-radius: 50px; }
-        .user-type-btn { flex: 1; padding: 10px; border: none; background: transparent; cursor: pointer; border-radius: 40px; font-weight: 600; }
-        .user-type-btn.active { background: #c49a6c; color: white; }
         .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; }
+        .input-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; text-align: left; }
         .input-group input { width: 100%; padding: 12px; border: 1px solid #e2cfbc; border-radius: 30px; outline: none; }
         .login-btn { width: 100%; padding: 14px; background: #c49a6c; color: white; border: none; border-radius: 30px; font-weight: 700; cursor: pointer; margin-top: 10px; }
         .register-link { text-align: center; margin-top: 15px; font-size: 0.9rem; }
@@ -33,11 +29,6 @@
             <h2>Welcome Back</h2>
         </div>
         <div class="login-body">
-            <div class="user-type-selector">
-                <button class="user-type-btn active" data-type="client">Client</button>
-                <button class="user-type-btn" data-type="worker">Worker</button>
-            </div>
-
             <form id="loginForm">
                 <div class="input-group">
                     <label>Email</label>
@@ -57,21 +48,10 @@
     </div>
 
     <script>
-        // إعدادات الاتصال بقاعدة البيانات
         const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // تبديل شكل الأزرار (Client / Worker)
-        const btns = document.querySelectorAll('.user-type-btn');
-        btns.forEach(b => {
-            b.addEventListener('click', () => {
-                btns.forEach(x => x.classList.remove('active'));
-                b.classList.add('active');
-            });
-        });
-
-        // محرك تسجيل الدخول والتحقق من نوع المستخدم
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value.trim();
@@ -82,7 +62,6 @@
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
 
             try {
-                // خطوة 1: التأكد من الإيميل والباسورد
                 const { data: authData, error: authError } = await _supabase.auth.signInWithPassword({
                     email: email,
                     password: password
@@ -90,24 +69,26 @@
 
                 if (authError) throw authError;
 
-                // خطوة 2: معرفة هل هو (شركة / عامل / عميل) من جدول البروفايل
-                const { data: profile, error: profileError } = await _supabase
+                const { data: profiles, error: profileError } = await _supabase
                     .from('profiles')
-                    .select('user_type')
-                    .eq('id', authData.user.id)
-                    .single();
+                    .select('*')
+                    .eq('id', authData.user.id);
 
                 if (profileError) throw profileError;
 
-                // خطوة 3: التوجيه التلقائي للصفحة الصحيحة
-                const userType = profile.user_type;
-                
-                if (userType === 'company') {
-                    window.location.href = 'company-dashboard.html';
-                } else if (userType === 'worker') {
-                    window.location.href = 'worker-dashboard.html';
+                const profile = (profiles && profiles.length > 0) ? profiles[0] : null;
+
+                if (profile) {
+                    const userType = profile.user_type;
+                    if (userType === 'company') {
+                        window.location.href = 'company-dashboard.html';
+                    } else if (userType === 'worker') {
+                        window.location.href = 'worker-dashboard.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
                 } else {
-                    window.location.href = 'client-dashboard.html';
+                    window.location.href = 'index.html';
                 }
 
             } catch (err) {
