@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Partners - BELG SERVICES</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #fffaf7; color: #1e293b; }
+        
+        /* Navbar */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: white; border-bottom: 1px solid #ffe0cc; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: #FF6600; text-decoration: none; }
+        .nav-btns a { text-decoration: none; padding: 10px 20px; border-radius: 50px; font-weight: 600; transition: 0.3s; }
+        .login-btn { color: #1e293b; }
+        .join-btn { background: #FF6600; color: white; margin-left: 10px; }
+
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #FF6600, #FF8C00); color: white; padding: 60px 5%; text-align: center; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        
+        /* Search & Filters */
+        .controls { padding: 30px 5%; background: white; border-bottom: 1px solid #ffe0cc; }
+        .search-box { width: 100%; max-width: 600px; padding: 15px 25px; border-radius: 50px; border: 2px solid #ffe0cc; font-size: 1rem; outline: none; display: block; margin: 0 auto 20px; }
+        .filter-group { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .f-btn { border: none; padding: 10px 25px; border-radius: 50px; background: #fff0e6; color: #FF6600; font-weight: 600; cursor: pointer; }
+        .f-btn.active { background: #FF6600; color: white; }
+
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; padding: 40px 5%; }
+        .card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid #ffe0cc; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; cursor: pointer; }
+        .card:hover { transform: translateY(-5px); }
+        .banner { height: 120px; background: #eee; background-size: cover; background-position: center; }
+        .logo-circle { width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; background: white; margin: -30px 0 0 20px; position: relative; background-size: cover; }
+        .info { padding: 15px 20px 20px; }
+        .name { font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .cat { color: #FF6600; font-weight: 600; font-size: 0.85rem; margin-bottom: 10px; }
+        .status { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; } /* نقطة خضراء */
+        .btn-profile { width: 100%; padding: 12px; border: none; background: #f8fafc; border-radius: 12px; font-weight: 700; color: #64748b; margin-top: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">BELG SERVICES</a>
+        <div class="nav-btns">
+            <a href="login.html" class="login-btn">Login</a>
+            <a href="register.html" class="join-btn">Join as Company</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Find Your Service Partner</h1>
+        <p>Verified companies across Belgium</p>
+    </header>
+
+    <section class="controls">
+        <input type="text" id="search" class="search-box" placeholder="Search for a company or service...">
+        <div class="filter-group">
+            <button class="f-btn active" onclick="filter('all')">All</button>
+            <button class="f-btn" onclick="filter('Cleaning')">Cleaning</button>
+            <button class="f-btn" onclick="filter('Moving')">Moving</button>
+            <button class="f-btn" onclick="filter('Construction')">Construction</button>
+        </div>
+    </section>
+
+    <div id="companyGrid" class="grid">
+        </div>
+
+    <script>
+        // تصحيح المفاتيح نهائياً (Key المأخوذ من صورتك)
+        const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+        const KEY = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D';
+        const sb = supabase.createClient(URL, KEY);
+
+        let dataStore = [];
+
+        async function init() {
+            const container = document.getElementById('companyGrid');
+            container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Connecting to Database...</p>';
+
+            const { data, error } = await sb
+                .from('profiles')
+                .select('*')
+                .eq('user_type', 'company');
+
+            if (error) {
+                container.innerHTML = `<p style="color:red; text-align:center; grid-column:1/-1;">Error: Invalid API Key or Database connection.</p>`;
+                return;
+            }
+
+            dataStore = data;
+            render(dataStore);
+        }
+
+        function render(list) {
+            const container = document.getElementById('companyGrid');
+            if (list.length === 0) {
+                container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No companies registered here yet.</p>';
+                return;
+            }
+
+            container.innerHTML = list.map(c => `
+                <div class="card" onclick="window.location.href='profile.html?id=${c.id}'">
+                    <div class="banner" style="background-image: url('${c.banner_url || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=400'}')"></div>
+                    <div class="logo-circle" style="background-image: url('${c.avatar_url || 'https://placehold.co/100?text=Logo'}')"></div>
+                    <div class="info">
+                        <div class="name">${c.full_name || 'Business Partner'} <span class="status"></span></div>
+                        <div class="cat">${c.business_category || 'General Services'}</div>
+                        <div style="color:#fbbf24; font-size:0.9rem;"><i class="fas fa-star"></i> 5.0 (Verified)</div>
+                        <button class="btn-profile">View Profile</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // نظام البحث السريع
+        document.getElementById('search').oninput = (e) => {
+            const val = e.target.value.toLowerCase();
+            const filtered = dataStore.filter(c => 
+                (c.full_name && c.full_name.toLowerCase().includes(val)) || 
+                (c.business_category && c.business_category.toLowerCase().includes(val))
+            );
+            render(filtered);
+        };
+
+        // نظام الفلترة
+        function filter(cat) {
+            document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            const filtered = (cat === 'all') ? dataStore : dataStore.filter(c => c.business_category === cat);
+            render(filtered);
+        }
+
+        init();
+    </script>
+</body>
+</html>
+
