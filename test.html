@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BELG SERVICES - Partners Portal</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #fffaf5; margin: 0; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto; }
+        
+        /* هذا هو الكارت الاحترافي الذي سألت عنه */
+        .company-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid #ffe0cc; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .company-card:hover { transform: translateY(-5px); }
+        .banner { height: 120px; background: #FF6600 url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=400') center/cover; }
+        .logo-box { width: 70px; height: 70px; background: white; border-radius: 50%; border: 3px solid white; margin: -35px 0 0 20px; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .info { padding: 15px 20px 20px; }
+        .company-name { font-size: 1.2rem; font-weight: 800; color: #1e293b; display: flex; align-items: center; justify-content: space-between; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; } /* نقطة الاستجابة */
+        .category { color: #FF6600; font-weight: 600; font-size: 0.85rem; margin: 5px 0 10px; }
+        .btn-visit { width: 100%; padding: 10px; border: none; background: #FF6600; color: white; border-radius: 10px; font-weight: 700; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1 style="text-align: center; color: #FF6600;">Business Partners</h1>
+    <div id="grid" class="grid">
+        </div>
+
+    <script>
+        // مفاتيحك الصحيحة والكاملة
+        const SB_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+        const SB_KEY = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D';
+        const supabaseClient = supabase.createClient(SB_URL, SB_KEY);
+
+        async function loadCompanies() {
+            const { data, error } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('user_type', 'company');
+
+            const container = document.getElementById('grid');
+            if (error) { container.innerHTML = "Error loading data"; return; }
+
+            container.innerHTML = data.map(company => `
+                <div class="company-card">
+                    <div class="banner"></div>
+                    <div class="logo-box" style="background-image: url('${company.avatar_url || 'https://placehold.co/100'}'); background-size: cover;"></div>
+                    <div class="info">
+                        <div class="company-name">
+                            ${company.full_name || 'New Company'}
+                            <span class="status-dot"></span>
+                        </div>
+                        <div class="category">${company.business_category || 'Service Provider'}</div>
+                        <div style="color: #fbbf24; margin-bottom: 15px;">★★★★★ 5.0</div>
+                        <button class="btn-visit" onclick="location.href='profile.html?id=${company.id}'">Visit Profile</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        loadCompanies();
+    </script>
+</body>
+</html>
+
