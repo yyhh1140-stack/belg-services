@@ -79,7 +79,7 @@
             background: #a57c52;
         }
 
-        /* Hero Section with bg.jpg background */
+        /* Hero Section */
         .hero {
             background: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.65)), url('bg.jpg');
             background-size: cover;
@@ -299,7 +299,10 @@
         /* Footer */
         .footer-socials { display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; border-top: 1px solid #e1d5c6; padding: 40px 0 30px; margin-top: 30px; gap: 24px; }
         .social-icons { display: flex; gap: 20px; }
-        .social-icons a img { width: 32px; height: 32px; }
+        .social-icons a img { width: 32px; height: 32px; transition: 0.2s; }
+        .social-icons a:hover img { transform: scale(1.1); }
+        .app-badges { display: flex; gap: 18px; }
+        .app-badges img { height: 38px; width: auto; }
         .footer-links { display: flex; justify-content: center; gap: 28px; flex-wrap: wrap; margin: 20px 0; }
         .footer-links a { color: #7a6a58; text-decoration: none; font-size: 0.85rem; }
         .copyright { text-align: center; padding: 20px 0 40px; color: #7a6a58; font-size: 0.8rem; }
@@ -327,7 +330,7 @@
             border: 2px solid white; border-radius: 50%;
             position: absolute; bottom: 2px; right: 2px;
         }
-        .user-info-text { text-align: left; }
+        .user-info-text { text-align: left; display: flex; flex-direction: column; }
         .user-name-label { display: block; font-weight: 800; color: #003366; font-size: 14px; }
         .user-type-badge { font-size: 10px; color: #27ae60; font-weight: 700; text-transform: uppercase; }
 
@@ -436,7 +439,10 @@
     <div class="footer-socials">
         <div class="social-icons">
             <a href="#"><img src="facebook.png" alt="facebook"></a>
+            <a href="#"><img src="linkedin.png" alt="linkedin"></a>
+            <a href="#"><img src="x.png" alt="x"></a>
             <a href="#"><img src="whatsapp.png" alt="whatsapp"></a>
+            <a href="#"><img src="youtube.png" alt="youtube"></a>
         </div>
         <div class="app-badges">
             <img src="apple.png" alt="App Store">
@@ -460,20 +466,34 @@
     const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     async function initAuth() {
-        const { data: { user } } = await _supabase.auth.getUser();
-        if (user) {
-            const { data: profiles } = await _supabase.from('profiles').select('*').eq('id', user.id);
-            if (profiles && profiles.length > 0) {
-                const p = profiles[0];
-                document.getElementById('guest-view').style.display = 'none';
-                document.getElementById('user-view').style.display = 'flex';
-                
-                document.getElementById('user-full-name').innerText = p.full_name || user.email;
-                document.getElementById('user-initial').innerText = (p.full_name || 'U').charAt(0).toUpperCase();
-                
-                const roles = { 'company': 'Corporate Account', 'worker': 'Verified Worker', 'client': 'Premium Client' };
-                document.getElementById('user-role-label').innerText = roles[p.user_type] || 'Online User';
+        try {
+            const { data: { user } } = await _supabase.auth.getUser();
+            if (user) {
+                // Fetch profiles without .single() to avoid the JSON pop-up error
+                const { data: profiles, error } = await _supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', user.id);
+
+                if (profiles && profiles.length > 0) {
+                    const p = profiles[0];
+                    document.getElementById('guest-view').style.display = 'none';
+                    document.getElementById('user-view').style.display = 'flex';
+                    
+                    document.getElementById('user-full-name').innerText = p.full_name || user.email;
+                    document.getElementById('user-initial').innerText = (p.full_name || 'U').charAt(0).toUpperCase();
+                    
+                    // Logic to map database user_type to English Labels
+                    const rolesMap = { 
+                        'company': 'Corporate Account', 
+                        'worker': 'Verified Worker', 
+                        'client': 'Premium Client' 
+                    };
+                    document.getElementById('user-role-label').innerText = rolesMap[p.user_type] || 'Online User';
+                }
             }
+        } catch (err) {
+            console.error("Auth check failed:", err);
         }
     }
 
