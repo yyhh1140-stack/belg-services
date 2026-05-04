@@ -439,44 +439,4 @@
                 listDiv.appendChild(item);
             });
         } else {
-            listDiv.innerHTML = '<p style="color:#999;">No achievements added yet</p
-                )
-            )
-            // --- ضع هذا الكود في نهاية الملف تماماً ---
-
-async function saveProfile() {
-    try {
-        const name = document.getElementById('companyName').value;
-        const bio = document.getElementById('companyBio').value;
-
-        const { error } = await supabase
-            .from('company_profiles')
-            .upsert({ 
-                id: currentUserId, 
-                company_name: name, 
-                bio: bio,
-                updated_at: new Date()
-            });
-
-        if (error) throw error;
-        alert("✅ تم حفظ التعديلات بنجاح!");
-    } catch (err) {
-        alert("خطأ في الحفظ: " + err.message);
-    }
-}
-
-async function handleLogout() {
-    await supabase.auth.signOut();
-    window.location.href = 'index.html';
-}
-
-// هذه الأسطر هي التي تجعل الأزرار "تسمع" الكلام
-window.saveProfile = saveProfile;
-window.handleLogout = handleLogout;
-
-// نغلق وسم السكريبت الآن
-</script>
-
-</body>
-
-</html>
+            listDiv.innerHTML = '<p style="color:#9
