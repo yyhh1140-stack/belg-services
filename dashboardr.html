@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Company Dashboard | BELG SERVICES</title>
@@ -11,62 +8,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #f0f2f5; padding: 20px; overflow-x: hidden; }
+        body { background: #f0f2f5; padding: 20px; }
         .container { max-width: 1200px; margin: 0 auto; }
-        
         .header { background: #FF6600; padding: 20px; border-radius: 20px; color: white; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
         .logo { font-size: 28px; font-weight: 800; }
-        .btn-logout { background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 12px; text-decoration: none; color: white; font-weight: 600; cursor: pointer; }
-        
+        .btn-logout { background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 12px; cursor: pointer; }
         .tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-        .tab-btn { background: white; border: none; padding: 12px 25px; border-radius: 30px; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 14px; }
+        .tab-btn { background: white; border: none; padding: 12px 25px; border-radius: 30px; font-weight: 700; cursor: pointer; }
         .tab-btn.active { background: #FF6600; color: white; }
-        .tab-btn:hover { background: #ffe0cc; }
-        
         .card { background: white; border-radius: 24px; padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .card h2 { margin-bottom: 20px; color: #1e293b; border-left: 4px solid #FF6600; padding-left: 15px; }
-        
         .form-group { margin-bottom: 20px; }
-        label { font-weight: 700; display: block; margin-bottom: 8px; color: #334155; }
-        input, textarea, select { width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 16px; }
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #FF6600;
-            box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
-        }
-
+        label { font-weight: 700; display: block; margin-bottom: 8px; }
+        input, textarea, select { width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 12px; }
+        .btn { background: #FF6600; color: white; border: none; padding: 14px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; }
         .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-        .media-item { background: #f8fafc; border-radius: 16px; padding: 10px; text-align: center; position: relative; }
+        .media-item { background: #f8fafc; border-radius: 16px; padding: 10px; text-align: center; }
         .media-item img, .media-item video { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; cursor: pointer; }
-        .media-item:hover { transform: scale(1.02); transition: 0.2s; }
-        .delete-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 20px; margin-top: 8px; cursor: pointer; font-size: 12px; }
-        
+        .delete-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 20px; margin-top: 8px; cursor: pointer; }
         .social-row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
         .social-input { flex: 1; }
-        .social-input input { font-size: 15px; }
-        
         .preview-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 24px; padding: 30px; margin-top: 30px; }
-        .company-name-large { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
+        .company-name-large { font-size: 28px; font-weight: 800; }
         .social-icons { display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap; }
-        .social-icons a { background: rgba(255,255,255,0.2); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 22px; transition: 0.25s ease; }
-        .social-icons a:hover { background: white; color: #FF6600; transform: scale(1.05); }
-        
+        .social-icons a { background: rgba(255,255,255,0.2); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 22px; }
         .achievement-item { background: rgba(255,255,255,0.1); margin: 10px 0; padding: 12px; border-radius: 16px; }
-        
-        .btn {
-            background: #FF6600;
-            color: white;
-            padding: 14px 25px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn:hover { background: #e65a00; }
-
-        @media (max-width: 768px) { .container { padding: 0; } .card { padding: 20px; } }
+        @media (max-width: 768px) { .card { padding: 20px; } }
     </style>
 </head>
 <body>
@@ -87,356 +54,120 @@
     <div id="tab-profile" class="tab-content">
         <div class="card">
             <h2>Company Information</h2>
-            <div class="form-group">
-                <label>Company Name</label>
-                <input type="text" id="companyName" placeholder="e.g., Perfect Cleaning Services">
-            </div>
-            <div class="form-group">
-                <label>About Company</label>
-                <textarea id="companyBio" rows="4" placeholder="Our activities, experience, vision..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Service Category</label>
-                <select id="serviceCategory">
-                    <option value="Cleaning">🧹 Cleaning</option>
-                    <option value="Construction">🏗️ Construction</option>
-                    <option value="Moving">🚚 Moving & Transport</option>
-                    <option value="Electrician">⚡ Electrician</option>
-                    <option value="Plumbing">🚰 Plumbing</option>
-                    <option value="IT">💻 IT & Programming</option>
-                </select>
-            </div>
+            <div class="form-group"><label>Company Name</label><input type="text" id="companyName" placeholder="Company name"></div>
+            <div class="form-group"><label>About Company</label><textarea id="companyBio" rows="4" placeholder="About your company"></textarea></div>
+            <div class="form-group"><label>Service Category</label><select id="serviceCategory"><option value="Cleaning">Cleaning</option><option value="Construction">Construction</option><option value="Moving">Moving & Transport</option><option value="Electrician">Electrician</option><option value="Plumbing">Plumbing</option></select></div>
             <button class="btn" onclick="saveProfile()">💾 Save Profile</button>
         </div>
     </div>
-
+    
     <div id="tab-media" class="tab-content" style="display:none;">
         <div class="card">
-            <h2>📸 Upload Project Media</h2>
-            <div class="form-group">
-                <label>Select File (Image or Video)</label>
-                <input type="file" id="mediaFile" accept="image/*,video/*" capture="environment">
-                <small style="color:#666;">* Take photo or video directly from camera</small>
-            </div>
+            <h2>Upload Project Media</h2>
+            <div class="form-group"><label>Select File (Image or Video)</label><input type="file" id="mediaFile" accept="image/*,video/*" capture="environment"></div>
             <button class="btn" onclick="uploadMedia()">📤 Upload File</button>
-            
-            <h3 style="margin: 30px 0 15px;">📁 My Gallery</h3>
+            <h3 style="margin: 30px 0 15px;">My Gallery</h3>
             <div id="mediaGallery" class="media-grid"></div>
         </div>
     </div>
     
     <div id="tab-achievements" class="tab-content" style="display:none;">
         <div class="card">
-            <h2>🏅 Add New Achievement / Project</h2>
-            <div class="form-group">
-                <label>Achievement / Project Title</label>
-                <input type="text" id="achievementTitle" placeholder="e.g., Al-Rawda Hotel Renovation">
-            </div>
-            <div class="form-group">
-                <label>Project Details</label>
-                <textarea id="achievementDesc" rows="3" placeholder="Description, date, achievements..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Project Image URL (optional)</label>
-                <input type="url" id="achievementImage" placeholder="https://...">
-            </div>
+            <h2>Add Achievement</h2>
+            <div class="form-group"><label>Title</label><input type="text" id="achievementTitle" placeholder="Project title"></div>
+            <div class="form-group"><label>Details</label><textarea id="achievementDesc" rows="3" placeholder="Description"></textarea></div>
+            <div class="form-group"><label>Image URL (optional)</label><input type="url" id="achievementImage" placeholder="https://..."></div>
             <button class="btn" onclick="addAchievement()">➕ Add Achievement</button>
-            
-            <h3 style="margin: 30px 0 15px;">📋 Achievements List</h3>
+            <h3 style="margin: 30px 0 15px;">Achievements List</h3>
             <div id="achievementsList"></div>
         </div>
     </div>
     
     <div id="tab-social" class="tab-content" style="display:none;">
         <div class="card">
-            <h2>🔗 Social Media Settings</h2>
-            <div class="social-row">
-                <div class="social-input">
-                    <label>WhatsApp</label>
-                    <input type="text" id="whatsappLink" placeholder="https://wa.me/123456789">
-                </div>
-                <div class="social-input">
-                    <label>Facebook</label>
-                    <input type="url" id="facebookLink" placeholder="https://facebook.com/...">
-                </div>
-            </div>
-            <div class="social-row">
-                <div class="social-input">
-                    <label>Instagram</label>
-                    <input type="url" id="instagramLink" placeholder="https://instagram.com/...">
-                </div>
-                <div class="social-input">
-                    <label>Twitter / X</label>
-                    <input type="url" id="twitterLink" placeholder="https://twitter.com/...">
-                </div>
-            </div>
-            <div class="social-row">
-                <div class="social-input">
-                    <label>TikTok</label>
-                    <input type="url" id="tiktokLink" placeholder="https://tiktok.com/@...">
-                </div>
-                <div class="social-input">
-                    <label>Website</label>
-                    <input type="url" id="websiteLink" placeholder="https://...">
-                </div>
-            </div>
+            <h2>Social Media Settings</h2>
+            <div class="social-row"><div class="social-input"><label>WhatsApp</label><input type="text" id="whatsappLink" placeholder="https://wa.me/123456789"></div><div class="social-input"><label>Facebook</label><input type="url" id="facebookLink" placeholder="https://facebook.com/..."></div></div>
+            <div class="social-row"><div class="social-input"><label>Instagram</label><input type="url" id="instagramLink" placeholder="https://instagram.com/..."></div><div class="social-input"><label>Twitter</label><input type="url" id="twitterLink" placeholder="https://twitter.com/..."></div></div>
+            <div class="social-row"><div class="social-input"><label>TikTok</label><input type="url" id="tiktokLink" placeholder="https://tiktok.com/@..."></div><div class="social-input"><label>Website</label><input type="url" id="websiteLink" placeholder="https://..."></div></div>
             <button class="btn" onclick="saveSocialLinks()">💾 Save Links</button>
         </div>
     </div>
     
     <div id="tab-preview" class="tab-content" style="display:none;">
-        <div class="preview-card" id="publicPreview">
+        <div class="preview-card">
             <div class="company-name-large" id="previewCompanyName">Company Name</div>
-            <p id="previewBio" style="margin: 15px 0; opacity:0.9;">Company description</p>
+            <p id="previewBio" style="margin: 15px 0;">Company description</p>
             <div class="social-icons" id="previewSocialIcons"></div>
             <hr style="margin: 20px 0; border-color:rgba(255,255,255,0.2);">
-            <h3>📸 Our Projects</h3>
+            <h3>Our Projects</h3>
             <div id="previewMedia" class="media-grid"></div>
-            <h3>🏆 Our Achievements</h3>
+            <h3>Our Achievements</h3>
             <div id="previewAchievements"></div>
         </div>
     </div>
 </div>
 
 <script>
-    // SUPABASE CONFIG
     const supabaseUrl = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
     const supabaseKey = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-    
     let currentUserId = null;
-    let currentUserEmail = null;
-    
+
+    window.handleLogout = function() { supabase.auth.signOut(); window.location.href = 'login.html'; };
+    window.saveProfile = saveProfile;
+    window.uploadMedia = uploadMedia;
+    window.addAchievement = addAchievement;
+    window.saveSocialLinks = saveSocialLinks;
+    window.deleteMedia = deleteMedia;
+    window.deleteAchievement = deleteAchievement;
+
     async function init() {
         const { data: { session } } = await supabase.auth.getSession();
-        if (!session) { 
-            alert("Please login first"); 
-            window.location.href = 'login.html'; 
-            return; 
-        }
-        
+        if (!session) { alert("Please login"); window.location.href = 'login.html'; return; }
         currentUserId = session.user.id;
-        currentUserEmail = session.user.email;
-        
-        const { data: profile, error } = await supabase
-            .from('profiles')
-            .select('user_type, is_verified_company, full_name')
-            .eq('id', currentUserId)
-            .single();
-        
-        if (error) {
-            console.error("Error fetching profile:", error);
-            alert("Error verifying your permissions");
+        const { data: profile } = await supabase.from('profiles').select('user_type, is_verified_company').eq('id', currentUserId).single();
+        if (profile.user_type !== 'company' || !profile.is_verified_company) {
+            alert("Not authorized as verified company");
+            window.location.href = 'index.html';
             return;
         }
-        
-        if (profile.user_type !== 'company') {
-            alert(`Your account is not a company (Account type: ${profile.user_type === 'customer' ? 'Customer' : 'Worker'}). Redirecting...`);
-            if (profile.user_type === 'customer') window.location.href = 'customer_dashboard.html';
-            else if (profile.user_type === 'worker') window.location.href = 'worker_dashboard.html';
-            else window.location.href = 'index.html';
-            return;
-        }
-        
-        if (!profile.is_verified_company) {
-            alert('Your company account is not verified yet by admin. Please wait for approval.');
-            window.location.href = 'pending_approval.html';
-            return;
-        }
-        
-        await ensureCompanyTablesExist();
+        await ensureTablesExist();
         await loadAllData();
         setupTabs();
     }
 
-    async function ensureCompanyTablesExist() {
-        // Touch tables to ensure they exist (schema is created via SQL)
-        await supabase.from('company_profiles').select('id').limit(1);
-        await supabase.from('company_media').select('id').limit(1);
-        await supabase.from('company_achievements').select('id').limit(1);
-        await supabase.from('company_social').select('id').limit(1);
+    async function ensureTablesExist() {
+        const { data: existing } = await supabase.from('company_profiles').select('user_id').eq('user_id', currentUserId).single();
+        if (!existing) await supabase.from('company_profiles').insert({ user_id: currentUserId, company_name: '', bio: '', category: 'Cleaning' });
+        const { data: existingSocial } = await supabase.from('company_social').select('user_id').eq('user_id', currentUserId).single();
+        if (!existingSocial) await supabase.from('company_social').insert({ user_id: currentUserId });
+    }
 
-        const { data: existing } = await supabase
-            .from('company_profiles')
-            .select('id')
-            .eq('user_id', currentUserId)
-            .single();
-        
-        if (!existing) {
-            await supabase.from('company_profiles').insert({
-                user_id: currentUserId,
-                company_name: '',
-                bio: '',
-                category: 'Cleaning'
-            });
-        }
-        
-        const { data: existingSocial } = await supabase
-            .from('company_social')
-            .select('user_id')
-            .eq('user_id', currentUserId)
-            .single();
-        
-        if (!existingSocial) {
-            await supabase.from('company_social').insert({
-                user_id: currentUserId,
-                whatsapp: '', facebook: '', instagram: '', twitter: '', tiktok: '', website: ''
-            });
-        }
-    }
+    async function loadAllData() { await loadProfile(); await loadMedia(); await loadAchievements(); await loadSocialLinks(); updatePreview(); }
+    async function loadProfile() { const { data } = await supabase.from('company_profiles').select('*').eq('user_id', currentUserId).single(); if(data) { document.getElementById('companyName').value = data.company_name || ''; document.getElementById('companyBio').value = data.bio || ''; document.getElementById('serviceCategory').value = data.category || 'Cleaning'; } }
+    async function saveProfile() { const company_name = document.getElementById('companyName').value; const bio = document.getElementById('companyBio').value; const category = document.getElementById('serviceCategory').value; await supabase.from('company_profiles').upsert({ user_id: currentUserId, company_name, bio, category }); alert("Saved!"); updatePreview(); }
     
-    async function loadAllData() {
-        await loadProfile();
-        await loadMedia();
-        await loadAchievements();
-        await loadSocialLinks();
-        updatePreview();
-    }
+    async function uploadMedia() { const file = document.getElementById('mediaFile').files[0]; if(!file) { alert("Select a file"); return; } const isVideo = file.type.startsWith('video/'); const fileName = `${currentUserId}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`; const { error } = await supabase.storage.from('company_media').upload(fileName, file); if(error) { alert("Upload failed: " + error.message); return; } const { data: urlData } = supabase.storage.from('company_media').getPublicUrl(fileName); await supabase.from('company_media').insert({ user_id: currentUserId, media_url: urlData.publicUrl, media_type: isVideo ? 'video' : 'image' }); alert("Uploaded!"); document.getElementById('mediaFile').value = ''; loadMedia(); updatePreview(); }
     
-    async function loadProfile() {
-        const { data } = await supabase.from('company_profiles').select('*').eq('user_id', currentUserId).single();
-        if (data) {
-            document.getElementById('companyName').value = data.company_name || '';
-            document.getElementById('companyBio').value = data.bio || '';
-            document.getElementById('serviceCategory').value = data.category || 'Cleaning';
-        }
-    }
+    async function loadMedia() { const { data } = await supabase.from('company_media').select('*').eq('user_id', currentUserId).order('created_at', {ascending:false}); const gallery = document.getElementById('mediaGallery'); gallery.innerHTML = ''; if(data && data.length) { data.forEach(item => { const div = document.createElement('div'); div.className = 'media-item'; if(item.media_type === 'image') div.innerHTML = `<img src="${item.media_url}" onclick="window.open('${item.media_url}')"><button class="delete-btn" onclick="deleteMedia('${item.id}', '${item.media_url}')">Delete</button>`; else div.innerHTML = `<video src="${item.media_url}" controls></video><button class="delete-btn" onclick="deleteMedia('${item.id}', '${item.media_url}')">Delete</button>`; gallery.appendChild(div); }); } else gallery.innerHTML = '<p>No media yet</p>'; }
     
-    async function saveProfile() {
-        const company_name = document.getElementById('companyName').value;
-        const bio = document.getElementById('companyBio').value;
-        const category = document.getElementById('serviceCategory').value;
-
-        if (!company_name.trim()) {
-            alert("Company name cannot be empty");
-            return;
-        }
-        
-        const { error } = await supabase.from('company_profiles').upsert({
-            user_id: currentUserId,
-            company_name, bio, category,
-            updated_at: new Date()
-        });
-        
-        if (error) alert("Error: " + error.message);
-        else { 
-            alert("Profile saved successfully");
-            loadProfile();
-            updatePreview();
-        }
-    }
+    async function deleteMedia(mediaId, mediaUrl) { if(confirm("Delete?")) { const path = mediaUrl.split('/storage/v1/object/public/company_media/')[1]; if(path) await supabase.storage.from('company_media').remove([path]); await supabase.from('company_media').delete().eq('id', mediaId); loadMedia(); updatePreview(); } }
     
-    async function uploadMedia() {
-        const fileInput = document.getElementById('mediaFile');
-        const file = fileInput.files[0];
-        if (!file) { alert("Please select a file first"); return; }
-        
-        const isVideo = file.type.startsWith('video/');
-        const fileName = `${currentUserId}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
-        
-        const { error } = await supabase.storage.from('company_media').upload(fileName, file);
-        if (error) { alert("Upload failed: " + error.message); return; }
-        
-        const { data: urlData } = await supabase
-            .storage
-            .from('company_media')
-            .getPublicUrl(fileName);
-        const mediaUrl = urlData.publicUrl;
-        
-        await supabase.from('company_media').insert({
-            user_id: currentUserId,
-            media_url: mediaUrl,
-            media_type: isVideo ? 'video' : 'image'
-        });
-        
-        alert("File uploaded successfully");
-        fileInput.value = '';
-        loadMedia();
-        updatePreview();
-    }
+    async function addAchievement() { const title = document.getElementById('achievementTitle').value; const description = document.getElementById('achievementDesc').value; const image_url = document.getElementById('achievementImage').value; if(!title) { alert("Enter title"); return; } await supabase.from('company_achievements').insert({ user_id: currentUserId, title, description, image_url }); alert("Added!"); document.getElementById('achievementTitle').value = ''; document.getElementById('achievementDesc').value = ''; document.getElementById('achievementImage').value = ''; loadAchievements(); updatePreview(); }
     
-    async function loadMedia() {
-        const { data } = await supabase.from('company_media').select('*').eq('user_id', currentUserId).order('created_at', { ascending: false });
-        const gallery = document.getElementById('mediaGallery');
-        if (!gallery) return;
-        gallery.innerHTML = '';
-        
-        if (data && data.length) {
-            data.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'media-item';
-                if (item.media_type === 'image') {
-                    div.innerHTML = `
-                        <img src="${item.media_url}" onclick="window.open('${item.media_url}')">
-                        <button class="delete-btn" onclick="deleteMedia('${item.id}', '${item.media_url}')">Delete</button>
-                    `;
-                } else {
-                    div.innerHTML = `
-                        <video src="${item.media_url}" controls></video>
-                        <button class="delete-btn" onclick="deleteMedia('${item.id}', '${item.media_url}')">Delete</button>
-                    `;
-                }
-                gallery.appendChild(div);
-            });
-        } else {
-            gallery.innerHTML = '<p style="color:#999; text-align:center;">No photos or videos uploaded yet</p>';
-        }
-    }
+    async function loadAchievements() { const { data } = await supabase.from('company_achievements').select('*').eq('user_id', currentUserId).order('created_at', {ascending:false}); const listDiv = document.getElementById('achievementsList'); listDiv.innerHTML = ''; if(data && data.length) { data.forEach(ach => { const item = document.createElement('div'); item.style.background='#f8fafc'; item.style.padding='15px'; item.style.marginBottom='10px'; item.style.borderRadius='16px'; item.innerHTML = `<strong>${ach.title}</strong><p>${ach.description || ''}</p>${ach.image_url ? `<img src="${ach.image_url}" width="80">` : ''}<button style="background:#ef4444;color:white;border:none;padding:6px 15px;border-radius:30px;margin-top:8px;" onclick="deleteAchievement('${ach.id}')">Delete</button>`; listDiv.appendChild(item); }); } else listDiv.innerHTML = '<p>No achievements</p>'; }
     
-    async function deleteMedia(mediaId, mediaUrl) {
-        if (confirm("Are you sure you want to delete?")) {
-            const path = mediaUrl.split('/storage/v1/object/public/company_media/')[1];
-            if (path) await supabase.storage.from('company_media').remove([path]);
-            await supabase.from('company_media').delete().eq('id', mediaId);
-            loadMedia();
-            updatePreview();
-        }
-    }
+    async function deleteAchievement(id) { if(confirm("Delete?")) { await supabase.from('company_achievements').delete().eq('id', id); loadAchievements(); updatePreview(); } }
     
-    async function addAchievement() {
-        const title = document.getElementById('achievementTitle').value;
-        const description = document.getElementById('achievementDesc').value;
-        const image_url = document.getElementById('achievementImage').value;
-        
-        if (!title || !title.trim()) { 
-            alert("Please enter achievement title"); 
-            return; 
-        }
-        
-        await supabase.from('company_achievements').insert({
-            user_id: currentUserId,
-            title, description, image_url
-        });
-        
-        alert("Achievement added successfully");
-        document.getElementById('achievementTitle').value = '';
-        document.getElementById('achievementDesc').value = '';
-        document.getElementById('achievementImage').value = '';
-        loadAchievements();
-        updatePreview();
-    }
+    async function saveSocialLinks() { const whatsapp = document.getElementById('whatsappLink').value; const facebook = document.getElementById('facebookLink').value; const instagram = document.getElementById('instagramLink').value; const twitter = document.getElementById('twitterLink').value; const tiktok = document.getElementById('tiktokLink').value; const website = document.getElementById('websiteLink').value; await supabase.from('company_social').upsert({ user_id: currentUserId, whatsapp, facebook, instagram, twitter, tiktok, website }); alert("Links saved!"); updatePreview(); }
     
-    async function loadAchievements() {
-        const { data } = await supabase.from('company_achievements').select('*').eq('user_id', currentUserId).order('created_at', { ascending: false });
-        const listDiv = document.getElementById('achievementsList');
-        if (!listDiv) return;
-        listDiv.innerHTML = '';
-        
-        if (data && data.length) {
-            data.forEach(ach => {
-                const item = document.createElement('div');
-                item.style.background = '#f8fafc';
-                item.style.padding = '15px';
-                item.style.marginBottom = '10px';
-                item.style.borderRadius = '16px';
-                item.style.border = '1px solid #e2e8f0';
-                item.innerHTML = `
-                    <strong>🏆 ${ach.title}</strong>
-                    <p style="margin-top:8px; color:#475569;">${ach.description || ''}</p>
-                    ${ach.image_url ? `<img src="${ach.image_url}" style="max-width:100px; border-radius:12px; margin-top:8px;">` : ''}
-                    <button style="background:#ef4444; color:white; border:none; padding:6px 15px; border-radius:30px; margin-top:10px; cursor:pointer;" onclick="deleteAchievement('${ach.id}')">Delete</button>
-                `;
-                listDiv.appendChild(item);
-            });
-        } else {
-            listDiv.innerHTML = '<p style="color:#9
+    async function loadSocialLinks() { const { data } = await supabase.from('company_social').select('*').eq('user_id', currentUserId).single(); if(data) { document.getElementById('whatsappLink').value = data.whatsapp || ''; document.getElementById('facebookLink').value = data.facebook || ''; document.getElementById('instagramLink').value = data.instagram || ''; document.getElementById('twitterLink').value = data.twitter || ''; document.getElementById('tiktokLink').value = data.tiktok || ''; document.getElementById('websiteLink').value = data.website || ''; } }
+    
+    async function updatePreview() { const { data: profile } = await supabase.from('company_profiles').select('*').eq('user_id', currentUserId).single(); if(profile) { document.getElementById('previewCompanyName').innerHTML = profile.company_name || 'My Company'; document.getElementById('previewBio').innerText = profile.bio || ''; } const { data: social } = await supabase.from('company_social').select('*').eq('user_id', currentUserId).single(); const iconsDiv = document.getElementById('previewSocialIcons'); iconsDiv.innerHTML = ''; if(social) { if(social.whatsapp) iconsDiv.innerHTML += `<a href="${social.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`; if(social.facebook) iconsDiv.innerHTML += `<a href="${social.facebook}" target="_blank"><i class="fab fa-facebook-f"></i></a>`; if(social.instagram) iconsDiv.innerHTML += `<a href="${social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`; if(social.twitter) iconsDiv.innerHTML += `<a href="${social.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`; if(social.tiktok) iconsDiv.innerHTML += `<a href="${social.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>`; if(social.website) iconsDiv.innerHTML += `<a href="${social.website}" target="_blank"><i class="fas fa-globe"></i></a>`; } } const { data: media } = await supabase.from('company_media').select('*').eq('user_id', currentUserId).limit(6); const previewMedia = document.getElementById('previewMedia'); previewMedia.innerHTML = ''; if(media && media.length) { media.forEach(m => { const el = document.createElement('div'); el.className = 'media-item'; if(m.media_type === 'image') el.innerHTML = `<img src="${m.media_url}" style="height:100px;">`; else el.innerHTML = `<video src="${m.media_url}" style="height:100px;"></video>`; previewMedia.appendChild(el); }); } const { data: achievements } = await supabase.from('company_achievements').select('*').eq('user_id', currentUserId).limit(3); const previewAch = document.getElementById('previewAchievements'); previewAch.innerHTML = ''; if(achievements && achievements.length) { achievements.forEach(a => { previewAch.innerHTML += `<div class="achievement-item"><strong>${a.title}</strong><br>${a.description || ''}</div>`; }); } }
+    
+    function setupTabs() { const btns = document.querySelectorAll('.tab-btn'); const contents = document.querySelectorAll('.tab-content'); btns.forEach(btn => { btn.onclick = () => { btns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); contents.forEach(c => c.style.display = 'none'); document.getElementById(`tab-${btn.dataset.tab}`).style.display = 'block'; if(btn.dataset.tab === 'preview') updatePreview(); if(btn.dataset.tab === 'media') loadMedia(); if(btn.dataset.tab === 'achievements') loadAchievements(); }; }); }
+    
+    init();
+</script>
+</body>
+            </html>
