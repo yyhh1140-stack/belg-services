@@ -1,3 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Belg Services | Company Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: #f4f7fc; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: #FF6600; padding: 20px; border-radius: 20px; color: white; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .logo { font-size: 28px; font-weight: 800; }
+        .btn-logout { background: rgba(255,255,255,0.2); padding: 10px 20px; border-radius: 12px; cursor: pointer; font-size: 16px; border: none; color: white; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .tab-btn { background: white; border: none; padding: 12px 25px; border-radius: 30px; font-weight: 700; cursor: pointer; transition: 0.3s; }
+        .tab-btn.active { background: #FF6600; color: white; }
+        .card { background: white; border-radius: 24px; padding: 30px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .card h2 { margin-bottom: 20px; color: #1e293b; border-left: 4px solid #FF6600; padding-left: 15px; }
+        .form-group { margin-bottom: 20px; }
+        label { font-weight: 700; display: block; margin-bottom: 8px; color: #334155; }
+        input, textarea, select { width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 16px; }
+        .btn { background: #FF6600; color: white; border: none; padding: 14px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; font-size: 16px; }
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+        .media-item { background: #f8fafc; border-radius: 16px; padding: 10px; text-align: center; }
+        .media-item img, .media-item video { width: 100%; height: 120px; object-fit: cover; border-radius: 12px; cursor: pointer; }
+        .delete-btn { background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 20px; margin-top: 8px; cursor: pointer; font-size: 12px; }
+        .social-row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
+        .social-input { flex: 1; }
+        .preview-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 24px; padding: 30px; margin-top: 30px; }
+        .company-name-large { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
+        .social-icons { display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap; }
+        .social-icons a { background: rgba(255,255,255,0.2); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; font-size: 22px; transition: 0.3s; }
+        .social-icons a:hover { background: white; color: #FF6600; transform: scale(1.05); }
+        .achievement-item { background: rgba(255,255,255,0.1); margin: 10px 0; padding: 12px; border-radius: 16px; }
+        @media (max-width: 768px) { .card { padding: 20px; } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">🏢 Belg Services | Company Dashboard</div>
+        <div onclick="handleLogout()" class="btn-logout">🚪 Logout</div>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="profile">📋 Profile</button>
+        <button class="tab-btn" data-tab="media">🖼️ Media</button>
+        <button class="tab-btn" data-tab="achievements">🏆 Achievements</button>
+        <button class="tab-btn" data-tab="social">🔗 Social</button>
+        <button class="tab-btn" data-tab="preview">👁️ Preview</button>
+    </div>
+    
+    <div id="tab-profile" class="tab-content">
+        <div class="card">
+            <h2>Company Information</h2>
+            <div class="form-group"><label>Company Name</label><input type="text" id="companyName" placeholder="e.g., Belg Services"></div>
+            <div class="form-group"><label>Bio</label><textarea id="companyBio" rows="3" placeholder="Tell us about your company..."></textarea></div>
+            <div class="form-group"><label>Category</label><select id="serviceCategory"><option value="Cleaning">🧹 Cleaning</option><option value="Construction">🏗️ Construction</option><option value="Moving">🚚 Moving</option><option value="Electrician">⚡ Electrician</option><option value="Plumbing">🚰 Plumbing</option></select></div>
+            <button class="btn" onclick="saveProfile()">💾 Save Profile</button>
+        </div>
+    </div>
+    
+    <div id="tab-media" class="tab-content" style="display:none;">
+        <div class="card">
+            <h2>Upload Media</h2>
+            <input type="file" id="mediaFile" accept="image/*,video/*">
+            <button class="btn" onclick="uploadMedia()" style="margin-top:15px;">📤 Upload</button>
+            <div id="mediaGallery" class="media-grid" style="margin-top:20px;"></div>
+        </div>
+    </div>
+    
+    <div id="tab-achievements" class="tab-content" style="display:none;">
+        <div class="card">
+            <h2>Add Achievement</h2>
+            <input type="text" id="achievementTitle" placeholder="Title">
+            <textarea id="achievementDesc" rows="2" placeholder="Description"></textarea>
+            <input type="url" id="achievementImage" placeholder="Image URL">
+            <button class="btn" onclick="addAchievement()" style="margin-top:15px;">➕ Add</button>
+            <div id="achievementsList" style="margin-top:20px;"></div>
+        </div>
+    </div>
+    
+    <div id="tab-social" class="tab-content" style="display:none;">
+        <div class="card">
+            <h2>Social Links</h2>
+            <input type="text" id="whatsappLink" placeholder="WhatsApp URL">
+            <input type="url" id="facebookLink" placeholder="Facebook URL">
+            <input type="url" id="instagramLink" placeholder="Instagram URL">
+            <input type="url" id="twitterLink" placeholder="Twitter URL">
+            <input type="url" id="tiktokLink" placeholder="TikTok URL">
+            <input type="url" id="websiteLink" placeholder="Website URL">
+            <button class="btn" onclick="saveSocialLinks()" style="margin-top:15px;">💾 Save Social Links</button>
+        </div>
+    </div>
+    
+    <div id="tab-preview" class="tab-content" style="display:none;">
+        <div class="preview-card">
+            <div class="company-name-large" id="previewCompanyName">Your Company</div>
+            <p id="previewBio">Company description</p>
+            <div class="social-icons" id="previewSocialIcons"></div>
+            <h3>Our Work</h3>
+            <div id="previewMedia" class="media-grid"></div>
+            <h3>Achievements</h3>
+            <div id="previewAchievements"></div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -6,7 +114,7 @@
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
     let currentUserId = null;
 
-    window.handleLogout = function() { supabase.auth.signOut(); window.location.href = 'login.html'; };
+    window.handleLogout = () => supabase.auth.signOut().then(() => window.location.href = 'login.html');
     window.saveProfile = saveProfile;
     window.uploadMedia = uploadMedia;
     window.addAchievement = addAchievement;
@@ -16,50 +124,141 @@
 
     async function init() {
         const { data: { session } } = await supabase.auth.getSession();
-        if (!session) { alert("Please login"); window.location.href = 'login.html'; return; }
+        if (!session) return window.location.href = 'login.html';
         currentUserId = session.user.id;
-        const { data: profile } = await supabase.from('profiles').select('user_type, is_verified_company').eq('id', currentUserId).single();
-        if (profile.user_type !== 'company' || !profile.is_verified_company) {
-            alert("Not authorized as verified company");
-            window.location.href = 'index.html';
-            return;
-        }
-        await ensureTablesExist();
-        await loadAllData();
+        document.getElementById('companyName').value = session.user.user_metadata?.full_name || '';
+        await Promise.all([loadProfile(), loadMedia(), loadAchievements(), loadSocialLinks()]);
         setupTabs();
+        updatePreview();
     }
 
-    async function ensureTablesExist() {
-        const { data: existing } = await supabase.from('company_profiles').select('user_id').eq('user_id', currentUserId).single();
-        if (!existing) await supabase.from('company_profiles').insert({ user_id: currentUserId, company_name: '', bio: '', category: 'Cleaning' });
-        const { data: existingSocial } = await supabase.from('company_social').select('user_id').eq('user_id', currentUserId).single();
-        if (!existingSocial) await supabase.from('company_social').insert({ user_id: currentUserId });
+    async function loadProfile() {
+        const { data } = await supabase.from('company_profiles').select('*').eq('user_id', currentUserId).single();
+        if (data) {
+            document.getElementById('companyName').value = data.company_name || '';
+            document.getElementById('companyBio').value = data.bio || '';
+            document.getElementById('serviceCategory').value = data.category || 'Cleaning';
+        }
+    }
+    async function saveProfile() {
+        await supabase.from('company_profiles').upsert({ 
+            user_id: currentUserId, 
+            company_name: document.getElementById('companyName').value, 
+            bio: document.getElementById('companyBio').value, 
+            category: document.getElementById('serviceCategory').value 
+        });
+        alert('Profile saved');
+        updatePreview();
     }
 
-    async function loadAllData() { await loadProfile(); await loadMedia(); await loadAchievements(); await loadSocialLinks(); updatePreview(); }
-    async function loadProfile() { const { data } = await supabase.from('company_profiles').select('*').eq('user_id', currentUserId).single(); if(data) { document.getElementById('companyName').value = data.company_name || ''; document.getElementById('companyBio').value = data.bio || ''; document.getElementById('serviceCategory').value = data.category || 'Cleaning'; } }
-    async function saveProfile() { const company_name = document.getElementById('companyName').value; const bio = document.getElementById('companyBio').value; const category = document.getElementById('serviceCategory').value; await supabase.from('company_profiles').upsert({ user_id: currentUserId, company_name, bio, category }); alert("Saved!"); updatePreview(); }
-    
-    async function uploadMedia() { const file = document.getElementById('mediaFile').files[0]; if(!file) { alert("Select a file"); return; } const isVideo = file.type.startsWith('video/'); const fileName = `${currentUserId}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`; const { error } = await supabase.storage.from('company_media').upload(fileName, file); if(error) { alert("Upload failed: " + error.message); return; } const { data: urlData } = supabase.storage.from('company_media').getPublicUrl(fileName); await supabase.from('company_media').insert({ user_id: currentUserId, media_url: urlData.publicUrl, media_type: isVideo ? 'video' : 'image' }); alert("Uploaded!"); document.getElementById('mediaFile').value = ''; loadMedia(); updatePreview(); }
-    
-    async function loadMedia() { const { data } = await supabase.from('company_media').select('*').eq('user_id', currentUserId).order('created_at', {ascending:false}); const gallery = document.getElementById('mediaGallery'); gallery.innerHTML = ''; if(data && data.length) { data.forEach(item => { const div = document.createElement('div'); div.className = 'media-item'; if(item.media_type === 'image') div.innerHTML = `<img src="${item.media_url}" onclick="window.open('${item.media_url}')"><button class="delete-btn" onclick="deleteMedia('${item.id}', '${item.media_url}')">Delete</button>`; else div.innerHTML = `<video src="${item.media_url}" controls></video><button class="delete-btn" onclick="deleteMedia('${item.id}', '${item.media_url}')">Delete</button>`; gallery.appendChild(div); }); } else gallery.innerHTML = '<p>No media yet</p>'; }
-    
-    async function deleteMedia(mediaId, mediaUrl) { if(confirm("Delete?")) { const path = mediaUrl.split('/storage/v1/object/public/company_media/')[1]; if(path) await supabase.storage.from('company_media').remove([path]); await supabase.from('company_media').delete().eq('id', mediaId); loadMedia(); updatePreview(); } }
-    
-    async function addAchievement() { const title = document.getElementById('achievementTitle').value; const description = document.getElementById('achievementDesc').value; const image_url = document.getElementById('achievementImage').value; if(!title) { alert("Enter title"); return; } await supabase.from('company_achievements').insert({ user_id: currentUserId, title, description, image_url }); alert("Added!"); document.getElementById('achievementTitle').value = ''; document.getElementById('achievementDesc').value = ''; document.getElementById('achievementImage').value = ''; loadAchievements(); updatePreview(); }
-    
-    async function loadAchievements() { const { data } = await supabase.from('company_achievements').select('*').eq('user_id', currentUserId).order('created_at', {ascending:false}); const listDiv = document.getElementById('achievementsList'); listDiv.innerHTML = ''; if(data && data.length) { data.forEach(ach => { const item = document.createElement('div'); item.style.background='#f8fafc'; item.style.padding='15px'; item.style.marginBottom='10px'; item.style.borderRadius='16px'; item.innerHTML = `<strong>${ach.title}</strong><p>${ach.description || ''}</p>${ach.image_url ? `<img src="${ach.image_url}" width="80">` : ''}<button style="background:#ef4444;color:white;border:none;padding:6px 15px;border-radius:30px;margin-top:8px;" onclick="deleteAchievement('${ach.id}')">Delete</button>`; listDiv.appendChild(item); }); } else listDiv.innerHTML = '<p>No achievements</p>'; }
-    
-    async function deleteAchievement(id) { if(confirm("Delete?")) { await supabase.from('company_achievements').delete().eq('id', id); loadAchievements(); updatePreview(); } }
-    
-    async function saveSocialLinks() { const whatsapp = document.getElementById('whatsappLink').value; const facebook = document.getElementById('facebookLink').value; const instagram = document.getElementById('instagramLink').value; const twitter = document.getElementById('twitterLink').value; const tiktok = document.getElementById('tiktokLink').value; const website = document.getElementById('websiteLink').value; await supabase.from('company_social').upsert({ user_id: currentUserId, whatsapp, facebook, instagram, twitter, tiktok, website }); alert("Links saved!"); updatePreview(); }
-    
-    async function loadSocialLinks() { const { data } = await supabase.from('company_social').select('*').eq('user_id', currentUserId).single(); if(data) { document.getElementById('whatsappLink').value = data.whatsapp || ''; document.getElementById('facebookLink').value = data.facebook || ''; document.getElementById('instagramLink').value = data.instagram || ''; document.getElementById('twitterLink').value = data.twitter || ''; document.getElementById('tiktokLink').value = data.tiktok || ''; document.getElementById('websiteLink').value = data.website || ''; } }
-    
-    async function updatePreview() { const { data: profile } = await supabase.from('company_profiles').select('*').eq('user_id', currentUserId).single(); if(profile) { document.getElementById('previewCompanyName').innerHTML = profile.company_name || 'My Company'; document.getElementById('previewBio').innerText = profile.bio || ''; } const { data: social } = await supabase.from('company_social').select('*').eq('user_id', currentUserId).single(); const iconsDiv = document.getElementById('previewSocialIcons'); iconsDiv.innerHTML = ''; if(social) { if(social.whatsapp) iconsDiv.innerHTML += `<a href="${social.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i></a>`; if(social.facebook) iconsDiv.innerHTML += `<a href="${social.facebook}" target="_blank"><i class="fab fa-facebook-f"></i></a>`; if(social.instagram) iconsDiv.innerHTML += `<a href="${social.instagram}" target="_blank"><i class="fab fa-instagram"></i></a>`; if(social.twitter) iconsDiv.innerHTML += `<a href="${social.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`; if(social.tiktok) iconsDiv.innerHTML += `<a href="${social.tiktok}" target="_blank"><i class="fab fa-tiktok"></i></a>`; if(social.website) iconsDiv.innerHTML += `<a href="${social.website}" target="_blank"><i class="fas fa-globe"></i></a>`; } } const { data: media } = await supabase.from('company_media').select('*').eq('user_id', currentUserId).limit(6); const previewMedia = document.getElementById('previewMedia'); previewMedia.innerHTML = ''; if(media && media.length) { media.forEach(m => { const el = document.createElement('div'); el.className = 'media-item'; if(m.media_type === 'image') el.innerHTML = `<img src="${m.media_url}" style="height:100px;">`; else el.innerHTML = `<video src="${m.media_url}" style="height:100px;"></video>`; previewMedia.appendChild(el); }); } const { data: achievements } = await supabase.from('company_achievements').select('*').eq('user_id', currentUserId).limit(3); const previewAch = document.getElementById('previewAchievements'); previewAch.innerHTML = ''; if(achievements && achievements.length) { achievements.forEach(a => { previewAch.innerHTML += `<div class="achievement-item"><strong>${a.title}</strong><br>${a.description || ''}</div>`; }); } }
-    
-    function setupTabs() { const btns = document.querySelectorAll('.tab-btn'); const contents = document.querySelectorAll('.tab-content'); btns.forEach(btn => { btn.onclick = () => { btns.forEach(b => b.classList.remove('active')); btn.classList.add('active'); contents.forEach(c => c.style.display = 'none'); document.getElementById(`tab-${btn.dataset.tab}`).style.display = 'block'; if(btn.dataset.tab === 'preview') updatePreview(); if(btn.dataset.tab === 'media') loadMedia(); if(btn.dataset.tab === 'achievements') loadAchievements(); }; }); }
-    
+    async function uploadMedia() {
+        const file = document.getElementById('mediaFile').files[0];
+        if (!file) return alert('Select a file');
+        const fileName = `${currentUserId}/${Date.now()}_${file.name}`;
+        const { error } = await supabase.storage.from('company_media').upload(fileName, file);
+        if (error) return alert('Upload failed: ' + error.message);
+        const { data: urlData } = supabase.storage.from('company_media').getPublicUrl(fileName);
+        await supabase.from('company_media').insert({ user_id: currentUserId, media_url: urlData.publicUrl, media_type: file.type.startsWith('video/') ? 'video' : 'image' });
+        alert('Uploaded');
+        loadMedia();
+        updatePreview();
+    }
+
+    async function loadMedia() {
+        const { data } = await supabase.from('company_media').select('*').eq('user_id', currentUserId);
+        const gallery = document.getElementById('mediaGallery');
+        gallery.innerHTML = (data?.length) ? data.map(m => `<div class="media-item">${m.media_type === 'image' ? `<img src="${m.media_url}">` : `<video src="${m.media_url}" controls></video>`}<button class="delete-btn" onclick="deleteMedia('${m.id}', '${m.media_url}')">Delete</button></div>`).join('') : '<p>No media</p>';
+    }
+
+    async function deleteMedia(id, url) {
+        if (confirm('Delete?')) {
+            await supabase.storage.from('company_media').remove([url.split('/').pop()]);
+            await supabase.from('company_media').delete().eq('id', id);
+            loadMedia();
+            updatePreview();
+        }
+    }
+
+    async function addAchievement() {
+        const title = document.getElementById('achievementTitle').value;
+        if (!title) return alert('Title required');
+        await supabase.from('company_achievements').insert({ user_id: currentUserId, title, description: document.getElementById('achievementDesc').value, image_url: document.getElementById('achievementImage').value });
+        alert('Added');
+        loadAchievements();
+        updatePreview();
+    }
+
+    async function loadAchievements() {
+        const { data } = await supabase.from('company_achievements').select('*').eq('user_id', currentUserId);
+        const container = document.getElementById('achievementsList');
+        container.innerHTML = (data?.length) ? data.map(a => `<div><strong>${a.title}</strong><p>${a.description || ''}</p>${a.image_url ? `<img src="${a.image_url}" width="80">` : ''}<button onclick="deleteAchievement('${a.id}')">Delete</button></div>`).join('') : '<p>No achievements</p>';
+    }
+
+    async function deleteAchievement(id) {
+        if (confirm('Delete?')) {
+            await supabase.from('company_achievements').delete().eq('id', id);
+            loadAchievements();
+            updatePreview();
+        }
+    }
+
+    async function saveSocialLinks() {
+        await supabase.from('company_social').upsert({ user_id: currentUserId, whatsapp: document.getElementById('whatsappLink').value, facebook: document.getElementById('facebookLink').value, instagram: document.getElementById('instagramLink').value, twitter: document.getElementById('twitterLink').value, tiktok: document.getElementById('tiktokLink').value, website: document.getElementById('websiteLink').value });
+        alert('Social links saved');
+        updatePreview();
+    }
+
+    async function loadSocialLinks() {
+        const { data } = await supabase.from('company_social').select('*').eq('user_id', currentUserId).single();
+        if (data) {
+            document.getElementById('whatsappLink').value = data.whatsapp || '';
+            document.getElementById('facebookLink').value = data.facebook || '';
+            document.getElementById('instagramLink').value = data.instagram || '';
+            document.getElementById('twitterLink').value = data.twitter || '';
+            document.getElementById('tiktokLink').value = data.tiktok || '';
+            document.getElementById('websiteLink').value = data.website || '';
+        }
+    }
+
+    async function updatePreview() {
+        const { data: profile } = await supabase.from('company_profiles').select('*').eq('user_id', currentUserId).single();
+        if (profile) {
+            document.getElementById('previewCompanyName').innerText = profile.company_name || 'Your Company';
+            document.getElementById('previewBio').innerText = profile.bio || 'Company description';
+        }
+        const { data: social } = await supabase.from('company_social').select('*').eq('user_id', currentUserId).single();
+        const iconsDiv = document.getElementById('previewSocialIcons');
+        iconsDiv.innerHTML = '';
+        if (social) {
+            if (social.whatsapp) iconsDiv.innerHTML += `<a href="${social.whatsapp}"><i class="fab fa-whatsapp"></i></a>`;
+            if (social.facebook) iconsDiv.innerHTML += `<a href="${social.facebook}"><i class="fab fa-facebook-f"></i></a>`;
+            if (social.instagram) iconsDiv.innerHTML += `<a href="${social.instagram}"><i class="fab fa-instagram"></i></a>`;
+            if (social.twitter) iconsDiv.innerHTML += `<a href="${social.twitter}"><i class="fab fa-twitter"></i></a>`;
+            if (social.tiktok) iconsDiv.innerHTML += `<a href="${social.tiktok}"><i class="fab fa-tiktok"></i></a>`;
+            if (social.website) iconsDiv.innerHTML += `<a href="${social.website}"><i class="fas fa-globe"></i></a>`;
+        }
+        const { data: media } = await supabase.from('company_media').select('*').eq('user_id', currentUserId).limit(6);
+        const previewMedia = document.getElementById('previewMedia');
+        previewMedia.innerHTML = (media?.length) ? media.map(m => `<div class="media-item">${m.media_type === 'image' ? `<img src="${m.media_url}">` : `<video src="${m.media_url}"></video>`}</div>`).join('') : '<p>No media</p>';
+        const { data: achievements } = await supabase.from('company_achievements').select('*').eq('user_id', currentUserId).limit(3);
+        const previewAch = document.getElementById('previewAchievements');
+        previewAch.innerHTML = (achievements?.length) ? achievements.map(a => `<div class="achievement-item"><strong>${a.title}</strong><br>${a.description || ''}</div>`).join('') : '<p>No achievements</p>';
+    }
+
+    function setupTabs() {
+        const btns = document.querySelectorAll('.tab-btn');
+        const contents = document.querySelectorAll('.tab-content');
+        btns.forEach(btn => btn.onclick = () => {
+            btns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            contents.forEach(c => c.style.display = 'none');
+            document.getElementById(`tab-${btn.dataset.tab}`).style.display = 'block';
+            if (btn.dataset.tab === 'preview') updatePreview();
+            if (btn.dataset.tab === 'media') loadMedia();
+            if (btn.dataset.tab === 'achievements') loadAchievements();
+        });
+    }
+
     init();
 </script>
 </body>
