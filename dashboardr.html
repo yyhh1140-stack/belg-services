@@ -1,25 +1,23 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Belg Services | لوحة تحكم الشركة</title>
-    <!-- Supabase -->
+    <title>Belg Services | Company Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Cairo', 'Inter', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background: #f0f2f5; padding: 16px; }
         .container { max-width: 1000px; margin: 0 auto; }
         .header { background: #FF6600; padding: 16px; border-radius: 20px; color: white; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
         .logo { font-size: 24px; font-weight: 800; }
-        .btn-logout { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; cursor: pointer; font-size: 14px; }
+        .btn-logout { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; cursor: pointer; font-size: 14px; border: none; color: white; }
         .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
         .tab-btn { background: white; border: none; padding: 10px 20px; border-radius: 30px; font-weight: 700; cursor: pointer; font-size: 14px; }
         .tab-btn.active { background: #FF6600; color: white; }
         .card { background: white; border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .card h2 { margin-bottom: 20px; color: #1e293b; font-size: 20px; border-right: 4px solid #FF6600; padding-right: 12px; }
+        .card h2 { margin-bottom: 20px; color: #1e293b; font-size: 20px; border-left: 4px solid #FF6600; padding-left: 12px; }
         .form-group { margin-bottom: 16px; }
         label { font-weight: 600; display: block; margin-bottom: 6px; font-size: 14px; }
         input, textarea, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; }
@@ -35,119 +33,127 @@
         .social-icons { display: flex; gap: 12px; margin: 20px 0; flex-wrap: wrap; }
         .social-icons a { background: rgba(255,255,255,0.2); padding: 10px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: white; font-size: 20px; text-decoration: none; }
         .achievement-item { background: rgba(255,255,255,0.15); margin: 8px 0; padding: 12px; border-radius: 16px; }
-        @media (max-width: 600px) { .social-row { flex-direction: column; } .tabs { justify-content: center; } }
+        @media (max-width: 600px) { .social-row { flex-direction: column; } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <div class="logo">🏢 BELG SERVICES | شركتي</div>
-        <div onclick="handleLogout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> خروج</div>
+        <div class="logo">🏢 BELG SERVICES | Company Dashboard</div>
+        <button onclick="handleLogout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" data-tab="profile">📋 بياناتي</button>
-        <button class="tab-btn" data-tab="media">🖼️ الصور والفيديو</button>
-        <button class="tab-btn" data-tab="achievements">🏆 منجزاتي</button>
-        <button class="tab-btn" data-tab="social">🔗 روابطي</button>
-        <button class="tab-btn" data-tab="preview">👁️ معاينة صفحتي</button>
+        <button class="tab-btn active" data-tab="profile">📋 Profile</button>
+        <button class="tab-btn" data-tab="media">🖼️ Media</button>
+        <button class="tab-btn" data-tab="achievements">🏆 Achievements</button>
+        <button class="tab-btn" data-tab="social">🔗 Social</button>
+        <button class="tab-btn" data-tab="preview">👁️ Preview</button>
     </div>
 
-    <!-- تبويب البيانات -->
-    <div id="tab-profile">
+    <div id="tab-profile" class="tab-content">
         <div class="card">
-            <h2>معلومات الشركة</h2>
-            <div class="form-group"><label>اسم الشركة</label><input type="text" id="companyName" placeholder="مثال: شركة النظافة المثالية"></div>
-            <div class="form-group"><label>نبذة عن الشركة</label><textarea id="companyBio" rows="3" placeholder="معلومات عن شركتك..."></textarea></div>
-            <div class="form-group"><label>التصنيف</label><select id="serviceCategory"><option value="تنظيف">🧹 تنظيف</option><option value="بناء">🏗️ بناء</option><option value="نقل">🚚 نقل</option><option value="كهرباء">⚡ كهرباء</option></select></div>
-            <button class="btn" onclick="saveProfile()">💾 حفظ البيانات</button>
+            <h2>Company Information</h2>
+            <div class="form-group"><label>Company Name</label><input type="text" id="companyName" placeholder="e.g., Belg Services"></div>
+            <div class="form-group"><label>About Company</label><textarea id="companyBio" rows="3" placeholder="Tell us about your company..."></textarea></div>
+            <div class="form-group"><label>Category</label><select id="serviceCategory"><option value="Cleaning">Cleaning</option><option value="Construction">Construction</option><option value="Moving">Moving</option><option value="Electrician">Electrician</option><option value="Plumbing">Plumbing</option></select></div>
+            <button class="btn" onclick="saveProfile()">💾 Save Profile</button>
         </div>
     </div>
 
-    <!-- تبويب الوسائط -->
-    <div id="tab-media" style="display:none;">
+    <div id="tab-media" class="tab-content" style="display:none;">
         <div class="card">
-            <h2>رفع صور وفيديوهات</h2>
+            <h2>Upload Media</h2>
             <input type="file" id="mediaFile" accept="image/*,video/*" capture="environment">
-            <button class="btn" onclick="uploadMedia()" style="margin-top:12px;">📤 رفع الملف</button>
+            <button class="btn" onclick="uploadMedia()" style="margin-top:12px;">📤 Upload File</button>
             <div id="mediaGallery" class="media-grid" style="margin-top:20px;"></div>
         </div>
     </div>
 
-    <!-- تبويب المنجزات -->
-    <div id="tab-achievements" style="display:none;">
+    <div id="tab-achievements" class="tab-content" style="display:none;">
         <div class="card">
-            <h2>إضافة منجز</h2>
-            <input type="text" id="achievementTitle" placeholder="عنوان المنجز">
-            <textarea id="achievementDesc" rows="2" placeholder="وصف المنجز"></textarea>
-            <input type="url" id="achievementImage" placeholder="رابط الصورة (اختياري)">
-            <button class="btn" onclick="addAchievement()" style="margin-top:12px;">➕ إضافة منجز</button>
+            <h2>Add Achievement</h2>
+            <input type="text" id="achievementTitle" placeholder="Achievement title">
+            <textarea id="achievementDesc" rows="2" placeholder="Description"></textarea>
+            <input type="url" id="achievementImage" placeholder="Image URL (optional)">
+            <button class="btn" onclick="addAchievement()" style="margin-top:12px;">➕ Add Achievement</button>
             <div id="achievementsList" style="margin-top:20px;"></div>
         </div>
     </div>
 
-    <!-- تبويب الروابط -->
-    <div id="tab-social" style="display:none;">
+    <div id="tab-social" class="tab-content" style="display:none;">
         <div class="card">
-            <h2>روابط التواصل</h2>
-            <div class="social-row"><div class="social-input"><label>واتساب</label><input type="text" id="whatsappLink" placeholder="https://wa.me/رقم"></div><div class="social-input"><label>فيسبوك</label><input type="url" id="facebookLink" placeholder="رابط فيسبوك"></div></div>
-            <div class="social-row"><div class="social-input"><label>إنستغرام</label><input type="url" id="instagramLink" placeholder="رابط إنستغرام"></div><div class="social-input"><label>تويتر</label><input type="url" id="twitterLink" placeholder="رابط تويتر"></div></div>
-            <button class="btn" onclick="saveSocialLinks()">💾 حفظ الروابط</button>
+            <h2>Social Links</h2>
+            <div class="social-row"><div class="social-input"><label>WhatsApp</label><input type="text" id="whatsappLink" placeholder="https://wa.me/..."></div><div class="social-input"><label>Facebook</label><input type="url" id="facebookLink" placeholder="Facebook URL"></div></div>
+            <div class="social-row"><div class="social-input"><label>Instagram</label><input type="url" id="instagramLink" placeholder="Instagram URL"></div><div class="social-input"><label>Twitter</label><input type="url" id="twitterLink" placeholder="Twitter URL"></div></div>
+            <button class="btn" onclick="saveSocialLinks()">💾 Save Links</button>
         </div>
     </div>
 
-    <!-- تبويب المعاينة -->
-    <div id="tab-preview" style="display:none;">
+    <div id="tab-preview" class="tab-content" style="display:none;">
         <div class="preview-card">
-            <div class="company-name-large" id="previewCompanyName">اسم الشركة</div>
-            <p id="previewBio" style="margin:12px 0;">نبذة عن الشركة</p>
+            <div class="company-name-large" id="previewCompanyName">Company Name</div>
+            <p id="previewBio" style="margin:12px 0;">Company description</p>
             <div class="social-icons" id="previewSocialIcons"></div>
-            <h3>📸 المشاريع</h3>
+            <h3>📸 Projects</h3>
             <div id="previewMedia" class="media-grid"></div>
-            <h3>🏆 المنجزات</h3>
+            <h3>🏆 Achievements</h3>
             <div id="previewAchievements"></div>
         </div>
     </div>
 </div>
 
 <script>
-    // ========== إعدادات Supabase ==========
+    // Supabase configuration - using the SAME keys as your working index.html
     const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     let currentUser = null;
 
-    // ========== دوال مساعدة ==========
+    // Check if user is logged in
     async function checkUser() {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        if (error || !session) {
-            alert("الرجاء تسجيل الدخول أولاً");
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error || !user) {
+            alert("Please login first");
             window.location.href = "login.html";
             return false;
         }
-        currentUser = session.user;
+        currentUser = user;
+        
+        // Check if user is a verified company
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('user_type, is_verified_company')
+            .eq('id', currentUser.id)
+            .single();
+            
+        if (!profile || profile.user_type !== 'company' || !profile.is_verified_company) {
+            alert("Not authorized as verified company");
+            window.location.href = "index.html";
+            return false;
+        }
         return true;
     }
 
-    // ========== تحميل وحفظ البيانات ==========
+    // Load company profile
     async function loadProfile() {
         const { data, error } = await supabase
             .from('company_profiles')
             .select('*')
             .eq('user_id', currentUser.id)
             .single();
+        
         if (data) {
             document.getElementById('companyName').value = data.company_name || '';
             document.getElementById('companyBio').value = data.bio || '';
-            document.getElementById('serviceCategory').value = data.category || 'تنظيف';
-        } else if (error && error.code !== 'PGRST116') {
-            console.error("خطأ في تحميل الملف الشخصي:", error);
+            document.getElementById('serviceCategory').value = data.category || 'Cleaning';
         }
     }
 
-    async function saveProfile() {
+    // Save company profile
+    window.saveProfile = async function() {
         const company_name = document.getElementById('companyName').value;
         const bio = document.getElementById('companyBio').value;
         const category = document.getElementById('serviceCategory').value;
@@ -156,15 +162,22 @@
             .from('company_profiles')
             .upsert({ user_id: currentUser.id, company_name, bio, category });
         
-        if (error) { alert("خطأ: " + error.message); }
-        else { alert("✅ تم حفظ البيانات"); updatePreview(); }
-    }
+        if (error) { 
+            alert("Error: " + error.message); 
+        } else { 
+            alert("Profile saved successfully!"); 
+            updatePreview(); 
+        }
+    };
 
-    // ========== رفع الملفات (صور وفيديوهات) ==========
-    async function uploadMedia() {
+    // Upload media
+    window.uploadMedia = async function() {
         const fileInput = document.getElementById('mediaFile');
         const file = fileInput.files[0];
-        if (!file) { alert("اختر ملف أولاً"); return; }
+        if (!file) { 
+            alert("Please select a file"); 
+            return; 
+        }
         
         const isVideo = file.type.startsWith('video/');
         const fileName = `${currentUser.id}/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
@@ -173,24 +186,31 @@
             .from('company_media')
             .upload(fileName, file);
         
-        if (uploadError) { alert("فشل الرفع: " + uploadError.message); return; }
+        if (uploadError) { 
+            alert("Upload failed: " + uploadError.message); 
+            return; 
+        }
         
-        const { data: publicUrlData } = supabase.storage
+        const { data: urlData } = supabase.storage
             .from('company_media')
             .getPublicUrl(fileName);
         
         const { error: insertError } = await supabase
             .from('company_media')
-            .insert({ user_id: currentUser.id, media_url: publicUrlData.publicUrl, media_type: isVideo ? 'video' : 'image' });
+            .insert({ user_id: currentUser.id, media_url: urlData.publicUrl, media_type: isVideo ? 'video' : 'image' });
         
-        if (insertError) { alert("خطأ في حفظ الرابط: " + insertError.message); return; }
+        if (insertError) { 
+            alert("Error saving: " + insertError.message); 
+            return; 
+        }
         
-        alert("✅ تم الرفع بنجاح");
+        alert("File uploaded successfully!");
         fileInput.value = '';
         loadMedia();
         updatePreview();
-    }
+    };
 
+    // Load media gallery
     async function loadMedia() {
         const { data, error } = await supabase
             .from('company_media')
@@ -200,7 +220,7 @@
         
         const gallery = document.getElementById('mediaGallery');
         if (error || !data || data.length === 0) {
-            gallery.innerHTML = '<p style="color:#999;">لا توجد ملفات مرفوعة</p>';
+            gallery.innerHTML = '<p style="color:#999;">No media uploaded yet</p>';
             return;
         }
         
@@ -209,24 +229,28 @@
                 ${item.media_type === 'image' ? 
                     `<img src="${item.media_url}" onclick="window.open('${item.media_url}')">` : 
                     `<video src="${item.media_url}" controls></video>`}
-                <button class="delete-btn" onclick="deleteMedia('${item.id}', '${item.media_url}')">🗑️ حذف</button>
+                <button class="delete-btn" onclick="deleteMedia('${item.id}', '${item.media_url}')">Delete</button>
             </div>
         `).join('');
     }
 
-    async function deleteMedia(id, url) {
-        if (!confirm("هل أنت متأكد من الحذف؟")) return;
+    // Delete media
+    window.deleteMedia = async function(id, url) {
+        if (!confirm("Are you sure you want to delete?")) return;
         const path = url.split('/storage/v1/object/public/company_media/')[1];
         if (path) await supabase.storage.from('company_media').remove([path]);
         await supabase.from('company_media').delete().eq('id', id);
         loadMedia();
         updatePreview();
-    }
+    };
 
-    // ========== المنجزات ==========
-    async function addAchievement() {
+    // Add achievement
+    window.addAchievement = async function() {
         const title = document.getElementById('achievementTitle').value;
-        if (!title.trim()) { alert("الرجاء إدخال عنوان للمنجز"); return; }
+        if (!title.trim()) { 
+            alert("Please enter an achievement title"); 
+            return; 
+        }
         
         const description = document.getElementById('achievementDesc').value;
         const image_url = document.getElementById('achievementImage').value;
@@ -235,17 +259,19 @@
             .from('company_achievements')
             .insert({ user_id: currentUser.id, title, description, image_url });
         
-        if (error) { alert("خطأ: " + error.message); }
-        else {
-            alert("✅ تمت الإضافة");
+        if (error) { 
+            alert("Error: " + error.message); 
+        } else { 
+            alert("Achievement added!");
             document.getElementById('achievementTitle').value = '';
             document.getElementById('achievementDesc').value = '';
             document.getElementById('achievementImage').value = '';
             loadAchievements();
             updatePreview();
         }
-    }
+    };
 
+    // Load achievements list
     async function loadAchievements() {
         const { data, error } = await supabase
             .from('company_achievements')
@@ -255,7 +281,7 @@
         
         const container = document.getElementById('achievementsList');
         if (error || !data || data.length === 0) {
-            container.innerHTML = '<p>لا توجد منجزات مضافة</p>';
+            container.innerHTML = '<p>No achievements added</p>';
             return;
         }
         
@@ -264,20 +290,21 @@
                 <strong>🏆 ${ach.title}</strong>
                 <p style="margin-top:6px;">${ach.description || ''}</p>
                 ${ach.image_url ? `<img src="${ach.image_url}" style="max-width:100px; border-radius:8px;">` : ''}
-                <button class="delete-btn" onclick="deleteAchievement('${ach.id}')" style="margin-top:8px;">حذف</button>
+                <button class="delete-btn" onclick="deleteAchievement('${ach.id}')" style="margin-top:8px;">Delete</button>
             </div>
         `).join('');
     }
 
-    async function deleteAchievement(id) {
-        if (!confirm("حذف هذا المنجز؟")) return;
+    // Delete achievement
+    window.deleteAchievement = async function(id) {
+        if (!confirm("Delete this achievement?")) return;
         await supabase.from('company_achievements').delete().eq('id', id);
         loadAchievements();
         updatePreview();
-    }
+    };
 
-    // ========== وسائل التواصل ==========
-    async function saveSocialLinks() {
+    // Save social links
+    window.saveSocialLinks = async function() {
         const whatsapp = document.getElementById('whatsappLink').value;
         const facebook = document.getElementById('facebookLink').value;
         const instagram = document.getElementById('instagramLink').value;
@@ -287,10 +314,15 @@
             .from('company_social')
             .upsert({ user_id: currentUser.id, whatsapp, facebook, instagram, twitter });
         
-        if (error) { alert("خطأ: " + error.message); }
-        else { alert("✅ تم حفظ الروابط"); updatePreview(); }
-    }
+        if (error) { 
+            alert("Error: " + error.message); 
+        } else { 
+            alert("Social links saved!"); 
+            updatePreview(); 
+        }
+    };
 
+    // Load social links
     async function loadSocialLinks() {
         const { data, error } = await supabase
             .from('company_social')
@@ -306,25 +338,27 @@
         }
     }
 
-    // ========== معاينة الصفحة العامة ==========
+    // Update public preview
     async function updatePreview() {
-        // بيانات الشركة
+        // Get company profile
         const { data: profile } = await supabase
             .from('company_profiles')
             .select('*')
             .eq('user_id', currentUser.id)
             .single();
+        
         if (profile) {
-            document.getElementById('previewCompanyName').innerText = profile.company_name || 'شركتي';
-            document.getElementById('previewBio').innerText = profile.bio || 'مرحباً بكم في صفحتنا';
+            document.getElementById('previewCompanyName').innerText = profile.company_name || 'Company Name';
+            document.getElementById('previewBio').innerText = profile.bio || 'Company description';
         }
         
-        // روابط التواصل
+        // Get social links
         const { data: social } = await supabase
             .from('company_social')
             .select('*')
             .eq('user_id', currentUser.id)
             .single();
+        
         const iconsDiv = document.getElementById('previewSocialIcons');
         iconsDiv.innerHTML = '';
         if (social) {
@@ -334,83 +368,95 @@
             if (social.twitter) iconsDiv.innerHTML += `<a href="${social.twitter}" target="_blank"><i class="fab fa-twitter"></i></a>`;
         }
         
-        // المعرض
+        // Get media (limit 6)
         const { data: media } = await supabase
             .from('company_media')
             .select('*')
             .eq('user_id', currentUser.id)
             .limit(6);
+        
         const previewMedia = document.getElementById('previewMedia');
         previewMedia.innerHTML = '';
-        if (media && media.length) {
+        if (media && media.length > 0) {
             media.forEach(m => {
                 const el = document.createElement('div');
                 el.className = 'media-item';
-                if (m.media_type === 'image') el.innerHTML = `<img src="${m.media_url}" style="height:90px;">`;
-                else el.innerHTML = `<video src="${m.media_url}" style="height:90px;"></video>`;
+                if (m.media_type === 'image') {
+                    el.innerHTML = `<img src="${m.media_url}" style="height:90px;">`;
+                } else {
+                    el.innerHTML = `<video src="${m.media_url}" style="height:90px;"></video>`;
+                }
                 previewMedia.appendChild(el);
             });
         } else {
-            previewMedia.innerHTML = '<p>لا توجد وسائط</p>';
+            previewMedia.innerHTML = '<p>No media to display</p>';
         }
         
-        // المنجزات
+        // Get achievements (limit 3)
         const { data: achievements } = await supabase
             .from('company_achievements')
             .select('*')
             .eq('user_id', currentUser.id)
             .limit(3);
+        
         const previewAch = document.getElementById('previewAchievements');
         previewAch.innerHTML = '';
-        if (achievements && achievements.length) {
+        if (achievements && achievements.length > 0) {
             achievements.forEach(a => {
                 previewAch.innerHTML += `<div class="achievement-item"><strong>🏆 ${a.title}</strong><br>${a.description || ''}</div>`;
             });
         } else {
-            previewAch.innerHTML = '<p>لا توجد منجزات</p>';
+            previewAch.innerHTML = '<p>No achievements added</p>';
         }
     }
 
-    // ========== إعداد التبويبات ==========
+    // Setup tabs
     function setupTabs() {
         const btns = document.querySelectorAll('.tab-btn');
-        const tabs = ['profile', 'media', 'achievements', 'social', 'preview'];
+        const tabIds = ['profile', 'media', 'achievements', 'social', 'preview'];
+        
         btns.forEach((btn, index) => {
-            btn.onclick = () => {
+            btn.addEventListener('click', () => {
+                // Update active button
                 btns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                tabs.forEach(tab => {
-                    const el = document.getElementById(`tab-${tab}`);
-                    if (el) el.style.display = 'none';
+                
+                // Hide all tab contents
+                tabIds.forEach(tabId => {
+                    const tab = document.getElementById(`tab-${tabId}`);
+                    if (tab) tab.style.display = 'none';
                 });
-                const activeTab = document.getElementById(`tab-${tabs[index]}`);
+                
+                // Show selected tab
+                const activeTab = document.getElementById(`tab-${tabIds[index]}`);
                 if (activeTab) activeTab.style.display = 'block';
-                if (tabs[index] === 'preview') updatePreview();
-                if (tabs[index] === 'media') loadMedia();
-                if (tabs[index] === 'achievements') loadAchievements();
-            };
+                
+                // Refresh data when needed
+                if (tabIds[index] === 'media') loadMedia();
+                if (tabIds[index] === 'achievements') loadAchievements();
+                if (tabIds[index] === 'preview') updatePreview();
+            });
         });
     }
 
-    // ========== تسجيل الخروج ==========
-    async function handleLogout() {
+    // Logout function
+    window.handleLogout = async function() {
         await supabase.auth.signOut();
-        window.location.href = 'login.html';
-    }
+        window.location.href = 'index.html';
+    };
 
-    // ========== بدء التشغيل ==========
+    // Initialize everything
     (async function init() {
         if (!await checkUser()) return;
         
-        // إنشاء سجل افتراضي إذا لم يكن موجوداً
         await loadProfile();
         await loadMedia();
         await loadAchievements();
         await loadSocialLinks();
-        updatePreview();
+        await updatePreview();
         setupTabs();
         
-        // تفعيل التبويب الأول افتراضياً
+        // Show profile tab by default
         document.querySelector('.tab-btn.active').click();
     })();
 </script>
