@@ -82,10 +82,11 @@
 </div>
 
 <script>
-    // مفاتيح الربط الصحيحة
-    const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Final Connection Keys for Company-dashboard.html
+const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+const sb = supabase.createClient(URL, KEY);
+    
 
     let allCompanies = [];
 
