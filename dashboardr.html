@@ -2,202 +2,130 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Belg Services | Company Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BELG SERVICES - Company Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #f0f2f5; padding: 16px; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        .header { background: #FF6600; padding: 16px; border-radius: 20px; color: white; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .logo { font-size: 24px; font-weight: 800; }
-        .btn-logout { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; cursor: pointer; font-size: 14px; border: none; color: white; }
-        .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-        .tab-btn { background: white; border: none; padding: 10px 20px; border-radius: 30px; font-weight: 700; cursor: pointer; font-size: 14px; }
-        .tab-btn.active { background: #FF6600; color: white; }
-        .card { background: white; border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .card h2 { margin-bottom: 20px; color: #1e293b; font-size: 20px; border-left: 4px solid #FF6600; padding-left: 12px; }
-        .form-group { margin-bottom: 16px; }
-        label { font-weight: 600; display: block; margin-bottom: 6px; font-size: 14px; }
-        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; }
-        .btn { background: #FF6600; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; font-size: 16px; transition: 0.3s; }
-        .btn:active { transform: scale(0.98); opacity: 0.9; }
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 16px; }
-        .media-item { background: #f8fafc; border-radius: 16px; padding: 8px; text-align: center; border: 1px solid #eee; }
-        .media-item img, .media-item video { width: 100%; height: 100px; object-fit: cover; border-radius: 12px; }
-        .delete-btn { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 20px; margin-top: 8px; cursor: pointer; font-size: 12px; }
-        .social-row { display: flex; gap: 12px; flex-wrap: wrap; }
-        .social-input { flex: 1; min-width: 140px; }
-        .preview-card { background: linear-gradient(135deg, #FF6600, #FF9933); color: white; border-radius: 24px; padding: 24px; margin-top: 20px; }
-        .company-name-large { font-size: 24px; font-weight: 800; }
-        .social-icons { display: flex; gap: 12px; margin: 20px 0; flex-wrap: wrap; }
-        .social-icons a { background: rgba(255,255,255,0.2); padding: 10px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: white; font-size: 20px; text-decoration: none; }
-        .achievement-item { background: rgba(255,255,255,0.15); margin: 8px 0; padding: 12px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
-        @media (max-width: 600px) { .social-row { flex-direction: column; } }
+        body { background: #fefcf5; padding: 15px; color: #1e2a2f; }
+        
+        .header { background: #FF6600; padding: 25px; border-radius: 24px; color: white; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(255, 102, 0, 0.2); }
+        .header h2 { font-size: 22px; font-weight: 800; }
+        
+        .tabs-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; -webkit-overflow-scrolling: touch; }
+        .tab-btn { background: white; border: 1px solid #e0e0e0; padding: 12px 20px; border-radius: 14px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+        .tab-btn.active { background: #FF6600; color: white; border-color: #FF6600; }
+
+        .card { background: white; border-radius: 24px; padding: 24px; box-shadow: 0 6px 16px rgba(0,0,0,0.04); border: 1px solid #f0e4d8; margin-bottom: 20px; }
+        
+        label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 14px; color: #444; }
+        input, textarea { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 12px; font-size: 16px; outline: none; }
+        
+        .btn-action { background: #FF6600; color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 800; width: 100%; font-size: 16px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(255, 102, 0, 0.2); }
+        .btn-action:active { transform: scale(0.97); }
+        
+        .logout-btn { background: #333; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 600; width: 100%; margin-top: 20px; cursor: pointer; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
     </style>
 </head>
 <body>
 
-<div class="container">
     <div class="header">
-        <div class="logo">🏢 BELG | Company</div>
-        <button onclick="handleLogout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        <h2>Company Dashboard</h2>
+        <p id="statusInfo" style="font-size: 13px; opacity: 0.9; margin-top: 5px;">Checking connection...</p>
     </div>
 
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="profile">📋 Profile</button>
-        <button class="tab-btn" data-tab="media">🖼️ Media</button>
-        <button class="tab-btn" data-tab="achievements">🏆 Achievements</button>
-        <button class="tab-btn" data-tab="social">🔗 Social</button>
-        <button class="tab-btn" data-tab="preview">👁️ Preview</button>
+    <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab('profile', this)">📋 Profile</button>
+        <button class="tab-btn" onclick="switchTab('media', this)">🖼️ Gallery</button>
+        <button class="tab-btn" onclick="switchTab('social', this)">🔗 Social</button>
     </div>
 
-    <div id="tab-profile" class="tab-content">
+    <div id="profile" class="tab-content active">
         <div class="card">
-            <h2>Company Information</h2>
-            <div class="form-group"><label>Company Name</label><input type="text" id="companyName"></div>
-            <div class="form-group"><label>About Company</label><textarea id="companyBio" rows="3"></textarea></div>
-            <div class="form-group"><label>Category</label><select id="serviceCategory"><option value="Cleaning">Cleaning</option><option value="Construction">Construction</option><option value="Moving">Moving</option></select></div>
-            <button class="btn" onclick="saveProfile()">💾 Save Profile</button>
+            <label>Registered Company Name</label>
+            <input type="text" id="companyNameInput" placeholder="Enter name...">
+            <button class="btn-action" onclick="handleSaveProfile()">💾 Save Changes</button>
         </div>
     </div>
 
-    <div id="tab-media" class="tab-content" style="display:none;">
+    <div id="media" class="tab-content">
         <div class="card">
-            <h2>Upload Media</h2>
-            <input type="file" id="mediaFile" accept="image/*,video/*">
-            <button class="btn" onclick="uploadMedia()" style="margin-top:12px;">📤 Upload File</button>
-            <div id="mediaGallery" class="media-grid"></div>
+            <label>Upload Portfolio Media</label>
+            <input type="file" id="fileInput">
+            <button class="btn-action" onclick="handleUpload()">📤 Upload to Server</button>
         </div>
     </div>
 
-    <div id="tab-achievements" class="tab-content" style="display:none;">
+    <div id="social" class="tab-content">
         <div class="card">
-            <h2>Achievements</h2>
-            <input type="text" id="achievementTitle" placeholder="Title">
-            <textarea id="achievementDesc" rows="2" placeholder="Description" style="margin-top:10px;"></textarea>
-            <button class="btn" onclick="addAchievement()" style="margin-top:12px;">➕ Add</button>
-            <div id="achievementsList" style="margin-top:20px;"></div>
+            <label>WhatsApp Business Link</label>
+            <input type="text" id="waInput" placeholder="https://wa.me/...">
+            <button class="btn-action" onclick="handleSaveSocial()">🔗 Update Links</button>
         </div>
     </div>
 
-    <div id="tab-social" class="tab-content" style="display:none;">
-        <div class="card">
-            <h2>Social Links</h2>
-            <div class="social-row">
-                <div class="social-input"><label>WhatsApp</label><input type="text" id="whatsappLink"></div>
-                <div class="social-input"><label>Facebook</label><input type="url" id="facebookLink"></div>
-            </div>
-            <button class="btn" onclick="saveSocialLinks()" style="margin-top:15px;">💾 Save Links</button>
-        </div>
-    </div>
-
-    <div id="tab-preview" class="tab-content" style="display:none;">
-        <div class="preview-card">
-            <div class="company-name-large" id="previewCompanyName">---</div>
-            <p id="previewBio">---</p>
-            <div class="social-icons" id="previewSocialIcons"></div>
-            <h3>📸 Gallery</h3>
-            <div id="previewMedia" class="media-grid"></div>
-        </div>
-    </div>
-</div>
+    <button class="logout-btn" onclick="triggerLogout()">Sign Out</button>
 
 <script>
+    // Configuration
     const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
-    let currentUser = null;
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function checkUser() {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) { window.location.href = "login.html"; return false; }
-        currentUser = user;
-        return true;
+    // 1. Tab Switcher Logic
+    function switchTab(id, el) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        el.classList.add('active');
     }
 
-    // Tabs Logic
-    function setupTabs() {
-        const btns = document.querySelectorAll('.tab-btn');
-        btns.forEach(btn => {
-            btn.onclick = () => {
-                btns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const target = btn.getAttribute('data-tab');
-                document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-                document.getElementById('tab-' + target).style.display = 'block';
-                if(target === 'preview') updatePreview();
-            };
-        });
-    }
-
-    // Database Actions
-    window.saveProfile = async function() {
-        const company_name = document.getElementById('companyName').value;
-        const bio = document.getElementById('companyBio').value;
-        const category = document.getElementById('serviceCategory').value;
-        await supabase.from('company_profiles').upsert({ user_id: currentUser.id, company_name, bio, category });
-        alert("Saved!");
-    };
-
-    window.uploadMedia = async function() {
-        const file = document.getElementById('mediaFile').files[0];
-        if (!file) return alert("Select file");
-        const path = `${currentUser.id}/${Date.now()}_${file.name}`;
-        const { error } = await supabase.storage.from('company_media').upload(path, file);
-        if (error) return alert(error.message);
-        const { data } = supabase.storage.from('company_media').getPublicUrl(path);
-        await supabase.from('company_media').insert({ user_id: currentUser.id, media_url: data.publicUrl, media_type: file.type.startsWith('video') ? 'video' : 'image' });
-        loadMedia();
-    };
-
-    async function loadMedia() {
-        const { data } = await supabase.from('company_media').select('*').eq('user_id', currentUser.id);
-        const gallery = document.getElementById('mediaGallery');
-        gallery.innerHTML = data?.map(m => `
-            <div class="media-item">
-                ${m.media_type === 'image' ? `<img src="${m.media_url}">` : `<video src="${m.media_url}"></video>`}
-                <button class="delete-btn" onclick="deleteMedia('${m.id}')">Delete</button>
-            </div>
-        `).join('') || '';
-    }
-
-    window.deleteMedia = async function(id) {
-        await supabase.from('company_media').delete().eq('id', id);
-        loadMedia();
-    };
-
-    async function loadProfile() {
-        const { data } = await supabase.from('company_profiles').select('*').eq('user_id', currentUser.id).maybeSingle();
-        if (data) {
-            document.getElementById('companyName').value = data.company_name || '';
-            document.getElementById('companyBio').value = data.bio || '';
+    // 2. Authentication Check
+    async function validateSession() {
+        try {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            if (error || !user) {
+                window.location.href = "login.html";
+            } else {
+                document.getElementById('statusInfo').innerText = "Logged in as: " + user.email;
+                fetchInitialData(user.id);
+            }
+        } catch (err) {
+            alert("Connection Error: " + err.message);
         }
     }
 
-    window.handleLogout = async function() {
+    // 3. Save Profile Logic
+    async function handleSaveProfile() {
+        try {
+            const name = document.getElementById('companyNameInput').value;
+            if (!name) return alert("Please enter a name first");
+
+            const { data: { user } } = await supabase.auth.getUser();
+            const { error } = await supabase.from('company_profiles').upsert({ 
+                user_id: user.id, 
+                company_name: name 
+            });
+
+            if (error) throw error;
+            alert("✅ Success: Profile Updated!");
+        } catch (err) {
+            alert("❌ Save Failed: " + err.message);
+        }
+    }
+
+    // 4. Logout Logic
+    async function triggerLogout() {
         await supabase.auth.signOut();
         window.location.href = "login.html";
-    };
-
-    async function updatePreview() {
-        const { data: profile } = await supabase.from('company_profiles').select('*').eq('user_id', currentUser.id).maybeSingle();
-        if (profile) {
-            document.getElementById('previewCompanyName').innerText = profile.company_name;
-            document.getElementById('previewBio').innerText = profile.bio;
-        }
     }
 
-    async function init() {
-        if (await checkUser()) {
-            setupTabs();
-            loadProfile();
-            loadMedia();
-        }
-    }
-    init();
+    // Initial Load
+    window.addEventListener('DOMContentLoaded', validateSession);
 </script>
 </body>
 </html>
