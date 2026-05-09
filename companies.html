@@ -39,7 +39,7 @@
         .info { padding: 15px 20px 20px; }
         .name { font-size: 1.2rem; font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
         .cat { color: #FF6600; font-weight: 600; font-size: 0.85rem; margin-bottom: 10px; }
-        .status { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; } /* نقطة خضراء */
+        .status { width: 10px; height: 10px; border-radius: 50%; background: #22c55e; }
         .btn-profile { width: 100%; padding: 12px; border: none; background: #f8fafc; border-radius: 12px; font-weight: 700; color: #64748b; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
@@ -68,14 +68,13 @@
         </div>
     </section>
 
-    <div id="companyGrid" class="grid">
-        </div>
+    <div id="companyGrid" class="grid"></div>
 
     <script>
-        // Final Key Correction (Keys from your screenshot)
-const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-const sb = supabase.createClient(URL, KEY);
+        // الأسطر النهائية للربط بناءً على صورتك
+        const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+        const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+        const sb = supabase.createClient(URL, KEY);
         
         let dataStore = [];
 
@@ -83,29 +82,30 @@ const sb = supabase.createClient(URL, KEY);
             const container = document.getElementById('companyGrid');
             container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Connecting to Database...</p>';
 
+            // التعديل هنا: استخدام اسم الجدول company_profiles ليتطابق مع قاعدة بياناتك
             const { data, error } = await sb
-                .from('profiles')
-                .select('*')
-                .eq('user_type', 'company');
+                .from('company_profiles') 
+                .select('*');
 
             if (error) {
-                container.innerHTML = `<p style="color:red; text-align:center; grid-column:1/-1;">Error: Invalid API Key or Database connection.</p>`;
+                container.innerHTML = `<p style="color:red; text-align:center; grid-column:1/-1;">Error: Check Database Policies (RLS).</p>`;
+                console.error("Supabase Error:", error.message);
                 return;
             }
 
-            dataStore = data;
+            dataStore = data || [];
             render(dataStore);
         }
 
         function render(list) {
             const container = document.getElementById('companyGrid');
-            if (list.length === 0) {
+            if (!list || list.length === 0) {
                 container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">No companies registered here yet.</p>';
                 return;
             }
 
             container.innerHTML = list.map(c => `
-                <div class="card" onclick="window.location.href='profile.html?id=${c.id}'">
+                <div class="card" onclick="window.location.href='company-profile.html?id=${c.id}'">
                     <div class="banner" style="background-image: url('${c.banner_url || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=400'}')"></div>
                     <div class="logo-circle" style="background-image: url('${c.avatar_url || 'https://placehold.co/100?text=Logo'}')"></div>
                     <div class="info">
@@ -118,7 +118,7 @@ const sb = supabase.createClient(URL, KEY);
             `).join('');
         }
 
-        // نظام البحث السريع
+        // نظام البحث
         document.getElementById('search').oninput = (e) => {
             const val = e.target.value.toLowerCase();
             const filtered = dataStore.filter(c => 
@@ -131,7 +131,7 @@ const sb = supabase.createClient(URL, KEY);
         // نظام الفلترة
         function filter(cat) {
             document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            if(event && event.target) event.target.classList.add('active');
             const filtered = (cat === 'all') ? dataStore : dataStore.filter(c => c.business_category === cat);
             render(filtered);
         }
@@ -140,4 +140,3 @@ const sb = supabase.createClient(URL, KEY);
     </script>
 </body>
 </html>
-
