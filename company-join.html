@@ -1,71 +1,75 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>انضم كشركة - خدمات بلجيكا</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>Join as Company - BELG SERVICES</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #121212; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .join-container { background-color: #1e1e1e; padding: 30px; border-radius: 15px; width: 90%; max-width: 450px; border-top: 5px solid #ff9800; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h2 { text-align: center; color: #ff9800; }
+        body { font-family: 'Inter', sans-serif; background-color: #121212; color: white; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .join-container { background-color: #1e1e1e; padding: 30px; border-radius: 15px; width: 90%; max-width: 450px; border-top: 5px solid #FF6600; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h2 { text-align: center; color: #FF6600; margin-bottom: 25px; }
         .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-size: 14px; }
-        input, textarea, select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #333; background-color: #2a2a2a; color: white; box-sizing: border-box; }
-        .btn-register { width: 100%; padding: 12px; background-color: #ff9800; border: none; border-radius: 8px; color: white; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-register:hover { background-color: #e68a00; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; color: #ccc; }
+        input, textarea, select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background-color: #2a2a2a; color: white; box-sizing: border-box; outline: none; font-size: 14px; }
+        input:focus, select:focus { border-color: #FF6600; }
+        .btn-register { width: 100%; padding: 14px; background-color: #FF6600; border: none; border-radius: 8px; color: white; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-top: 15px; }
+        .btn-register:hover { background-color: #e65c00; }
         .btn-register:disabled { background-color: #555; cursor: not-allowed; }
+        .login-link { text-align: center; margin-top: 20px; font-size: 13px; }
+        .login-link a { color: #FF6600; text-decoration: none; }
     </style>
 </head>
 <body>
 
 <div class="join-container">
-    <h2>سجل شركتك الآن 🚀</h2>
+    <h2>Register Your Business 🚀</h2>
     <form id="joinForm">
         <div class="input-group">
-            <label>اسم الشركة</label>
-            <input type="text" id="compName" placeholder="مثال: شركة السلام" required>
+            <label>Company Name</label>
+            <input type="text" id="compName" placeholder="e.g. CleanPro Belgium" required>
         </div>
         <div class="input-group">
-            <label>البريد الإلكتروني</label>
-            <input type="email" id="compEmail" placeholder="email@company.com" required>
+            <label>Business Email</label>
+            <input type="email" id="compEmail" placeholder="contact@company.com" required>
         </div>
         <div class="input-group">
-            <label>كلمة المرور</label>
+            <label>Password</label>
             <input type="password" id="compPass" placeholder="********" required>
         </div>
         <div class="input-group">
-            <label>تخصص الشركة</label>
+            <label>Business Category</label>
             <select id="compSpecialty">
-                <option value="مقاولات">مقاولات وبناء</option>
-                <option value="تنظيف">تنظيف وتعقيم</option>
-                <option value="نقل">نقل أثاث</option>
-                <option value="صيانة">صيانة عامة</option>
+                <option value="Cleaning">Cleaning Services</option>
+                <option value="Moving">Moving & Transport</option>
+                <option value="Construction">Construction & Renovation</option>
+                <option value="Maintenance">General Maintenance</option>
             </select>
         </div>
         <div class="input-group">
-            <label>نبذة مختصرة</label>
-            <textarea id="compBio" rows="2" placeholder="ماذا تقدم شركتكم؟"></textarea>
+            <label>Short Bio</label>
+            <textarea id="compBio" rows="2" placeholder="Tell clients about your services..."></textarea>
         </div>
-        <button type="submit" id="submitBtn" class="btn-register">إنشاء حساب الشركة</button>
+        <button type="submit" id="submitBtn" class="btn-register">Create Company Account</button>
     </form>
+    <div class="login-link">
+        Already have an account? <a href="login.html">Login here</a>
+    </div>
 </div>
 
-<script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-    // Final Connection Keys for company-join.html
-const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-const sb = supabase.createClient(URL, KEY);
-    
+<script>
+    // Configuration from your Supabase setup
+    const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+    const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+    const supabaseClient = window.supabase.createClient(URL, KEY);
 
     const joinForm = document.getElementById('joinForm');
     const submitBtn = document.getElementById('submitBtn');
 
     joinForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        submitBtn.innerText = "جاري الحفظ...";
+        submitBtn.innerText = "Creating Account...";
         submitBtn.disabled = true;
 
         const name = document.getElementById('compName').value;
@@ -75,8 +79,8 @@ const sb = supabase.createClient(URL, KEY);
         const bio = document.getElementById('compBio').value;
 
         try {
-            // 1. إنشاء الحساب
-            const { data: authData, error: authError } = await supabase.auth.signUp({
+            // 1. Sign up user in Supabase Auth
+            const { data: authData, error: authError } = await supabaseClient.auth.signUp({
                 email: email,
                 password: pass,
             });
@@ -84,24 +88,27 @@ const sb = supabase.createClient(URL, KEY);
             if (authError) throw authError;
 
             if (authData.user) {
-                // 2. تحديث بيانات البروفايل لتصبح شركة (اللون الأخضر)
-                const { error: profileError } = await supabase
-                    .from('profiles')
-                    .update({
-                        full_name: name,
-                        user_type: 'company',
-                        email: email
-                    })
-                    .eq('id', authData.user.id);
+                // 2. Insert company data into 'company_profiles' table as per your screenshot
+                const { error: profileError } = await supabaseClient
+                    .from('company_profiles')
+                    .insert([
+                        { 
+                            id: authData.user.id, 
+                            full_name: name, 
+                            business_category: specialty,
+                            bio: bio,
+                            email: email
+                        }
+                    ]);
 
                 if (profileError) throw profileError;
 
-                alert('تم تسجيل شركتك بنجاح يا دكتور!');
-                window.location.href = 'index.html'; // سيعود للرئيسية ويجد كرت الشركة أخضر
+                alert('Registration Successful! Redirecting to login...');
+                window.location.href = 'login.html'; 
             }
         } catch (error) {
-            alert('خطأ: ' + error.message);
-            submitBtn.innerText = "إنشاء حساب الشركة";
+            alert('Registration Error: ' + error.message);
+            submitBtn.innerText = "Create Company Account";
             submitBtn.disabled = false;
         }
     });
