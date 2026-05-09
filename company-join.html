@@ -54,10 +54,11 @@
 <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-    // بيانات مشروعك مدمجة وجاهزة
-    const supabaseUrl = 'https://dhvdohzjfmxmfxbinqsj.supabase.co'
-    const supabaseKey = 'sb_publishable_53zXqL7fXvF3GfHnJ5nN8V5e6B2p0D' // وضعنا الـ Anon Key الخاص بك هنا
-    const supabase = createClient(supabaseUrl, supabaseKey)
+    // Final Connection Keys for company-join.html
+const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+const sb = supabase.createClient(URL, KEY);
+    
 
     const joinForm = document.getElementById('joinForm');
     const submitBtn = document.getElementById('submitBtn');
