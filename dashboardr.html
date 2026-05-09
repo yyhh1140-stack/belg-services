@@ -11,29 +11,28 @@
         body { background: #f0f2f5; padding: 16px; }
         .container { max-width: 1000px; margin: 0 auto; }
         .header { background: #FF6600; padding: 16px; border-radius: 20px; color: white; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .logo { font-size: 24px; font-weight: 800; }
-        .btn-logout { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; cursor: pointer; font-size: 14px; border: none; color: white; }
-        .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-        .tab-btn { background: white; border: none; padding: 10px 20px; border-radius: 30px; font-weight: 700; cursor: pointer; font-size: 14px; }
+        .logo { font-size: 20px; font-weight: 800; }
+        .btn-logout { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; cursor: pointer; font-size: 14px; border: none; color: white; font-weight: 600; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+        .tab-btn { background: white; border: none; padding: 10px 20px; border-radius: 30px; font-weight: 700; cursor: pointer; font-size: 13px; white-space: nowrap; color: #64748b; }
         .tab-btn.active { background: #FF6600; color: white; }
         .card { background: white; border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .card h2 { margin-bottom: 20px; color: #1e293b; font-size: 20px; border-left: 4px solid #FF6600; padding-left: 12px; }
+        .card h2 { margin-bottom: 20px; color: #1e293b; font-size: 18px; border-left: 4px solid #FF6600; padding-left: 12px; }
         .form-group { margin-bottom: 16px; }
-        label { font-weight: 600; display: block; margin-bottom: 6px; font-size: 14px; }
-        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; }
-        .btn { background: #FF6600; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; font-size: 16px; }
-        .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 16px; }
-        .media-item { background: #f8fafc; border-radius: 16px; padding: 8px; text-align: center; }
-        .media-item img { width: 100%; height: 100px; object-fit: cover; border-radius: 12px; }
-        .tab-content { display: none; } /* إخفاء التبويبات افتراضياً */
-        #tab-profile { display: block; } /* إظهار التبويب الأول فقط */
+        label { font-weight: 600; display: block; margin-bottom: 6px; font-size: 14px; color: #475569; }
+        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 14px; outline: none; }
+        input:focus { border-color: #FF6600; }
+        .btn { background: #FF6600; color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; font-size: 16px; transition: 0.3s; }
+        .btn:hover { background: #e65c00; }
+        .tab-content { display: none; } 
+        #tab-profile { display: block; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <div class="logo">🏢 BELG SERVICES | Company Dashboard</div>
+        <div class="logo"><i class="fas fa-building"></i> BELG SERVICES</div>
         <button onclick="handleLogout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
 
@@ -42,104 +41,114 @@
         <button class="tab-btn" onclick="openTab(event, 'tab-media')">🖼️ Media</button>
         <button class="tab-btn" onclick="openTab(event, 'tab-achievements')">🏆 Achievements</button>
         <button class="tab-btn" onclick="openTab(event, 'tab-social')">🔗 Social</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-preview')">👁️ Preview</button>
     </div>
 
     <div id="tab-profile" class="tab-content">
         <div class="card">
             <h2>Company Information</h2>
-            <div class="form-group"><label>Company Name</label><input type="text" id="companyName"></div>
-            <div class="form-group"><label>About Company</label><textarea id="companyBio" rows="3"></textarea></div>
-            <button class="btn" onclick="saveProfile()">💾 Save Profile</button>
+            <div class="form-group">
+                <label>Company Name (Public)</label>
+                <input type="text" id="companyName" placeholder="Enter company name">
+            </div>
+            <div class="form-group">
+                <label>Business Category</label>
+                <select id="companyCategory">
+                    <option value="Cleaning">Cleaning Services</option>
+                    <option value="Moving">Moving & Transport</option>
+                    <option value="Construction">Construction</option>
+                    <option value="Maintenance">Maintenance</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>About Company</label>
+                <textarea id="companyBio" rows="4" placeholder="Describe your business..."></textarea>
+            </div>
+            <button class="btn" id="saveBtn" onclick="saveProfile()">💾 Save Changes</button>
         </div>
     </div>
 
-    <div id="tab-media" class="tab-content">
-        <div class="card">
-            <h2>Upload Media</h2>
-            <input type="file" id="mediaFile">
-            <button class="btn" onclick="uploadMedia()" style="margin-top:12px;">📤 Upload File</button>
-        </div>
-    </div>
+    <div id="tab-media" class="tab-content"><div class="card"><h2>Media Library</h2><p>Media upload system integration...</p></div></div>
+    <div id="tab-achievements" class="tab-content"><div class="card"><h2>Awards & Achievements</h2><p>Feature coming soon...</p></div></div>
+    <div id="tab-social" class="tab-content"><div class="card"><h2>Social Media Links</h2><p>Social links integration...</p></div></div>
 
-    <div id="tab-achievements" class="tab-content">
-        <div class="card">
-            <h2>Add Achievement</h2>
-            <input type="text" id="achievementTitle" placeholder="Achievement title">
-            <button class="btn" onclick="addAchievement()" style="margin-top:12px;">➕ Add Achievement</button>
-        </div>
-    </div>
-
-    <div id="tab-social" class="tab-content">
-        <div class="card">
-            <h2>Social Links</h2>
-            <input type="text" id="whatsappLink" placeholder="WhatsApp Link">
-            <button class="btn" onclick="saveSocialLinks()" style="margin-top:12px;">💾 Save Links</button>
-        </div>
-    </div>
-
-    <div id="tab-preview" class="tab-content">
-        <div class="card">
-            <h2>Live Preview</h2>
-            <div id="previewContent">Switching to this tab will refresh your preview.</div>
-        </div>
-    </div>
 </div>
 
 <script>
-    // الإعدادات الأصلية
     const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    // إصلاح وظيفة التبديل بين التبويبات لتكون متوافقة مع الهاتف بنسبة 100%
     function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
+        let i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
+        for (i = 0; i < tabcontent.length; i++) tabcontent[i].style.display = "none";
         tablinks = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
+        for (i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
         document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active";
+        evt.currentTarget.classList.add("active");
     }
 
-    // وظيفة الخروج
     async function handleLogout() {
-        await supabase.auth.signOut();
+        await sb.auth.signOut();
         window.location.href = "login.html";
     }
 
-    // وظيفة حفظ الملف الشخصي (مبسطة لتعمل دون أخطاء)
-    async function saveProfile() {
-        const { data: { user } } = await supabase.auth.getUser();
-        if(!user) return alert("Please login first");
-        
-        const name = document.getElementById('companyName').value;
-        const bio = document.getElementById('companyBio').value;
+    // جلب البيانات الحالية عند تحميل الصفحة
+    async function fetchCurrentData(user) {
+        const { data, error } = await sb
+            .from('company_profiles')
+            .select('*')
+            .eq('id', user.id)
+            .single();
 
-        const { error } = await supabase.from('company_profiles').upsert({
-            user_id: user.id,
-            company_name: name,
-            bio: bio
-        });
-
-        if (error) alert("Error: " + error.message);
-        else alert("Profile Updated Successfully!");
+        if (data) {
+            document.getElementById('companyName').value = data.full_name || '';
+            document.getElementById('companyBio').value = data.bio || '';
+            document.getElementById('companyCategory').value = data.business_category || 'Cleaning';
+        }
     }
 
-    // التحقق من الجلسة عند فتح الصفحة
+    async function saveProfile() {
+        const saveBtn = document.getElementById('saveBtn');
+        const { data: { user } } = await sb.auth.getUser();
+        
+        if(!user) return alert("Please login first");
+        
+        saveBtn.disabled = true;
+        saveBtn.innerText = "Saving...";
+
+        const name = document.getElementById('companyName').value;
+        const bio = document.getElementById('companyBio').value;
+        const category = document.getElementById('companyCategory').value;
+
+        // التحديث بناءً على ID المستخدم في جدول company_profiles
+        const { error } = await sb.from('company_profiles').upsert({
+            id: user.id, // المفتاح الأساسي
+            full_name: name,
+            bio: bio,
+            business_category: category,
+            email: user.email
+        });
+
+        if (error) {
+            alert("Error: " + error.message);
+        } else {
+            alert("Profile Updated Successfully!");
+        }
+        
+        saveBtn.disabled = false;
+        saveBtn.innerText = "💾 Save Changes";
+    }
+
     window.onload = async function() {
-        const { data: { user } } = await supabase.auth.getUser();
+        const { data: { user } } = await sb.auth.getUser();
         if (!user) {
             window.location.href = "login.html";
+        } else {
+            fetchCurrentData(user);
         }
     };
 </script>
 
 </body>
-    </html>
-    
+</html>
