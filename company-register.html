@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Your Business — BELG SERVICES</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        .setup-container { max-width: 600px; margin: 0 auto; background: white; border-radius: 25px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .step-header { text-align: center; margin-bottom: 30px; }
+        .step-header h1 { color: #003366; font-size: 24px; margin-bottom: 10px; }
+        .step-header p { color: #64748b; font-size: 14px; }
+        
+        .form-section { display: none; } /* سنقسمها لخطوات سهلة */
+        .form-section.active { display: block; animation: slideIn 0.4s ease; }
+        
+        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+        label { display: block; font-weight: 700; margin-bottom: 8px; color: #1e293b; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 14px; border: 1.5px solid #e2e8f0; border-radius: 12px; margin-bottom: 20px; outline: none; box-sizing: border-box; }
+        input:focus { border-color: #FF6600; }
+
+        .btn-next { background: #FF6600; color: white; border: none; padding: 16px; border-radius: 12px; width: 100%; font-weight: 700; cursor: pointer; font-size: 16px; }
+        .btn-back { background: #e2e8f0; color: #475569; border: none; padding: 10px; margin-top: 10px; border-radius: 12px; width: 100%; cursor: pointer; }
+        
+        .progress-bar { display: flex; gap: 5px; margin-bottom: 30px; }
+        .progress-step { height: 6px; flex: 1; background: #e2e8f0; border-radius: 10px; }
+        .progress-step.active { background: #FF6600; }
+    </style>
+</head>
+<body>
+
+<div class="setup-container">
+    <div class="step-header">
+        <i class="fas fa-briefcase fa-3x" style="color: #FF6600; margin-bottom: 15px;"></i>
+        <h1>Business Setup</h1>
+        <p>Complete your profile to start receiving orders</p>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-step active"></div>
+        <div class="progress-step" id="p2"></div>
+        <div class="progress-step" id="p3"></div>
+    </div>
+
+    <form id="regForm">
+        <div class="form-section active" id="step1">
+            <label>Login Email</label>
+            <input type="email" id="email" placeholder="official@company.com" required>
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Min 6 characters" required>
+            <button type="button" class="btn-next" onclick="nextStep(2)">Next: Business Info</button>
+        </div>
+
+        <div class="form-section" id="step2">
+            <label>Company / Full Name</label>
+            <input type="text" id="fullName" placeholder="e.g. Belg Cleaning Services" required>
+            <label>Service Category</label>
+            <select id="category">
+                <option value="Cleaning">Cleaning Services</option>
+                <option value="Moving">Moving & Transport</option>
+                <option value="Construction">Construction</option>
+                <option value="Maintenance">Maintenance</option>
+            </select>
+            <label>Official Phone Number</label>
+            <input type="tel" id="phone" placeholder="+32 000 00 00 00" required>
+            <button type="button" class="btn-next" onclick="nextStep(3)">Next: Final Details</button>
+            <button type="button" class="btn-back" onclick="nextStep(1)">Back</button>
+        </div>
+
+        <div class="form-section" id="step3">
+            <label>City / Location</label>
+            <input type="text" id="location" placeholder="e.g. Brussels, Antwerp">
+            <label>Brief About Company</label>
+            <textarea id="bio" rows="4" placeholder="What makes your service special?"></textarea>
+            <button type="submit" class="btn-next" id="submitBtn">Create Company Profile</button>
+            <button type="button" class="btn-back" onclick="nextStep(2)">Back</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    function nextStep(step) {
+        document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+        document.getElementById('step' + step).classList.add('active');
+        
+        // تحديث شريط التقدم
+        if(step >= 2) document.getElementById('p2').classList.add('active');
+        else document.getElementById('p2').classList.remove('active');
+        if(step >= 3) document.getElementById('p3').classList.add('active');
+        else document.getElementById('p3').classList.remove('active');
+    }
+
+    document.getElementById('regForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerText = "Creating Account...";
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // 1. إنشاء الحساب في Supabase Auth
+        const { data: authData, error: authError } = await sb.auth.signUp({
+            email,
+            password
+        });
+
+        if (authError) {
+            alert("Auth Error: " + authError.message);
+            btn.disabled = false;
+            return;
+        }
+
+        const user = authData.user;
+        if (user) {
+            // 2. إنشاء السجل في جدول company_profiles
+            const { error: dbError } = await sb.from('company_profiles').insert([{
+                id: user.id,
+                full_name: document.getElementById('fullName').value,
+                email: email,
+                phone: document.getElementById('phone').value,
+                business_category: document.getElementById('category').value,
+                location: document.getElementById('location').value,
+                bio: document.getElementById('bio').value,
+                user_role: 'company' // تحديد النوع فوراً
+            }]);
+
+            if (dbError) {
+                alert("Database Error: " + dbError.message);
+            } else {
+                alert("Welcome! Your business profile is ready.");
+                window.location.href = "dashboardr.html";
+            }
+        }
+        btn.disabled = false;
+    });
+</script>
+</body>
+  </html>
+
