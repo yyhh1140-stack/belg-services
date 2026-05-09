@@ -2,97 +2,144 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BELG SERVICES - Company Dashboard (Fixed)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Belg Services | Company Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #fefcf5; padding: 15px; color: #1e2a2f; }
-        .header { background: #FF6600; padding: 25px; border-radius: 24px; color: white; margin-bottom: 20px; }
-        .tabs-container { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 20px; }
-        .tab-btn { background: white; border: 1px solid #ddd; padding: 12px 20px; border-radius: 14px; font-weight: 700; cursor: pointer; white-space: nowrap; }
-        .tab-btn.active { background: #FF6600; color: white; border-color: #FF6600; }
-        .card { background: white; border-radius: 24px; padding: 24px; border: 1px solid #f0e4d8; margin-bottom: 20px; }
-        input { width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 12px; font-size: 16px; }
-        .btn-action { background: #FF6600; color: white; border: none; padding: 16px; border-radius: 14px; font-weight: 800; width: 100%; font-size: 16px; cursor: pointer; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
+        body { background: #f0f2f5; padding: 16px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .header { background: #FF6600; padding: 16px; border-radius: 20px; color: white; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .logo { font-size: 24px; font-weight: 800; }
+        .btn-logout { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; cursor: pointer; font-size: 14px; border: none; color: white; }
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab-btn { background: white; border: none; padding: 10px 20px; border-radius: 30px; font-weight: 700; cursor: pointer; font-size: 14px; }
+        .tab-btn.active { background: #FF6600; color: white; }
+        .card { background: white; border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .card h2 { margin-bottom: 20px; color: #1e293b; font-size: 20px; border-left: 4px solid #FF6600; padding-left: 12px; }
+        .form-group { margin-bottom: 16px; }
+        label { font-weight: 600; display: block; margin-bottom: 6px; font-size: 14px; }
+        input, textarea, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 12px; font-size: 14px; }
+        .btn { background: #FF6600; color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; font-size: 16px; }
+        .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 16px; }
+        .media-item { background: #f8fafc; border-radius: 16px; padding: 8px; text-align: center; }
+        .media-item img { width: 100%; height: 100px; object-fit: cover; border-radius: 12px; }
+        .tab-content { display: none; } /* إخفاء التبويبات افتراضياً */
+        #tab-profile { display: block; } /* إظهار التبويب الأول فقط */
     </style>
 </head>
 <body>
 
+<div class="container">
     <div class="header">
-        <h2>Company Dashboard</h2>
-        <p id="statusInfo" style="font-size: 13px; opacity: 0.9;">Checking Auth...</p>
+        <div class="logo">🏢 BELG SERVICES | Company Dashboard</div>
+        <button onclick="handleLogout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </div>
 
-    <div class="tabs-container">
-        <button class="tab-btn active" onclick="switchTab('profile', this)">📋 Profile</button>
-        <button class="tab-btn" onclick="switchTab('media', this)">🖼️ Gallery</button>
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'tab-profile')">📋 Profile</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-media')">🖼️ Media</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-achievements')">🏆 Achievements</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-social')">🔗 Social</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-preview')">👁️ Preview</button>
     </div>
 
-    <div id="profile" class="tab-content active">
+    <div id="tab-profile" class="tab-content">
         <div class="card">
-            <label>Company Name</label>
-            <input type="text" id="companyNameInput">
-            <button class="btn-action" onclick="handleSaveProfile()">💾 Save Changes</button>
+            <h2>Company Information</h2>
+            <div class="form-group"><label>Company Name</label><input type="text" id="companyName"></div>
+            <div class="form-group"><label>About Company</label><textarea id="companyBio" rows="3"></textarea></div>
+            <button class="btn" onclick="saveProfile()">💾 Save Profile</button>
         </div>
     </div>
 
-    <div id="media" class="tab-content">
+    <div id="tab-media" class="tab-content">
         <div class="card">
-            <input type="file" id="fileInput">
-            <button class="btn-action" onclick="alert('Upload system connecting...')">📤 Upload</button>
+            <h2>Upload Media</h2>
+            <input type="file" id="mediaFile">
+            <button class="btn" onclick="uploadMedia()" style="margin-top:12px;">📤 Upload File</button>
         </div>
     </div>
+
+    <div id="tab-achievements" class="tab-content">
+        <div class="card">
+            <h2>Add Achievement</h2>
+            <input type="text" id="achievementTitle" placeholder="Achievement title">
+            <button class="btn" onclick="addAchievement()" style="margin-top:12px;">➕ Add Achievement</button>
+        </div>
+    </div>
+
+    <div id="tab-social" class="tab-content">
+        <div class="card">
+            <h2>Social Links</h2>
+            <input type="text" id="whatsappLink" placeholder="WhatsApp Link">
+            <button class="btn" onclick="saveSocialLinks()" style="margin-top:12px;">💾 Save Links</button>
+        </div>
+    </div>
+
+    <div id="tab-preview" class="tab-content">
+        <div class="card">
+            <h2>Live Preview</h2>
+            <div id="previewContent">Switching to this tab will refresh your preview.</div>
+        </div>
+    </div>
+</div>
 
 <script>
-    // Configuration - Using your specific keys
+    // الإعدادات الأصلية
     const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    function switchTab(id, el) {
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        el.classList.add('active');
-    }
-
-    async function validateSession() {
-        try {
-            const { data: { user }, error } = await supabase.auth.getUser();
-            if (error || !user) {
-                // IMPORTANT: Redirect to login if no user found
-                window.location.href = "login.html";
-            } else {
-                document.getElementById('statusInfo').innerText = "Connected: " + user.email;
-            }
-        } catch (err) {
-            console.error("Auth Error:", err);
+    // إصلاح وظيفة التبديل بين التبويبات لتكون متوافقة مع الهاتف بنسبة 100%
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
         }
-    }
-
-    async function handleSaveProfile() {
-        try {
-            const name = document.getElementById('companyNameInput').value;
-            const { data: { user } } = await supabase.auth.getUser();
-            
-            const { error } = await supabase.from('company_profiles').upsert({ 
-                user_id: user.id, 
-                company_name: name 
-            });
-
-            if (error) throw error;
-            alert("✅ Data Saved to dashboardr!");
-        } catch (err) {
-            alert("❌ Error: " + err.message);
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
     }
 
-    // Run on start
-    window.addEventListener('DOMContentLoaded', validateSession);
+    // وظيفة الخروج
+    async function handleLogout() {
+        await supabase.auth.signOut();
+        window.location.href = "login.html";
+    }
+
+    // وظيفة حفظ الملف الشخصي (مبسطة لتعمل دون أخطاء)
+    async function saveProfile() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if(!user) return alert("Please login first");
+        
+        const name = document.getElementById('companyName').value;
+        const bio = document.getElementById('companyBio').value;
+
+        const { error } = await supabase.from('company_profiles').upsert({
+            user_id: user.id,
+            company_name: name,
+            bio: bio
+        });
+
+        if (error) alert("Error: " + error.message);
+        else alert("Profile Updated Successfully!");
+    }
+
+    // التحقق من الجلسة عند فتح الصفحة
+    window.onload = async function() {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            window.location.href = "login.html";
+        }
+    };
 </script>
+
 </body>
-</html>
+    </html>
+    
