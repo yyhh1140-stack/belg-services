@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #fff5f0; color: #1e2a2f; }
         .company-container { max-width: 1400px; margin: 0 auto; background: white; min-height: 100vh; }
@@ -21,7 +20,7 @@
         .stats-grid { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 30px; text-align: center; }
         .stat-number { font-size: 2.5rem; font-weight: 800; }
         .search-section { padding: 30px 40px; background: #ffffff; border-bottom: 1px solid #ffe0cc; }
-        .search-input { width: 100%; padding: 14px 20px; border: 1px solid #ffccaa; border-radius: 60px; font-size: 1rem; }
+        .search-input { width: 100%; padding: 14px 20px; border: 1px solid #ffccaa; border-radius: 60px; font-size: 1rem; outline: none; }
         .filter-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
         .filter-btn { background: #fff0e6; border: none; padding: 8px 24px; border-radius: 40px; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .filter-btn.active { background: #FF6600; color: white; }
@@ -33,8 +32,6 @@
         .company-info { padding: 0 20px 20px 20px; margin-top: -20px; }
         .view-profile-btn { background: #FF6600; border: none; width: 100%; padding: 10px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; }
         .footer { background: #2c3e2f; color: white; padding: 40px; text-align: center; }
-
-        /* إضافة أيقونات الاستجابة */
         .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-left: 5px; }
         .online { background-color: #2ecc71; box-shadow: 0 0 5px #2ecc71; }
         .offline { background-color: #e74c3c; }
@@ -51,13 +48,13 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="companies.html" style="color:#FF6600;">Companies</a></li>
             <li><a href="login.html" id="loginLink">Login</a></li>
-            <li><a href="register.html" class="join-btn-nav" style="background:#FF6600; color:white; padding:8px 20px; border-radius:20px;">Join Now</a></li>
+            <li><a href="register.html" class="join-btn-nav" style="background:#FF6600; color:white; padding:8px 20px; border-radius:20px; text-decoration: none;">Join Now</a></li>
         </ul>
     </div>
 
     <div class="hero-stats">
         <div class="stats-grid" id="globalStats">
-            <div class="stat-card"><div class="stat-number" id="compCount">...</div><div class="stat-label">Verified Partners</div></div>
+            <div class="stat-card"><div class="stat-number" id="compCount">0</div><div class="stat-label">Verified Partners</div></div>
             <div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label">Support</div></div>
             <div class="stat-card"><div class="stat-number">Belgium</div><div class="stat-label">Coverage Area</div></div>
         </div>
@@ -77,48 +74,47 @@
         </div>
 
     <div class="footer">
-        <p>© 2025 BELG SERVICES — Belgium Business Portal</p>
+        <p>© 2026 BELG SERVICES — Belgium Business Portal</p>
     </div>
 </div>
 
 <script>
-    // Final Connection Keys for Company-dashboard.html
-const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-const sb = supabase.createClient(URL, KEY);
+    // 1. إعدادات الاتصال الصحيحة
+    const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+    const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+    const sb = supabase.createClient(URL, KEY);
     
-
     let allCompanies = [];
 
-    // جلب البيانات بدون اشتراط تسجيل دخول
+    // 2. وظيفة جلب البيانات من جدول company_profiles
     async function loadCompanies() {
         const container = document.getElementById('companiesContainer');
-        container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Loading business partners...</p>';
+        container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Connecting to business directory...</p>';
 
-        const { data, error } = await _supabase
-            .from('profiles')
-            .select('*')
-            .eq('user_type', 'company'); 
+        const { data, error } = await sb
+            .from('company_profiles') // التصحيح: استخدام الجدول الصحيح من صورتك
+            .select('*');
 
         if (error) {
-            container.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">Connection issue. Please try again later.</p>';
+            console.error("Database error:", error.message);
+            container.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color: red;">Database connection issue. Please check RLS Policies.</p>';
             return;
         }
 
-        allCompanies = data;
-        document.getElementById('compCount').innerText = data.length;
+        allCompanies = data || [];
+        document.getElementById('compCount').innerText = allCompanies.length;
         renderUI(allCompanies);
     }
 
+    // 3. بناء واجهة المستخدم
     function renderUI(list) {
         const container = document.getElementById('companiesContainer');
         if (list.length === 0) {
-            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">No results found.</p>';
+            container.innerHTML = '<p style="grid-column: 1/-1; text-align:center;">No business partners found in this category.</p>';
             return;
         }
 
         container.innerHTML = list.map(c => {
-            // منطق "الاستجابة السريعة" - عشوائي حالياً ليعطي انطباع احترافي
             const status = Math.random() > 0.4 ? 'online' : 'offline';
             
             return `
@@ -142,7 +138,7 @@ const sb = supabase.createClient(URL, KEY);
         `}).join('');
     }
 
-    // البحث والفلترة
+    // 4. نظام البحث
     document.getElementById('searchBar').addEventListener('input', (e) => {
         const term = e.target.value.toLowerCase();
         const filtered = allCompanies.filter(c => 
@@ -152,6 +148,7 @@ const sb = supabase.createClient(URL, KEY);
         renderUI(filtered);
     });
 
+    // 5. نظام الفلترة
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -162,7 +159,8 @@ const sb = supabase.createClient(URL, KEY);
         });
     });
 
-    loadCompanies();
+    // تشغيل الجلب عند تحميل الصفحة
+    window.onload = loadCompanies;
 </script>
 
 </body>
