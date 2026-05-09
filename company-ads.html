@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Company Ads — BELG SERVICES</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 body {
@@ -85,6 +86,8 @@ body {
   margin: 0 0 10px;
   font-size: 13px;
   color: #555;
+  height: 40px; /* لتوحيد حجم البطاقات */
+  overflow: hidden;
 }
 
 /* BUTTON */
@@ -111,17 +114,14 @@ body {
   <a href="about.html" style="color:white;">About</a>
   <a href="services.html" style="color:white;">Services</a>
   <a href="contact.html" style="color:white;">Contact</a>
-
   <a href="faq.html" style="color:white;">FAQ</a>
   <a href="pricing.html" style="color:white;">Pricing</a>
   <a href="payment.html" style="color:white;">Payment</a>
-
   <a href="login.html" style="color:white;">Login</a>
   <a href="register.html" style="color:white;">Register</a>
-
   <a href="dashboard.html" style="color:white;">Dashboard</a>
 </nav>
-<!-- NAV -->
+
 <nav class="top-nav">
   <a href="index.html">Home</a>
   <a href="client.html">Find Worker</a>
@@ -133,54 +133,55 @@ body {
 </nav>
 
 <div class="wrapper">
-
   <div class="page-title">Company Advertisements</div>
-
-  <div class="ads-grid">
-
-    <!-- AD 1 -->
-    <div class="ad-card">
-      <img src="https://i.imgur.com/clean1.jpg" alt="Ad 1">
-      <div class="ad-content">
-        <h3>CleanPro Services</h3>
-        <p>Professional home & office cleaning with trained staff.</p>
-        <a href="company-profile.html">View Details</a>
-      </div>
-    </div>
-
-    <!-- AD 2 -->
-    <div class="ad-card">
-      <img src="https://i.imgur.com/clean2.jpg" alt="Ad 2">
-      <div class="ad-content">
-        <h3>MoveFast Belgium</h3>
-        <p>Fast and safe moving services across Belgium.</p>
-        <a href="company-profile.html">View Details</a>
-      </div>
-    </div>
-
-    <!-- AD 3 -->
-    <div class="ad-card">
-      <img src="https://i.imgur.com/clean3.jpg" alt="Ad 3">
-      <div class="ad-content">
-        <h3>FixIt Group</h3>
-        <p>Electricians, plumbers, and repair experts on demand.</p>
-        <a href="company-profile.html">View Details</a>
-      </div>
-    </div>
-
-    <!-- AD 4 -->
-    <div class="ad-card">
-      <img src="https://i.imgur.com/clean4.jpg" alt="Ad 4">
-      <div class="ad-content">
-        <h3>PaintMaster</h3>
-        <p>Professional painting services for homes and offices.</p>
-        <a href="company-profile.html">View Details</a>
-      </div>
-    </div>
-
+  <div id="adsGrid" class="ads-grid">
+      <p style="text-align: center; grid-column: 1/-1;">Loading advertisements...</p>
   </div>
-
 </div>
+
+<script>
+// الإعدادات الخاصة بك
+const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+const sb = supabase.createClient(URL, KEY);
+
+async function loadAds() {
+    const grid = document.getElementById('adsGrid');
+    
+    try {
+        // جلب الشركات من جدول company_profiles كما في الصورة
+        const { data, error } = await sb
+            .from('company_profiles')
+            .select('*');
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">No advertisements available yet.</p>';
+            return;
+        }
+
+        // بناء بطاقات الإعلانات بروابطها الصحيحة
+        grid.innerHTML = data.map(company => `
+            <div class="ad-card">
+              <img src="${company.banner_url || 'https://i.imgur.com/clean1.jpg'}" alt="${company.full_name}">
+              <div class="ad-content">
+                <h3>${company.full_name || 'Business Partner'}</h3>
+                <p>${company.business_category || 'Professional Services'}</p>
+                <a href="company-profile.html?id=${company.id}">View Details</a>
+              </div>
+            </div>
+        `).join('');
+
+    } catch (err) {
+        console.error("Error loading ads:", err.message);
+        grid.innerHTML = `<p style="color:red; text-align: center; grid-column: 1/-1;">Error connecting to database.</p>`;
+    }
+}
+
+// تشغيل الوظيفة عند التحميل
+window.onload = loadAds;
+</script>
 
 </body>
 </html>
