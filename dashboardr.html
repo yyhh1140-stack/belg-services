@@ -10,9 +10,10 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background: #f0f2f5; padding: 16px; }
         .container { max-width: 1000px; margin: 0 auto; }
-        .header { background: #FF6600; padding: 16px; border-radius: 20px; color: white; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .header { background: #FF6600; padding: 16px; border-radius: 20px; color: white; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 20px; font-weight: 800; }
-        .btn-logout { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; cursor: pointer; border: none; color: white; font-weight: 600; }
+        .header-buttons { display: flex; gap: 10px; }
+        .header-btn { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; cursor: pointer; border: none; color: white; font-weight: 600; }
         .tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; }
         .tab-btn { background: white; border: none; padding: 12px 24px; border-radius: 30px; font-weight: 700; cursor: pointer; color: #64748b; white-space: nowrap; transition: 0.3s; }
         .tab-btn.active { background: #FF6600; color: white; }
@@ -35,7 +36,10 @@
 <div class="container">
     <div class="header">
         <div class="logo"><i class="fas fa-building"></i> BELG SERVICES</div>
-        <button onclick="handleLogout()" class="btn-logout">Logout</button>
+        <div class="header-buttons">
+            <button onclick="goHome()" class="header-btn">🏠 Home</button>
+            <button onclick="goPublicProfile()" class="header-btn">🌐 Public Profile</button>
+        </div>
     </div>
 
     <div id="successMsg" class="success-msg">✅ Success</div>
@@ -142,6 +146,14 @@
         }
     }
 
+    function goHome() {
+        window.location.href = "index.html";
+    }
+
+    function goPublicProfile() {
+        window.location.href = `company-profile.html?id=${currentCompanyId}`;
+    }
+
     function openTab(evt, tabName) {
         const contents = document.getElementsByClassName("tab-content");
         for (let content of contents) content.style.display = "none";
@@ -151,11 +163,6 @@
         evt.currentTarget.classList.add("active");
         if (tabName === 'tab-media') loadExistingImages();
         if (tabName === 'tab-achievements') loadAchievements();
-    }
-
-    async function handleLogout() {
-        await sb.auth.signOut();
-        window.location.href = "login.html";
     }
 
     async function loadData() {
@@ -365,4 +372,4 @@
     window.onload = loadData;
 </script>
 </body>
-</html>
+    </html>
