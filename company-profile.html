@@ -12,6 +12,7 @@ body { font-family: Arial, sans-serif; margin: 0; background: #f7f7f7; }
 .top-nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; font-size: 16px; }
 header { margin-top: 100px; text-align: center; padding: 20px; }
 .company-logo { width: 140px; height: 140px; border-radius: 12px; object-fit: cover; border: 4px solid #003366; }
+.banner-image { width: 100%; height: 200px; object-fit: cover; margin-top: 60px; }
 h1 { color: #003366; font-size: 32px; margin-top: 10px; }
 .rating { color: #f4c542; font-size: 20px; }
 .info-boxes { max-width: 900px; margin: 20px auto; display: flex; gap: 15px; flex-wrap: wrap; }
@@ -21,19 +22,17 @@ h1 { color: #003366; font-size: 32px; margin-top: 10px; }
 .section { max-width: 900px; margin: 20px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
 .section h2 { color: #003366; margin-bottom: 10px; }
 .gallery { display: flex; gap: 10px; flex-wrap: wrap; }
-.gallery img { width: 150px; height: 120px; border-radius: 8px; object-fit: cover; }
-.worker-card { display: flex; gap: 15px; background: #f1f1f1; padding: 12px; border-radius: 10px; margin-bottom: 10px; }
-.worker-card img { width: 70px; height: 70px; border-radius: 10px; object-fit: cover; }
-.status { font-weight: bold; padding: 4px 10px; border-radius: 6px; font-size: 13px; }
-.available { background: #28a745; color: white; }
-.unavailable { background: #dc3545; color: white; }
-.slow { background: #ff4444; color: white; }
-.action-btn { padding: 12px 20px; background: #003366; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+.gallery img { width: 150px; height: 120px; border-radius: 8px; object-fit: cover; cursor: pointer; }
+.achievement-card { background: #f1f1f1; padding: 12px; border-radius: 10px; margin-bottom: 10px; }
+.social-links { display: flex; gap: 15px; justify-content: center; margin-top: 15px; }
+.social-links a { color: #003366; font-size: 24px; text-decoration: none; }
+.action-btn { padding: 12px 20px; background: #003366; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; margin-right: 10px; }
 .action-btn:hover { background: #002244; }
 </style>
 </head>
 
 <body>
+
 <nav style="background:#111; padding:12px; display:flex; flex-wrap:wrap; gap:12px;">
   <a href="index.html" style="color:white;">Home</a>
   <a href="about.html" style="color:white;">About</a>
@@ -57,6 +56,8 @@ h1 { color: #003366; font-size: 32px; margin-top: 10px; }
   <a href="notifications.html">Notifications</a>
 </nav>
 
+<div id="bannerContainer"></div>
+
 <header>
   <img src="https://placehold.co/140" id="companyLogo" class="company-logo">
   <h1 id="companyName">Loading...</h1>
@@ -64,10 +65,9 @@ h1 { color: #003366; font-size: 32px; margin-top: 10px; }
 </header>
 
 <div class="info-boxes">
-  <div class="info-box"><h3>Workers Available</h3><p>12</p></div>
-  <div class="info-box"><h3>Completed Projects</h3><p>340+</p></div>
-  <div class="info-box"><h3>Response Speed</h3><p>2 minutes</p></div>
-  <div class="info-box"><h3>Flexibility</h3><p>High</p></div>
+  <div class="info-box"><h3>Workers Available</h3><p id="workersCount">Loading...</p></div>
+  <div class="info-box"><h3>Completed Projects</h3><p id="projectsCount">Loading...</p></div>
+  <div class="info-box"><h3>Category</h3><p id="categoryDisplay">Loading...</p></div>
 </div>
 
 <div class="section">
@@ -76,16 +76,23 @@ h1 { color: #003366; font-size: 32px; margin-top: 10px; }
 </div>
 
 <div class="section">
-  <h2>Services Offered</h2>
-  <p id="companyCategory">Loading services...</p>
+  <h2>📸 Work Gallery</h2>
+  <div class="gallery" id="galleryContainer">
+    <p>Loading images...</p>
+  </div>
 </div>
 
 <div class="section">
-  <h2>Completed Work</h2>
-  <div class="gallery">
-    <img src="https://i.imgur.com/clean1.jpg">
-    <img src="https://i.imgur.com/clean2.jpg">
-    <img src="https://i.imgur.com/clean3.jpg">
+  <h2>🏆 Achievements & Certificates</h2>
+  <div id="achievementsContainer">
+    <p>Loading achievements...</p>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🔗 Connect With Us</h2>
+  <div class="social-links" id="socialLinks">
+    <p>Loading social links...</p>
   </div>
 </div>
 
@@ -96,34 +103,135 @@ h1 { color: #003366; font-size: 32px; margin-top: 10px; }
 </div>
 
 <script>
-// 2. إعدادات الاتصال الصحيحة
-const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-const sb = supabase.createClient(URL, KEY);
+const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 3. وظيفة جلب بيانات الشركة بناءً على ID في الرابط
+let companyId = null;
+
+function viewImage(url) {
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+    modal.style.zIndex = '9999';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.cursor = 'pointer';
+    
+    const img = document.createElement('img');
+    img.src = url;
+    img.style.maxWidth = '90%';
+    img.style.maxHeight = '90%';
+    img.style.borderRadius = '10px';
+    
+    modal.appendChild(img);
+    document.body.appendChild(modal);
+    
+    modal.onclick = () => document.body.removeChild(modal);
+}
+
 async function loadCompanyProfile() {
     const params = new URLSearchParams(window.location.search);
-    const companyId = params.get('id');
+    companyId = params.get('id');
 
     if (!companyId) {
         document.getElementById('companyName').innerText = "Company Not Found";
         return;
     }
 
-    const { data, error } = await sb
-        .from('company_profiles') // الجدول الصحيح من صورتك
+    // Load company profile
+    const { data: company, error: companyError } = await sb
+        .from('company_profiles')
         .select('*')
         .eq('id', companyId)
         .single();
 
-    if (data) {
-        document.getElementById('companyName').innerText = data.full_name || "Business Partner";
-        document.getElementById('companyBio').innerText = data.bio || "No description available.";
-        document.getElementById('companyCategory').innerText = "• " + (data.business_category || "General Services");
-        if(data.avatar_url) document.getElementById('companyLogo').src = data.avatar_url;
+    if (company) {
+        document.getElementById('companyName').innerText = company.full_name || "Business Partner";
+        document.getElementById('companyBio').innerText = company.bio || "No description available.";
+        document.getElementById('categoryDisplay').innerText = company.business_category || "General Services";
+        
+        if (company.avatar_url) {
+            document.getElementById('companyLogo').src = company.avatar_url;
+        }
+        
+        if (company.banner_url) {
+            const bannerImg = document.createElement('img');
+            bannerImg.src = company.banner_url;
+            bannerImg.className = 'banner-image';
+            bannerImg.style.width = '100%';
+            bannerImg.style.height = '200px';
+            bannerImg.style.objectFit = 'cover';
+            document.getElementById('bannerContainer').appendChild(bannerImg);
+        }
+        
+        document.getElementById('workersCount').innerText = "Available upon request";
+        document.getElementById('projectsCount').innerText = company.completed_projects || "Loading...";
     } else {
-        console.error("Error fetching company:", error);
+        console.error("Error fetching company:", companyError);
+    }
+
+    // Load gallery images
+    const { data: media, error: mediaError } = await sb
+        .from('company_media')
+        .select('*')
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false });
+
+    const galleryContainer = document.getElementById('galleryContainer');
+    if (media && media.length > 0) {
+        galleryContainer.innerHTML = media.map(img => `
+            <img src="${img.media_url}" onclick="viewImage('${img.media_url}')" style="cursor: pointer;">
+        `).join('');
+    } else {
+        galleryContainer.innerHTML = '<p>No images uploaded yet.</p>';
+    }
+
+    // Load achievements
+    const { data: achievements, error: achError } = await sb
+        .from('company_achievements')
+        .select('*')
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false });
+
+    const achievementsContainer = document.getElementById('achievementsContainer');
+    if (achievements && achievements.length > 0) {
+        achievementsContainer.innerHTML = achievements.map(ach => `
+            <div class="achievement-card">
+                <strong>🏆 ${ach.title}</strong><br>
+                ${ach.date ? `📅 ${ach.date}` : ''}
+            </div>
+        `).join('');
+    } else {
+        achievementsContainer.innerHTML = '<p>No achievements added yet.</p>';
+    }
+
+    // Load social links
+    const { data: social, error: socialError } = await sb
+        .from('company_social')
+        .select('*')
+        .eq('company_id', companyId)
+        .single();
+
+    const socialContainer = document.getElementById('socialLinks');
+    if (social) {
+        let linksHtml = '';
+        if (social.instagram) linksHtml += `<a href="${social.instagram}" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>`;
+        if (social.facebook) linksHtml += `<a href="${social.facebook}" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>`;
+        if (social.whatsapp) linksHtml += `<a href="https://wa.me/${social.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>`;
+        
+        if (linksHtml) {
+            socialContainer.innerHTML = linksHtml;
+        } else {
+            socialContainer.innerHTML = '<p>No social links added yet.</p>';
+        }
+    } else {
+        socialContainer.innerHTML = '<p>No social links added yet.</p>';
     }
 }
 
@@ -131,9 +239,11 @@ function requestWorkers() { window.location.href = "payment.html"; }
 function openChat() { window.location.href = "chat.html"; }
 function rateCompany() { alert("Rating system coming soon."); }
 
-// تشغيل عند التحميل
 window.onload = loadCompanyProfile;
 </script>
+
+<!-- Font Awesome for icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 </body>
 </html>
