@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -21,13 +21,17 @@
         .form-group { margin-bottom: 16px; }
         label { font-weight: 600; display: block; margin-bottom: 8px; font-size: 14px; color: #475569; }
         input, textarea, select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 14px; outline: none; }
+        input[type="file"] { padding: 10px; }
         .btn-save { background: #FF6600; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
         .tab-content { display: none; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .success-msg { background: #22c55e; color: white; padding: 12px; border-radius: 12px; margin-top: 10px; text-align: center; display: none; }
         .error-msg { background: #ef4444; color: white; padding: 12px; border-radius: 12px; margin-top: 10px; text-align: center; display: none; }
         .image-preview { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        .image-preview img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
+        .image-preview img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; }
+        .logo-preview, .banner-preview { background: #e2e8f0; background-size: cover; background-position: center; border-radius: 12px; margin-top: 10px; }
+        .logo-preview { width: 80px; height: 80px; border-radius: 50%; }
+        .banner-preview { width: 100%; height: 150px; }
     </style>
 </head>
 <body>
@@ -38,92 +42,94 @@
         <button onclick="handleLogout()" class="btn-logout">Logout</button>
     </div>
 
-    <div id="successMsg" class="success-msg">✅ تم الحفظ بنجاح</div>
-    <div id="errorMsg" class="error-msg">❌ حدث خطأ</div>
+    <div id="successMsg" class="success-msg">✅ Success</div>
+    <div id="errorMsg" class="error-msg">❌ Error</div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="openTab(event, 'tab-profile')">📋 المعلومات الأساسية</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-media')">🖼️ معرض الصور</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-achievements')">🏆 الشهادات والإنجازات</button>
-        <button class="tab-btn" onclick="openTab(event, 'tab-social')">🔗 الروابط الاجتماعية</button>
+        <button class="tab-btn active" onclick="openTab(event, 'tab-profile')">📋 Company Info</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-media')">🖼️ Gallery</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-achievements')">🏆 Achievements</button>
+        <button class="tab-btn" onclick="openTab(event, 'tab-social')">🔗 Social Links</button>
     </div>
 
     <div id="tab-profile" class="tab-content" style="display: block;">
         <div class="card">
-            <h2>بيانات الشركة</h2>
+            <h2>Company Information</h2>
             <div class="form-group">
-                <label>اسم الشركة</label>
-                <input type="text" id="companyName" placeholder="أدخل اسم الشركة الرسمي">
+                <label>Company Name</label>
+                <input type="text" id="companyName" placeholder="Enter company name">
             </div>
             <div class="form-group">
-                <label>تخصص الشركة</label>
+                <label>Category</label>
                 <select id="companyCategory">
-                    <option value="Cleaning">خدمات تنظيف</option>
-                    <option value="Moving">نقل وعفش</option>
-                    <option value="Construction">مقاولات وبناء</option>
-                    <option value="Maintenance">صيانة عامة</option>
+                    <option value="Cleaning">Cleaning</option>
+                    <option value="Moving">Moving</option>
+                    <option value="Construction">Construction</option>
+                    <option value="Maintenance">Maintenance</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>نبذة عن الشركة</label>
-                <textarea id="companyBio" rows="4" placeholder="اكتب وصفاً مختصراً لخدماتكم..."></textarea>
+                <label>Bio</label>
+                <textarea id="companyBio" rows="4" placeholder="Describe your services..."></textarea>
             </div>
             <div class="form-group">
-                <label>رابط الصورة الشخصية (Logo)</label>
-                <input type="text" id="avatarUrl" placeholder="أدخل رابط الصورة">
+                <label>Logo Image (Upload from phone)</label>
+                <input type="file" id="logoUpload" accept="image/*">
+                <div id="logoPreview" class="logo-preview"></div>
             </div>
             <div class="form-group">
-                <label>رابط صورة الغلاف (Banner)</label>
-                <input type="text" id="bannerUrl" placeholder="أدخل رابط صورة الغلاف">
+                <label>Banner Image (Upload from phone)</label>
+                <input type="file" id="bannerUpload" accept="image/*">
+                <div id="bannerPreview" class="banner-preview"></div>
             </div>
-            <button class="btn-save" onclick="saveProfile()">💾 حفظ البيانات الأساسية</button>
+            <button class="btn-save" onclick="saveProfile()">💾 Save Company Info</button>
         </div>
     </div>
 
     <div id="tab-media" class="tab-content">
         <div class="card">
-            <h2>معرض أعمال الشركة</h2>
-            <p style="color: #64748b; margin-bottom: 15px;">ارفع صور مشاريعك لكي يراها العملاء.</p>
+            <h2>Company Gallery</h2>
+            <p style="color: #64748b; margin-bottom: 15px;">Upload your work images</p>
             <div class="form-group">
                 <input type="file" id="mediaUpload" multiple accept="image/*">
             </div>
-            <button class="btn-save" onclick="uploadImages()">📤 رفع الصور</button>
+            <button class="btn-save" onclick="uploadImages()">📤 Upload Images</button>
             <div id="existingImages" class="image-preview" style="margin-top: 20px;"></div>
         </div>
     </div>
 
     <div id="tab-achievements" class="tab-content">
         <div class="card">
-            <h2>الشهادات والجوائز</h2>
+            <h2>Achievements & Certificates</h2>
             <div class="form-group">
-                <label>عنوان الشهادة</label>
-                <input type="text" id="certTitle" placeholder="مثلاً: شهادة آيزو 2023">
+                <label>Title</label>
+                <input type="text" id="certTitle" placeholder="e.g., ISO Certificate 2023">
             </div>
             <div class="form-group">
-                <label>تاريخ الحصول عليها</label>
+                <label>Date</label>
                 <input type="date" id="certDate">
             </div>
-            <button class="btn-save" onclick="addAchievement()">➕ إضافة إنجاز جديد</button>
+            <button class="btn-save" onclick="addAchievement()">➕ Add Achievement</button>
             <div id="achievementsList" style="margin-top: 20px;"></div>
         </div>
     </div>
 
     <div id="tab-social" class="tab-content">
         <div class="card">
-            <h2>روابط التواصل الاجتماعي</h2>
+            <h2>Social Media Links</h2>
             <div class="form-group">
-                <label><i class="fab fa-instagram"></i> Instagram URL</label>
+                <label><i class="fab fa-instagram"></i> Instagram</label>
                 <input type="url" id="instaLink" placeholder="https://instagram.com/your-page">
             </div>
             <div class="form-group">
-                <label><i class="fab fa-facebook"></i> Facebook URL</label>
+                <label><i class="fab fa-facebook"></i> Facebook</label>
                 <input type="url" id="fbLink" placeholder="https://facebook.com/your-page">
             </div>
             <div class="form-group">
-                <label><i class="fab fa-whatsapp"></i> رقم الواتساب</label>
+                <label><i class="fab fa-whatsapp"></i> WhatsApp</label>
                 <input type="tel" id="waNumber" placeholder="+966xxxxxxxxx">
             </div>
-            <button class="btn-save" onclick="saveSocial()">🔗 تحديث الروابط</button>
+            <button class="btn-save" onclick="saveSocial()">🔗 Save Social Links</button>
         </div>
     </div>
 </div>
@@ -135,6 +141,8 @@
     
     let currentUser = null;
     let currentCompanyId = null;
+    let logoFile = null;
+    let bannerFile = null;
 
     function showMessage(msg, isError = false) {
         const successDiv = document.getElementById('successMsg');
@@ -148,6 +156,32 @@
             successDiv.style.display = 'block';
             setTimeout(() => successDiv.style.display = 'none', 3000);
         }
+    }
+
+    function viewImage(url) {
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+        modal.style.zIndex = '9999';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.style.cursor = 'pointer';
+        
+        const img = document.createElement('img');
+        img.src = url;
+        img.style.maxWidth = '90%';
+        img.style.maxHeight = '90%';
+        img.style.borderRadius = '10px';
+        
+        modal.appendChild(img);
+        document.body.appendChild(modal);
+        
+        modal.onclick = () => document.body.removeChild(modal);
     }
 
     function openTab(evt, tabName) {
@@ -166,6 +200,50 @@
         window.location.href = "login.html";
     }
 
+    document.getElementById('logoUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            logoFile = file;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('logoPreview').style.backgroundImage = `url(${event.target.result})`;
+                document.getElementById('logoPreview').style.backgroundSize = 'cover';
+                document.getElementById('logoPreview').style.backgroundPosition = 'center';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('bannerUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            bannerFile = file;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('bannerPreview').style.backgroundImage = `url(${event.target.result})`;
+                document.getElementById('bannerPreview').style.backgroundSize = 'cover';
+                document.getElementById('bannerPreview').style.backgroundPosition = 'center';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    async function uploadImage(file, folder) {
+        if (!file) return null;
+        const fileName = `${currentCompanyId}/${folder}_${Date.now()}_${file.name}`;
+        const { error: uploadError } = await sb.storage
+            .from('company-media')
+            .upload(fileName, file);
+        
+        if (uploadError) {
+            showMessage(uploadError.message, true);
+            return null;
+        }
+        
+        const { data: urlData } = sb.storage.from('company-media').getPublicUrl(fileName);
+        return urlData.publicUrl;
+    }
+
     async function loadData() {
         const { data: { user }, error: userError } = await sb.auth.getUser();
         if (userError || !user) {
@@ -180,10 +258,17 @@
             document.getElementById('companyName').value = data.full_name || '';
             document.getElementById('companyBio').value = data.bio || '';
             document.getElementById('companyCategory').value = data.business_category || 'Cleaning';
-            document.getElementById('avatarUrl').value = data.avatar_url || '';
-            document.getElementById('bannerUrl').value = data.banner_url || '';
-        } else if (error && error.code !== 'PGRST116') {
-            console.error('Error loading profile:', error);
+            
+            if (data.avatar_url) {
+                document.getElementById('logoPreview').style.backgroundImage = `url(${data.avatar_url})`;
+                document.getElementById('logoPreview').style.backgroundSize = 'cover';
+                document.getElementById('logoPreview').style.backgroundPosition = 'center';
+            }
+            if (data.banner_url) {
+                document.getElementById('bannerPreview').style.backgroundImage = `url(${data.banner_url})`;
+                document.getElementById('bannerPreview').style.backgroundSize = 'cover';
+                document.getElementById('bannerPreview').style.backgroundPosition = 'center';
+            }
         }
         
         const { data: social } = await sb.from('company_social').select('*').eq('company_id', user.id).single();
@@ -197,37 +282,52 @@
     async function saveProfile() {
         const btn = event.target;
         btn.disabled = true;
-        btn.innerText = "جاري الحفظ...";
+        btn.innerText = "Saving...";
 
-        const { error } = await sb.from('company_profiles').upsert({
+        let logoUrl = null;
+        let bannerUrl = null;
+        
+        if (logoFile) {
+            logoUrl = await uploadImage(logoFile, 'logo');
+        }
+        if (bannerFile) {
+            bannerUrl = await uploadImage(bannerFile, 'banner');
+        }
+        
+        const updateData = {
             id: currentCompanyId,
             full_name: document.getElementById('companyName').value,
             bio: document.getElementById('companyBio').value,
             business_category: document.getElementById('companyCategory').value,
-            avatar_url: document.getElementById('avatarUrl').value,
-            banner_url: document.getElementById('bannerUrl').value,
             email: currentUser.email,
             updated_at: new Date()
-        });
+        };
+        
+        if (logoUrl) updateData.avatar_url = logoUrl;
+        if (bannerUrl) updateData.banner_url = bannerUrl;
+
+        const { error } = await sb.from('company_profiles').upsert(updateData);
 
         if (error) {
             showMessage(error.message, true);
         } else {
-            showMessage("تم تحديث بيانات شركتك بنجاح!");
+            showMessage("Company info saved successfully!");
+            logoFile = null;
+            bannerFile = null;
         }
 
         btn.disabled = false;
-        btn.innerText = "💾 حفظ البيانات الأساسية";
+        btn.innerText = "💾 Save Company Info";
     }
 
     async function uploadImages() {
         const files = document.getElementById('mediaUpload').files;
         if (files.length === 0) {
-            showMessage("اختر صور أولاً", true);
+            showMessage("Select images first", true);
             return;
         }
 
-        showMessage("جاري رفع الصور...");
+        showMessage("Uploading images...");
         
         for (let file of files) {
             const fileName = `${currentCompanyId}/${Date.now()}_${file.name}`;
@@ -236,26 +336,21 @@
                 .upload(fileName, file);
             
             if (uploadError) {
-                showMessage("خطأ في رفع الصور: " + uploadError.message, true);
+                showMessage("Upload error: " + uploadError.message, true);
                 return;
             }
             
             const { data: urlData } = sb.storage.from('company-media').getPublicUrl(fileName);
             
-            const { error: insertError } = await sb.from('company_media').insert({
+            await sb.from('company_media').insert({
                 company_id: currentCompanyId,
                 media_url: urlData.publicUrl,
                 media_type: 'image',
                 created_at: new Date()
             });
-            
-            if (insertError) {
-                showMessage("خطأ في حفظ الصورة: " + insertError.message, true);
-                return;
-            }
         }
         
-        showMessage("تم رفع " + files.length + " صور بنجاح");
+        showMessage("Uploaded " + files.length + " images successfully");
         document.getElementById('mediaUpload').value = '';
         loadExistingImages();
     }
@@ -270,19 +365,22 @@
         if (data && data.length > 0) {
             container.innerHTML = data.map(img => `
                 <div style="position: relative;">
-                    <img src="${img.media_url}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
-                    <button onclick="deleteImage('${img.id}')" style="position: absolute; top: -8px; right: -8px; background: red; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;">×</button>
+                    <img src="${img.media_url}" 
+                         style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; cursor: pointer;" 
+                         onclick="viewImage('${img.media_url}')">
+                    <button onclick="deleteImage('${img.id}')" 
+                            style="position: absolute; top: -8px; right: -8px; background: red; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;">×</button>
                 </div>
             `).join('');
         } else {
-            container.innerHTML = '<p>لا توجد صور مرفوعة بعد</p>';
+            container.innerHTML = '<p>No images uploaded yet</p>';
         }
     }
 
     async function deleteImage(imageId) {
         await sb.from('company_media').delete().eq('id', imageId);
         loadExistingImages();
-        showMessage("تم حذف الصورة");
+        showMessage("Image deleted");
     }
 
     async function addAchievement() {
@@ -290,7 +388,7 @@
         const date = document.getElementById('certDate').value;
         
         if (!title) {
-            showMessage("أدخل عنوان الشهادة", true);
+            showMessage("Enter achievement title", true);
             return;
         }
         
@@ -304,7 +402,7 @@
         if (error) {
             showMessage(error.message, true);
         } else {
-            showMessage("تم إضافة الإنجاز");
+            showMessage("Achievement added");
             document.getElementById('certTitle').value = '';
             document.getElementById('certDate').value = '';
             loadAchievements();
@@ -322,18 +420,18 @@
             container.innerHTML = data.map(ach => `
                 <div style="background: #f8fafc; padding: 12px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between;">
                     <div><strong>${ach.title}</strong><br>${ach.date || ''}</div>
-                    <button onclick="deleteAchievement('${ach.id}')" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 8px;">حذف</button>
+                    <button onclick="deleteAchievement('${ach.id}')" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 8px;">Delete</button>
                 </div>
             `).join('');
         } else {
-            container.innerHTML = '<p>لا توجد إنجازات مضافة</p>';
+            container.innerHTML = '<p>No achievements added yet</p>';
         }
     }
 
     async function deleteAchievement(achId) {
         await sb.from('company_achievements').delete().eq('id', achId);
         loadAchievements();
-        showMessage("تم حذف الإنجاز");
+        showMessage("Achievement deleted");
     }
 
     async function saveSocial() {
@@ -342,17 +440,16 @@
             instagram: document.getElementById('instaLink').value,
             facebook: document.getElementById('fbLink').value,
             whatsapp: document.getElementById('waNumber').value,
-            updated_at: new Date()
+            updated_at: new Date(),
+            created_at: new Date()
         });
         
         if (error) {
             showMessage(error.message, true);
         } else {
-            showMessage("تم تحديث الروابط الاجتماعية");
+            showMessage("Social links saved");
         }
     }
 
     window.onload = loadData;
-</script>
-</body>
-    </html>
+</script
