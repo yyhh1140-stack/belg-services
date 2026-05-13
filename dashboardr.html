@@ -21,7 +21,6 @@
         .form-group { margin-bottom: 16px; }
         label { font-weight: 600; display: block; margin-bottom: 8px; font-size: 14px; color: #475569; }
         input, textarea, select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 14px; outline: none; }
-        input[type="file"] { padding: 10px; }
         .btn-save { background: #FF6600; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
         .tab-content { display: none; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -29,9 +28,6 @@
         .error-msg { background: #ef4444; color: white; padding: 12px; border-radius: 12px; margin-top: 10px; text-align: center; display: none; }
         .image-preview { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
         .image-preview img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; }
-        .logo-preview, .banner-preview { background: #e2e8f0; background-size: cover; background-position: center; border-radius: 12px; margin-top: 10px; }
-        .logo-preview { width: 80px; height: 80px; border-radius: 50%; }
-        .banner-preview { width: 100%; height: 150px; }
     </style>
 </head>
 <body>
@@ -71,16 +67,6 @@
             <div class="form-group">
                 <label>Bio</label>
                 <textarea id="companyBio" rows="4" placeholder="Describe your services..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Logo Image (Upload from phone)</label>
-                <input type="file" id="logoUpload" accept="image/*">
-                <div id="logoPreview" class="logo-preview"></div>
-            </div>
-            <div class="form-group">
-                <label>Banner Image (Upload from phone)</label>
-                <input type="file" id="bannerUpload" accept="image/*">
-                <div id="bannerPreview" class="banner-preview"></div>
             </div>
             <button class="btn-save" onclick="saveProfile()">💾 Save Company Info</button>
         </div>
@@ -141,8 +127,6 @@
     
     let currentUser = null;
     let currentCompanyId = null;
-    let logoFile = null;
-    let bannerFile = null;
 
     function showMessage(msg, isError = false) {
         const successDiv = document.getElementById('successMsg');
@@ -156,32 +140,6 @@
             successDiv.style.display = 'block';
             setTimeout(() => successDiv.style.display = 'none', 3000);
         }
-    }
-
-    function viewImage(url) {
-        const modal = document.createElement('div');
-        modal.style.position = 'fixed';
-        modal.style.top = '0';
-        modal.style.left = '0';
-        modal.style.width = '100%';
-        modal.style.height = '100%';
-        modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
-        modal.style.zIndex = '9999';
-        modal.style.display = 'flex';
-        modal.style.alignItems = 'center';
-        modal.style.justifyContent = 'center';
-        modal.style.cursor = 'pointer';
-        
-        const img = document.createElement('img');
-        img.src = url;
-        img.style.maxWidth = '90%';
-        img.style.maxHeight = '90%';
-        img.style.borderRadius = '10px';
-        
-        modal.appendChild(img);
-        document.body.appendChild(modal);
-        
-        modal.onclick = () => document.body.removeChild(modal);
     }
 
     function openTab(evt, tabName) {
@@ -200,50 +158,6 @@
         window.location.href = "login.html";
     }
 
-    document.getElementById('logoUpload').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            logoFile = file;
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                document.getElementById('logoPreview').style.backgroundImage = `url(${event.target.result})`;
-                document.getElementById('logoPreview').style.backgroundSize = 'cover';
-                document.getElementById('logoPreview').style.backgroundPosition = 'center';
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    document.getElementById('bannerUpload').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            bannerFile = file;
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                document.getElementById('bannerPreview').style.backgroundImage = `url(${event.target.result})`;
-                document.getElementById('bannerPreview').style.backgroundSize = 'cover';
-                document.getElementById('bannerPreview').style.backgroundPosition = 'center';
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    async function uploadImage(file, folder) {
-        if (!file) return null;
-        const fileName = `${currentCompanyId}/${folder}_${Date.now()}_${file.name}`;
-        const { error: uploadError } = await sb.storage
-            .from('company-media')
-            .upload(fileName, file);
-        
-        if (uploadError) {
-            showMessage(uploadError.message, true);
-            return null;
-        }
-        
-        const { data: urlData } = sb.storage.from('company-media').getPublicUrl(fileName);
-        return urlData.publicUrl;
-    }
-
     async function loadData() {
         const { data: { user }, error: userError } = await sb.auth.getUser();
         if (userError || !user) {
@@ -258,17 +172,6 @@
             document.getElementById('companyName').value = data.full_name || '';
             document.getElementById('companyBio').value = data.bio || '';
             document.getElementById('companyCategory').value = data.business_category || 'Cleaning';
-            
-            if (data.avatar_url) {
-                document.getElementById('logoPreview').style.backgroundImage = `url(${data.avatar_url})`;
-                document.getElementById('logoPreview').style.backgroundSize = 'cover';
-                document.getElementById('logoPreview').style.backgroundPosition = 'center';
-            }
-            if (data.banner_url) {
-                document.getElementById('bannerPreview').style.backgroundImage = `url(${data.banner_url})`;
-                document.getElementById('bannerPreview').style.backgroundSize = 'cover';
-                document.getElementById('bannerPreview').style.backgroundPosition = 'center';
-            }
         }
         
         const { data: social } = await sb.from('company_social').select('*').eq('company_id', user.id).single();
@@ -284,36 +187,19 @@
         btn.disabled = true;
         btn.innerText = "Saving...";
 
-        let logoUrl = null;
-        let bannerUrl = null;
-        
-        if (logoFile) {
-            logoUrl = await uploadImage(logoFile, 'logo');
-        }
-        if (bannerFile) {
-            bannerUrl = await uploadImage(bannerFile, 'banner');
-        }
-        
-        const updateData = {
+        const { error } = await sb.from('company_profiles').upsert({
             id: currentCompanyId,
             full_name: document.getElementById('companyName').value,
             bio: document.getElementById('companyBio').value,
             business_category: document.getElementById('companyCategory').value,
             email: currentUser.email,
             updated_at: new Date()
-        };
-        
-        if (logoUrl) updateData.avatar_url = logoUrl;
-        if (bannerUrl) updateData.banner_url = bannerUrl;
-
-        const { error } = await sb.from('company_profiles').upsert(updateData);
+        });
 
         if (error) {
             showMessage(error.message, true);
         } else {
             showMessage("Company info saved successfully!");
-            logoFile = null;
-            bannerFile = null;
         }
 
         btn.disabled = false;
@@ -375,6 +261,32 @@
         } else {
             container.innerHTML = '<p>No images uploaded yet</p>';
         }
+    }
+
+    function viewImage(url) {
+        const modal = document.createElement('div');
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100%';
+        modal.style.height = '100%';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+        modal.style.zIndex = '9999';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.style.cursor = 'pointer';
+        
+        const img = document.createElement('img');
+        img.src = url;
+        img.style.maxWidth = '90%';
+        img.style.maxHeight = '90%';
+        img.style.borderRadius = '10px';
+        
+        modal.appendChild(img);
+        document.body.appendChild(modal);
+        
+        modal.onclick = () => document.body.removeChild(modal);
     }
 
     async function deleteImage(imageId) {
@@ -440,8 +352,7 @@
             instagram: document.getElementById('instaLink').value,
             facebook: document.getElementById('fbLink').value,
             whatsapp: document.getElementById('waNumber').value,
-            updated_at: new Date(),
-            created_at: new Date()
+            updated_at: new Date()
         });
         
         if (error) {
@@ -452,4 +363,6 @@
     }
 
     window.onload = loadData;
-</script
+</script>
+</body>
+</html>
