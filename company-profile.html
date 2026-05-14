@@ -48,9 +48,9 @@ h1 { color: #003366; font-size: 32px; margin-top: 10px; }
 
 <nav class="top-nav">
   <a href="index.html">Home</a>
-  <a href="client.html">Find Worker</a>
-  <a href="company-profile.html">Companies</a>
-  <a href="worker-profile.html">Workers</a>
+  <a href="worker-dashboard.html">Find Worker</a>
+  <a href="companies.html">Companies</a>
+  <a href="worker-dashboard.html">Workers</a>
   <a href="payment.html">Payment</a>
   <a href="my-bookings.html">My Bookings</a>
   <a href="notifications.html">Notifications</a>
@@ -97,9 +97,13 @@ h1 { color: #003366; font-size: 32px; margin-top: 10px; }
 </div>
 
 <div class="section">
-  <button class="action-btn" onclick="requestWorkers()">Request Temporary Workers</button>
-  <button class="action-btn" onclick="openChat()">Open Chat</button>
-  <button class="action-btn" onclick="rateCompany()">Rate Company</button>
+  <button class="action-btn" onclick="findWorker()">👷 Find Worker</button>
+  <button class="action-btn" onclick="viewCompanies()">🏢 Companies</button>
+  <button class="action-btn" onclick="viewWorkers()">👤 Workers</button>
+  <button class="action-btn" onclick="makePayment()">💳 Payment</button>
+  <button class="action-btn" onclick="viewBookings()">📋 My Bookings</button>
+  <button class="action-btn" onclick="viewNotifications()">🔔 Notifications</button>
+  <button class="action-btn" onclick="rateCompany()">⭐ Rate Company</button>
 </div>
 
 <script>
@@ -144,7 +148,6 @@ async function loadCompanyProfile() {
         return;
     }
 
-    // Load company profile
     const { data: company, error: companyError } = await sb
         .from('company_profiles')
         .select('*')
@@ -176,7 +179,6 @@ async function loadCompanyProfile() {
         console.error("Error fetching company:", companyError);
     }
 
-    // Load gallery images
     const { data: media, error: mediaError } = await sb
         .from('company_media')
         .select('*')
@@ -192,7 +194,6 @@ async function loadCompanyProfile() {
         galleryContainer.innerHTML = '<p>No images uploaded yet.</p>';
     }
 
-    // Load achievements
     const { data: achievements, error: achError } = await sb
         .from('company_achievements')
         .select('*')
@@ -211,7 +212,6 @@ async function loadCompanyProfile() {
         achievementsContainer.innerHTML = '<p>No achievements added yet.</p>';
     }
 
-    // Load social links
     const { data: social, error: socialError } = await sb
         .from('company_social')
         .select('*')
@@ -235,14 +235,44 @@ async function loadCompanyProfile() {
     }
 }
 
-function requestWorkers() { window.location.href = "payment.html"; }
-function openChat() { window.location.href = "chat.html"; }
-function rateCompany() { alert("Rating system coming soon."); }
+// ========== NEW BUTTON FUNCTIONS ==========
+function findWorker() { 
+    window.location.href = "worker-dashboard.html"; 
+}
+
+function viewCompanies() { 
+    window.location.href = "companies.html"; 
+}
+
+function viewWorkers() { 
+    window.location.href = "worker-dashboard.html"; 
+}
+
+function makePayment() { 
+    alert("💳 Payment page coming soon. You will be able to pay securely."); 
+}
+
+function viewBookings() { 
+    alert("📋 My Bookings page coming soon. You can track your requests here."); 
+}
+
+function viewNotifications() { 
+    alert("🔔 Notifications page coming soon."); 
+}
+
+function rateCompany() { 
+    const companyId = new URLSearchParams(window.location.search).get('id');
+    if (companyId) { 
+        window.location.href = `rate-company.html?id=${companyId}`; 
+    } else { 
+        alert("⭐ Rating system coming soon."); 
+    } 
+}
+// ==========================================
 
 window.onload = loadCompanyProfile;
 </script>
 
-<!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 </body>
