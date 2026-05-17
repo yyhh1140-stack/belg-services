@@ -108,16 +108,12 @@
         <div class="card">
             <h2>Social Media Links</h2>
             <div class="form-group">
-                <label><i class="fab fa-instagram"></i> Instagram</label>
-                <input type="url" id="instaLink" placeholder="https://instagram.com/your-page">
-            </div>
-            <div class="form-group">
                 <label><i class="fab fa-facebook"></i> Facebook</label>
                 <input type="url" id="fbLink" placeholder="https://facebook.com/your-page">
             </div>
             <div class="form-group">
                 <label><i class="fab fa-whatsapp"></i> WhatsApp</label>
-                <input type="tel" id="waNumber" placeholder="+966xxxxxxxxx">
+                <input type="tel" id="waNumber" placeholder="e.g., +32470000000">
             </div>
             <button class="btn-save" onclick="saveSocial()">🔗 Save Social Links</button>
         </div>
@@ -174,18 +170,13 @@
         currentUser = user;
         currentCompanyId = user.id;
 
-        const { data, error } = await sb.from('company_profiles').select('*').eq('id', user.id).single();
+        const { data, error } = await sb.from('company_profiles').select('*').eq('id', user.id).maybeSingle();
         if (data) {
             document.getElementById('companyName').value = data.full_name || '';
             document.getElementById('companyBio').value = data.bio || '';
             document.getElementById('companyCategory').value = data.business_category || 'Cleaning';
-        }
-        
-        const { data: social } = await sb.from('company_social').select('*').eq('company_id', user.id).single();
-        if (social) {
-            document.getElementById('instaLink').value = social.instagram || '';
-            document.getElementById('fbLink').value = social.facebook || '';
-            document.getElementById('waNumber').value = social.whatsapp || '';
+            document.getElementById('fbLink').value = data.facebook_url || '';
+            document.getElementById('waNumber').value = data.whatsapp_no || '';
         }
     }
 
@@ -199,9 +190,8 @@
             full_name: document.getElementById('companyName').value,
             bio: document.getElementById('companyBio').value,
             business_category: document.getElementById('companyCategory').value,
-            email: currentUser.email,
-            updated_at: new Date()
-        });
+            email: currentUser.email
+        }, { onConflict: 'id' });
 
         if (error) {
             showMessage(error.message, true);
@@ -235,11 +225,9 @@
             
             const { data: urlData } = sb.storage.from('company-media').getPublicUrl(fileName);
             
-            await sb.from('company_media').insert({
+            await sb.from('company_gallery').insert({
                 company_id: currentCompanyId,
-                media_url: urlData.publicUrl,
-                media_type: 'image',
-                created_at: new Date()
+                image_url: urlData.publicUrl
             });
         }
         
@@ -249,7 +237,7 @@
     }
 
     async function loadExistingImages() {
-        const { data, error } = await sb.from('company_media')
+        const { data, error } = await sb.from('company_gallery')
             .select('*')
             .eq('company_id', currentCompanyId)
             .order('created_at', { ascending: false });
@@ -258,9 +246,9 @@
         if (data && data.length > 0) {
             container.innerHTML = data.map(img => `
                 <div style="position: relative;">
-                    <img src="${img.media_url}" 
+                    <img src="${img.image_url}" 
                          style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; cursor: pointer;" 
-                         onclick="viewImage('${img.media_url}')">
+                         onclick="viewImage('${img.image_url}')">
                     <button onclick="deleteImage('${img.id}')" 
                             style="position: absolute; top: -8px; right: -8px; background: red; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;">×</button>
                 </div>
@@ -297,7 +285,7 @@
     }
 
     async function deleteImage(imageId) {
-        await sb.from('company_media').delete().eq('id', imageId);
+        await sb.from('company_gallery').delete().eq('id', imageId);
         loadExistingImages();
         showMessage("Image deleted");
     }
@@ -306,16 +294,15 @@
         const title = document.getElementById('certTitle').value;
         const date = document.getElementById('certDate').value;
         
-        if (!title) {
-            showMessage("Enter achievement title", true);
+        if (!title || !date) {
+            showMessage("Enter achievement title and date", true);
             return;
         }
         
         const { error } = await sb.from('company_achievements').insert({
             company_id: currentCompanyId,
             title: title,
-            date: date,
-            created_at: new Date()
+            date: date
         });
         
         if (error) {
@@ -354,18 +341,16 @@
     }
 
     async function saveSocial() {
-        const { error } = await sb.from('company_social').upsert({
-            company_id: currentCompanyId,
-            instagram: document.getElementById('instaLink').value,
-            facebook: document.getElementById('fbLink').value,
-            whatsapp: document.getElementById('waNumber').value,
-            updated_at: new Date()
-        });
+        const { error } = await sb.from('company_profiles').upsert({
+            id: currentCompanyId,
+            facebook_url: document.getElementById('fbLink').value,
+            whatsapp_no: document.getElementById('waNumber').value
+        }, { onConflict: 'id' });
         
         if (error) {
             showMessage(error.message, true);
         } else {
-            showMessage("Social links saved");
+            showMessage("Social links saved successfully!");
         }
     }
 
@@ -373,3 +358,4 @@
 </script>
 </body>
     </html>
+    
