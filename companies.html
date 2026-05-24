@@ -6,9 +6,13 @@
     <title>Business Partners - BELG SERVICES</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="data:,">
     
     <style>
+        /* استيراد الخط بطريقة الـ CSS الآمنة لتجنب مشاكل المتصفحات */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #fffaf7; color: #1e293b; }
         
@@ -61,20 +65,20 @@
     <section class="controls">
         <input type="text" id="search" class="search-box" placeholder="Search for a company or service...">
         <div class="filter-group">
-            <button class="f-btn active" onclick="filter('all')">All</button>
-            <button class="f-btn" onclick="filter('Cleaning')">Cleaning</button>
-            <button class="f-btn" onclick="filter('Moving')">Moving</button>
-            <button class="f-btn" onclick="filter('Construction')">Construction</button>
+            <button class="f-btn active" onclick="filter('all', this)">All</button>
+            <button class="f-btn" onclick="filter('Cleaning', this)">Cleaning</button>
+            <button class="f-btn" onclick="filter('Moving', this)">Moving</button>
+            <button class="f-btn" onclick="filter('Construction', this)">Construction</button>
         </div>
     </section>
 
     <div id="companyGrid" class="grid"></div>
 
     <script>
-        // الأسطر النهائية للربط بناءً على صورتك
-        const URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-        const KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-        const sb = supabase.createClient(URL, KEY);
+        // الترتيب الأصح والمعياري لتجنب أخطاء التعريف والـ Malformed URL
+        const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
         let dataStore = [];
 
@@ -82,13 +86,12 @@
             const container = document.getElementById('companyGrid');
             container.innerHTML = '<p style="text-align:center; grid-column:1/-1;">Connecting to Database...</p>';
 
-            // التعديل هنا: استخدام اسم الجدول company_profiles ليتطابق مع قاعدة بياناتك
             const { data, error } = await sb
                 .from('company_profiles') 
                 .select('*');
 
             if (error) {
-                container.innerHTML = `<p style="color:red; text-align:center; grid-column:1/-1;">Error: Check Database Policies (RLS).</p>`;
+                container.innerHTML = `<p style="color:red; text-align:center; grid-column:1/-1;">Error loading companies. Please try again later.</p>`;
                 console.error("Supabase Error:", error.message);
                 return;
             }
@@ -118,7 +121,7 @@
             `).join('');
         }
 
-        // نظام البحث
+        // نظام البحث الذكي والسلس
         document.getElementById('search').oninput = (e) => {
             const val = e.target.value.toLowerCase();
             const filtered = dataStore.filter(c => 
@@ -128,14 +131,17 @@
             render(filtered);
         };
 
-        // نظام الفلترة
-        function filter(cat) {
+        // نظام الفلترة الآمن والمحمي من أخطاء الـ ReferenceError
+        function filter(cat, buttonElement) {
             document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
-            if(event && event.target) event.target.classList.add('active');
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            }
             const filtered = (cat === 'all') ? dataStore : dataStore.filter(c => c.business_category === cat);
             render(filtered);
         }
 
+        // تشغيل الصفحة عند التحميل
         init();
     </script>
 </body>
