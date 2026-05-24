@@ -45,6 +45,7 @@
         .book-btn { background: #87CEEB; border: none; width: 100%; padding: 16px; font-size: 1rem; font-weight: 700; border-radius: 60px; color: #1e2a2f; margin: 20px 0 15px; cursor: pointer; transition: 0.2s; display: block; text-align: center; text-decoration: none; }
         .book-btn:hover { background: #6bb5d4; }
         .back-link { display: inline-block; margin: 20px 0 15px; text-decoration: none; color: #87CEEB; font-weight: 500; }
+        .edit-profile-link { display: inline-block; margin-left: 15px; text-decoration: none; color: #c49a6c; font-weight: 500; font-size: 0.85rem; }
         @media (max-width: 680px) { .profile-content { padding: 0 20px 30px; } .worker-name { font-size: 1.5rem; } .avatar-wrapper { width: 100px; height: 100px; } }
     </style>
 </head>
@@ -64,7 +65,10 @@
     </div>
 
     <div class="profile-content">
-        <a href="companies.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Workers</a>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+            <a href="worker-dashboard.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Workers</a>
+            <a href="edit-worker-profile.html" class="edit-profile-link" id="editProfileLink" style="display: none;"><i class="fas fa-edit"></i> Edit Profile</a>
+        </div>
 
         <div class="name-section">
             <div class="worker-name" id="workerName">Loading...</div>
@@ -72,20 +76,21 @@
         </div>
 
         <div class="rating">
-            <span class="stars">★★★★★</span> 
+            <span class="stars" id="starsDisplay">★★★★★</span> 
             <span id="ratingValue">Loading...</span>
         </div>
 
         <div class="info-grid" id="infoGrid">
-            <div class="info-item"><span class="info-label">Skills :</span><span class="info-value" id="skills">Loading...</span></div>
-            <div class="info-item"><span class="info-label">Experience :</span><span class="info-value" id="experience">Loading...</span></div>
+            <div class="info-item"><span class="info-label">Work Type :</span><span class="info-value" id="workType">Loading...</span></div>
+            <div class="info-item"><span class="info-label">Hourly Rate :</span><span class="info-value" id="hourlyRate">Loading...</span></div>
             <div class="info-item"><span class="info-label">Phone :</span><span class="info-value" id="phone">Loading...</span></div>
             <div class="info-item"><span class="info-label">Email :</span><span class="info-value" id="email">Loading...</span></div>
+            <div class="info-item"><span class="info-label">Location :</span><span class="info-value" id="location">Loading...</span></div>
         </div>
 
-        <div class="section-title"><i class="fas fa-tools"></i> Services Offered</div>
-        <div class="services-list" id="servicesList">
-            <div class="service-item"><span>Loading services...</span></div>
+        <div class="section-title"><i class="fas fa-tools"></i> About & Bio</div>
+        <div class="services-list" id="bioContainer">
+            <div class="service-item"><span>Loading bio...</span></div>
         </div>
 
         <div class="section-title"><i class="fas fa-check-circle"></i> Credentials</div>
@@ -110,6 +115,7 @@
     
     let workerId = null;
     let workerData = null;
+    let currentUser = null;
 
     function getStatusClass(status) {
         if (status === 'available') return 'status-badge';
@@ -121,6 +127,16 @@
         if (status === 'available') return 'Available Now';
         if (status === 'busy') return 'Currently Busy';
         return 'Offline';
+    }
+
+    function updateStars(rating) {
+        const fullStars = Math.floor(rating);
+        const hasHalfStar = (rating % 1) >= 0.5;
+        let starsHtml = '';
+        for (let i = 0; i < fullStars; i++) starsHtml += '★';
+        if (hasHalfStar) starsHtml += '½';
+        for (let i = starsHtml.length; i < 5; i++) starsHtml += '☆';
+        document.getElementById('starsDisplay').innerHTML = starsHtml;
     }
 
     function viewImage(url) {
@@ -148,110 +164,117 @@
         modal.onclick = () => document.body.removeChild(modal);
     }
 
+    async function checkCurrentUser() {
+        const { data: { user } } = await sb.auth.getUser();
+        currentUser = user;
+        
+        if (currentUser && workerData && currentUser.id === workerData.user_id) {
+            const editLink = document.getElementById('editProfileLink');
+            if (editLink) editLink.style.display = 'inline-block';
+        }
+    }
+
     async function loadWorkerProfile() {
         const params = new URLSearchParams(window.location.search);
         workerId = params.get('id');
 
         if (!workerId) {
             document.getElementById('workerName').innerText = "Worker ID Missing";
+            document.getElementById('bioContainer').innerHTML = '<div class="service-item"><span>No worker ID provided. Please go back and try again.</span></div>';
             return;
         }
 
         const { data: worker, error: workerError } = await sb
             .from('worker_profiles')
             .select('*')
-            .eq('id', workerId)
+            .eq('id', parseInt(workerId))
             .maybeSingle();
 
         if (workerError || !worker) {
             console.error("Error loading worker:", workerError);
             document.getElementById('workerName').innerText = "Worker Not Found";
+            document.getElementById('bioContainer').innerHTML = '<div class="service-item"><span>The requested worker profile could not be found.</span></div>';
             return;
         }
 
         workerData = worker;
         
-        // Update View Layer Elements
         document.getElementById('workerName').innerText = worker.full_name || 'Professional Worker';
-        document.getElementById('workerLocation').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${worker.location || 'Belgium'} · ${worker.languages || 'Speaks English'}`;
-        document.getElementById('ratingValue').innerText = `${worker.rating || '4.5'} (${worker.reviews || '0'} reviews)`;
-        document.getElementById('skills').innerText = worker.skills || 'General Services';
-        document.getElementById('experience').innerText = worker.experience || 'Not specified';
-        document.getElementById('phone').innerText = worker.phone || 'Not provided';
-        document.getElementById('email').innerText = worker.email || 'Not provided';
+        document.getElementById('workerLocation').innerHTML = `<i class="fas fa-map-marker-alt"></i> ${worker.location || 'Location not specified'}`;
+        
+        const rating = worker.rating || 4.5;
+        document.getElementById('ratingValue').innerText = `${rating} stars`;
+        updateStars(rating);
+        
+        document.getElementById('workType').innerHTML = `<span class="info-value">${worker.work_type || worker.job_title || 'General Services'}</span>`;
+        document.getElementById('hourlyRate').innerHTML = `<span class="info-value">$${worker.price || 25}/hour</span>`;
+        document.getElementById('phone').innerHTML = `<span class="info-value">${worker.phone_number || 'Not provided'}</span>`;
+        document.getElementById('email').innerHTML = `<span class="info-value">${worker.email_address || 'Not provided'}</span>`;
+        document.getElementById('location').innerHTML = `<span class="info-value">${worker.location || 'Not specified'}</span>`;
         
         if (worker.avatar_url) {
             document.getElementById('workerAvatar').style.backgroundImage = `url('${worker.avatar_url}')`;
         }
         
         const statusBadge = document.getElementById('statusBadge');
-        statusBadge.className = getStatusClass(worker.status || 'available');
-        statusBadge.innerHTML = `<i class="fas fa-circle"></i> ${getStatusText(worker.status || 'available')}`;
+        statusBadge.className = getStatusClass(worker.status || 'offline');
+        statusBadge.innerHTML = `<i class="fas fa-circle"></i> ${getStatusText(worker.status || 'offline')}`;
         
-        // Render Services
-        let services = [];
-        try {
-            services = worker.services ? (typeof worker.services === 'string' ? JSON.parse(worker.services) : worker.services) : [];
-        } catch(e) {
-            services = [{ name: worker.services || 'General Services', price: 30 }];
-        }
-        
-        const servicesContainer = document.getElementById('servicesList');
-        if (services && services.length > 0) {
-            servicesContainer.innerHTML = services.map(s => `
-                <div class="service-item">
-                    <span class="service-name"><i class="fas fa-toolbox"></i> ${s.name || s}</span>
-                    <span class="service-price">$${s.price || '30'}/hr</span>
-                </div>
-            `).join('');
+        const bioContainer = document.getElementById('bioContainer');
+        if (worker.bio) {
+            bioContainer.innerHTML = `<div class="service-item"><span><i class="fas fa-info-circle"></i> ${worker.bio}</span></div>`;
         } else {
-            servicesContainer.innerHTML = `<div class="service-item"><span>Standard Maintenance ($30/hr)</span></div>`;
-        }
-        
-        // Render Credentials & Badges
-        let credentials = [];
-        try {
-            credentials = worker.credentials ? (typeof worker.credentials === 'string' ? JSON.parse(worker.credentials) : worker.credentials) : [];
-        } catch(e) {
-            credentials = [worker.credentials || 'Verified Professional'];
+            bioContainer.innerHTML = `<div class="service-item"><span>Professional service provider ready to help with your needs.</span></div>`;
         }
         
         const badgesContainer = document.getElementById('badgesContainer');
-        if (credentials && credentials.length > 0) {
-            badgesContainer.innerHTML = credentials.map(c => `
-                <div class="badge"><i class="fas fa-shield-alt"></i> ${c}</div>
-            `).join('');
-        } else {
-            badgesContainer.innerHTML = `<div class="badge"><i class="fas fa-shield-alt"></i> Background Verified</div>`;
-        }
+        badgesContainer.innerHTML = `
+            <div class="badge"><i class="fas fa-shield-alt"></i> Verified Professional</div>
+            <div class="badge"><i class="fas fa-check-circle"></i> ${worker.status === 'available' ? 'Ready to Work' : 'Available on Request'}</div>
+            <div class="badge"><i class="fas fa-star"></i> Rating: ${rating}</div>
+            <div class="badge"><i class="fas fa-clock"></i> Member since ${worker.created_at ? new Date(worker.created_at).getFullYear() : '2024'}</div>
+        `;
         
-        // Load Work Gallery Assets
-        const { data: media } = await sb
+        const { data: media, error: mediaError } = await sb
             .from('worker_media')
             .select('*')
-            .eq('worker_id', workerId)
+            .eq('worker_id', parseInt(workerId))
             .order('created_at', { ascending: false });
         
         const galleryContainer = document.getElementById('galleryContainer');
-        if (media && media.length > 0) {
+        if (mediaError) {
+            console.error("Error loading gallery:", mediaError);
+            galleryContainer.innerHTML = '<p style="color:#64748b; padding-left:10px;">Unable to load gallery at this time.</p>';
+        } else if (media && media.length > 0) {
             galleryContainer.innerHTML = media.map(img => `
-                <img src="${img.media_url}" onclick="viewImage('${img.media_url}')">
+                <img src="${img.media_url}" onclick="viewImage('${img.media_url}')" onerror="this.src='https://placehold.co/150x130?text=No+Image'">
             `).join('');
         } else {
-            galleryContainer.innerHTML = '<p style="color:#64748b; padding-left:10px;">No gallery media cataloged yet.</p>';
+            galleryContainer.innerHTML = '<p style="color:#64748b; padding-left:10px;">No gallery images available. Click Edit Profile to add photos.</p>';
         }
+        
+        await checkCurrentUser();
     }
 
     function requestWorker() {
         if (!workerData) {
-            alert("Worker profile metadata is not initialized yet.");
+            alert("Loading worker profile, please wait.");
             return;
         }
-        window.location.href = `payment.html?worker=${workerId}&name=${encodeURIComponent(workerData.full_name)}`;
+        
+        sb.auth.getUser().then(({ data: { user } }) => {
+            if (!user) {
+                if (confirm("You need to login first to book a worker. Would you like to login now?")) {
+                    window.location.href = `login.html?redirect=worker-profile.html?id=${workerId}`;
+                }
+                return;
+            }
+            
+            window.location.href = `booking.html?worker=${workerId}&name=${encodeURIComponent(workerData.full_name)}&rate=${workerData.price || 25}`;
+        });
     }
 
     document.getElementById("bookNowBtn").addEventListener("click", requestWorker);
-
     window.onload = loadWorkerProfile;
 </script>
 </body>
