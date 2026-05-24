@@ -6,29 +6,35 @@
     <title>Belg Services | Company Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="data:,">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background: #f0f2f5; padding: 16px; }
         .container { max-width: 1000px; margin: 0 auto; }
-        .header { background: #FF6600; padding: 16px; border-radius: 20px; color: white; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .header { background: #003366; padding: 16px; border-radius: 20px; color: white; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 20px; font-weight: 800; }
         .header-buttons { display: flex; gap: 10px; }
-        .header-btn { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; cursor: pointer; border: none; color: white; font-weight: 600; }
-        .tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; }
-        .tab-btn { background: white; border: none; padding: 12px 24px; border-radius: 30px; font-weight: 700; cursor: pointer; color: #64748b; white-space: nowrap; transition: 0.3s; }
-        .tab-btn.active { background: #FF6600; color: white; }
+        .header-btn { background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 30px; cursor: pointer; border: none; color: white; font-weight: 600; transition: 0.2s; }
+        .header-btn:hover { background: rgba(255,255,255,0.3); }
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
+        .tab-btn { background: white; border: none; padding: 12px 24px; border-radius: 30px; font-weight: 700; cursor: pointer; color: #64748b; white-space: nowrap; transition: 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .tab-btn.active { background: #003366; color: white; }
         .card { background: white; border-radius: 24px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .card h2 { margin-bottom: 20px; color: #1e293b; font-size: 18px; border-left: 4px solid #FF6600; padding-left: 12px; }
+        .card h2 { margin-bottom: 20px; color: #1e293b; font-size: 18px; border-left: 4px solid #003366; padding-left: 12px; }
         .form-group { margin-bottom: 16px; }
         label { font-weight: 600; display: block; margin-bottom: 8px; font-size: 14px; color: #475569; }
         input, textarea, select { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 14px; outline: none; }
-        .btn-save { background: #FF6600; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
+        input:focus, textarea:focus, select:focus { border-color: #003366; }
+        .btn-save { background: #003366; color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; transition: 0.2s; }
+        .btn-save:hover { background: #002244; }
         .tab-content { display: none; animation: fadeIn 0.4s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .success-msg { background: #22c55e; color: white; padding: 12px; border-radius: 12px; margin-top: 10px; text-align: center; display: none; }
-        .error-msg { background: #ef4444; color: white; padding: 12px; border-radius: 12px; margin-top: 10px; text-align: center; display: none; }
-        .image-preview { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
-        .image-preview img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; cursor: pointer; }
+        .success-msg { background: #22c55e; color: white; padding: 12px; border-radius: 12px; margin-top: 10px; text-align: center; display: none; font-weight: 600; }
+        .error-msg { background: #ef4444; color: white; padding: 12px; border-radius: 12px; margin-top: 10px; text-align: center; display: none; font-weight: 600; }
+        .image-preview { display: flex; flex-wrap: wrap; gap: 15px; margin-top: 10px; }
+        .image-card { position: relative; width: 110px; height: 110px; }
+        .image-card img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .delete-btn { position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
@@ -37,13 +43,13 @@
     <div class="header">
         <div class="logo"><i class="fas fa-building"></i> BELG SERVICES</div>
         <div class="header-buttons">
-            <button onclick="goHome()" class="header-btn">🏠 Home</button>
-            <button onclick="goPublicProfile()" class="header-btn">🌐 Public Profile</button>
+            <button onclick="goHome()" class="header-btn"><i class="fas fa-home"></i> Home</button>
+            <button onclick="goPublicProfile()" class="header-btn"><i class="fas fa-globe"></i> Public Profile</button>
         </div>
     </div>
 
-    <div id="successMsg" class="success-msg">✅ Success</div>
-    <div id="errorMsg" class="error-msg">❌ Error</div>
+    <div id="successMsg" class="success-msg">Success</div>
+    <div id="errorMsg" class="error-msg">Error</div>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openTab(event, 'tab-profile')">📋 Company Info</button>
@@ -66,24 +72,29 @@
                     <option value="Moving">Moving</option>
                     <option value="Construction">Construction</option>
                     <option value="Maintenance">Maintenance</option>
+                    <option value="General Services">General Services</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <label>Completed Projects</label>
+                <input type="number" id="projectsCount" placeholder="e.g., 25">
             </div>
             <div class="form-group">
                 <label>Bio</label>
                 <textarea id="companyBio" rows="4" placeholder="Describe your services..."></textarea>
             </div>
-            <button class="btn-save" onclick="saveProfile()">💾 Save Company Info</button>
+            <button class="btn-save" onclick="saveProfile(event)">💾 Save Company Info</button>
         </div>
     </div>
 
     <div id="tab-media" class="tab-content">
         <div class="card">
             <h2>Company Gallery</h2>
-            <p style="color: #64748b; margin-bottom: 15px;">Upload your work images</p>
+            <p style="color: #64748b; margin-bottom: 15px;">Upload and display images of your recent works</p>
             <div class="form-group">
                 <input type="file" id="mediaUpload" multiple accept="image/*">
             </div>
-            <button class="btn-save" onclick="uploadImages()">📤 Upload Images</button>
+            <button class="btn-save" id="uploadBtn" onclick="uploadImages()">📤 Upload Images</button>
             <div id="existingImages" class="image-preview" style="margin-top: 20px;"></div>
         </div>
     </div>
@@ -93,13 +104,13 @@
             <h2>Achievements & Certificates</h2>
             <div class="form-group">
                 <label>Title</label>
-                <input type="text" id="certTitle" placeholder="e.g., ISO Certificate 2023">
+                <input type="text" id="certTitle" placeholder="e.g., Best Service Excellence 2026">
             </div>
             <div class="form-group">
                 <label>Date</label>
                 <input type="date" id="certDate">
             </div>
-            <button class="btn-save" onclick="addAchievement()">➕ Add Achievement</button>
+            <button class="btn-save" onclick="addAchievement(event)">➕ Add Achievement</button>
             <div id="achievementsList" style="margin-top: 20px;"></div>
         </div>
     </div>
@@ -112,10 +123,14 @@
                 <input type="url" id="fbLink" placeholder="https://facebook.com/your-page">
             </div>
             <div class="form-group">
-                <label><i class="fab fa-whatsapp"></i> WhatsApp</label>
-                <input type="tel" id="waNumber" placeholder="e.g., +32470000000">
+                <label><i class="fab fa-instagram"></i> Instagram</label>
+                <input type="url" id="instaLink" placeholder="https://instagram.com/your-page">
             </div>
-            <button class="btn-save" onclick="saveSocial()">🔗 Save Social Links</button>
+            <div class="form-group">
+                <label><i class="fab fa-whatsapp"></i> WhatsApp Number</label>
+                <input type="tel" id="waNumber" placeholder="e.g., 32470000000">
+            </div>
+            <button class="btn-save" onclick="saveSocial(event)">🔗 Save Social Links</button>
         </div>
     </div>
 </div>
@@ -134,20 +149,21 @@
         if (isError) {
             errorDiv.innerText = '❌ ' + msg;
             errorDiv.style.display = 'block';
-            setTimeout(() => errorDiv.style.display = 'none', 3000);
+            setTimeout(() => errorDiv.style.display = 'none', 4000);
         } else {
             successDiv.innerText = '✅ ' + msg;
             successDiv.style.display = 'block';
-            setTimeout(() => successDiv.style.display = 'none', 3000);
+            setTimeout(() => successDiv.style.display = 'none', 4000);
         }
     }
 
-    function goHome() {
-        window.location.href = "index.html";
-    }
-
+    function goHome() { window.location.href = "index.html"; }
     function goPublicProfile() {
-        window.location.href = `company-profile.html?id=${currentCompanyId}`;
+        if(currentCompanyId) {
+            window.location.href = `company-profile.html?id=${currentCompanyId}`;
+        } else {
+            alert("Profile metadata loading. Try again in a moment.");
+        }
     }
 
     function openTab(evt, tabName) {
@@ -157,8 +173,10 @@
         for (let btn of buttons) btn.classList.remove("active");
         document.getElementById(tabName).style.display = "block";
         evt.currentTarget.classList.add("active");
+        
         if (tabName === 'tab-media') loadExistingImages();
         if (tabName === 'tab-achievements') loadAchievements();
+        if (tabName === 'tab-social') loadSocialData();
     }
 
     async function loadData() {
@@ -174,70 +192,76 @@
         if (data) {
             document.getElementById('companyName').value = data.full_name || '';
             document.getElementById('companyBio').value = data.bio || '';
-            document.getElementById('companyCategory').value = data.business_category || 'Cleaning';
-            document.getElementById('fbLink').value = data.facebook_url || '';
-            document.getElementById('waNumber').value = data.whatsapp_no || '';
+            document.getElementById('companyCategory').value = data.business_category || 'General Services';
+            document.getElementById('projectsCount').value = data.completed_projects || '0';
         }
     }
 
-    async function saveProfile() {
+    async function saveProfile(event) {
         const btn = event.target;
         btn.disabled = true;
-        btn.innerText = "Saving...";
+        btn.innerText = "Saving Info...";
 
         const { error } = await sb.from('company_profiles').upsert({
             id: currentCompanyId,
-            full_name: document.getElementById('companyName').value,
-            bio: document.getElementById('companyBio').value,
+            full_name: document.getElementById('companyName').value.trim(),
+            bio: document.getElementById('companyBio').value.trim(),
             business_category: document.getElementById('companyCategory').value,
+            completed_projects: parseInt(document.getElementById('projectsCount').value) || 0,
             email: currentUser.email
         }, { onConflict: 'id' });
 
         if (error) {
             showMessage(error.message, true);
         } else {
-            showMessage("Company info saved successfully!");
+            showMessage("Company general description saved successfully!");
         }
-
         btn.disabled = false;
         btn.innerText = "💾 Save Company Info";
     }
 
     async function uploadImages() {
         const files = document.getElementById('mediaUpload').files;
+        const uploadBtn = document.getElementById('uploadBtn');
         if (files.length === 0) {
-            showMessage("Select images first", true);
+            showMessage("Please select images to upload first.", true);
             return;
         }
 
-        showMessage("Uploading images...");
+        uploadBtn.disabled = true;
+        uploadBtn.innerText = "Uploading files to storage...";
         
         for (let file of files) {
-            const fileName = `${currentCompanyId}/${Date.now()}_${file.name}`;
+            const fileName = `${currentCompanyId}/${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
             const { error: uploadError } = await sb.storage
                 .from('company-media')
                 .upload(fileName, file);
             
             if (uploadError) {
-                showMessage("Upload error: " + uploadError.message, true);
+                showMessage("Storage upload failed: " + uploadError.message, true);
+                uploadBtn.disabled = false;
+                uploadBtn.innerText = "📤 Upload Images";
                 return;
             }
             
             const { data: urlData } = sb.storage.from('company-media').getPublicUrl(fileName);
             
-            await sb.from('company_gallery').insert({
+            // Replaced company_gallery with valid database table company_media
+            await sb.from('company_media').insert({
                 company_id: currentCompanyId,
-                image_url: urlData.publicUrl
+                media_url: urlData.publicUrl
             });
         }
         
-        showMessage("Uploaded " + files.length + " images successfully");
+        showMessage("Uploaded " + files.length + " media images successfully.");
         document.getElementById('mediaUpload').value = '';
+        uploadBtn.disabled = false;
+        uploadBtn.innerText = "📤 Upload Images";
         loadExistingImages();
     }
 
     async function loadExistingImages() {
-        const { data, error } = await sb.from('company_gallery')
+        const { data } = await sb.from('company_media')
             .select('*')
             .eq('company_id', currentCompanyId)
             .order('created_at', { ascending: false });
@@ -245,16 +269,13 @@
         const container = document.getElementById('existingImages');
         if (data && data.length > 0) {
             container.innerHTML = data.map(img => `
-                <div style="position: relative;">
-                    <img src="${img.image_url}" 
-                         style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; cursor: pointer;" 
-                         onclick="viewImage('${img.image_url}')">
-                    <button onclick="deleteImage('${img.id}')" 
-                            style="position: absolute; top: -8px; right: -8px; background: red; color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer;">×</button>
+                <div class="image-card">
+                    <img src="${img.media_url}" onclick="viewImage('${img.media_url}')">
+                    <button class="delete-btn" onclick="deleteImage('${img.id}')">×</button>
                 </div>
             `).join('');
         } else {
-            container.innerHTML = '<p>No images uploaded yet</p>';
+            container.innerHTML = '<p style="color:#64748b;">No image uploads detected yet.</p>';
         }
     }
 
@@ -265,7 +286,7 @@
         modal.style.left = '0';
         modal.style.width = '100%';
         modal.style.height = '100%';
-        modal.style.backgroundColor = 'rgba(0,0,0,0.9)';
+        modal.style.backgroundColor = 'rgba(0,0,0,0.85)';
         modal.style.zIndex = '9999';
         modal.style.display = 'flex';
         modal.style.alignItems = 'center';
@@ -276,29 +297,32 @@
         img.src = url;
         img.style.maxWidth = '90%';
         img.style.maxHeight = '90%';
-        img.style.borderRadius = '10px';
+        img.style.borderRadius = '12px';
         
         modal.appendChild(img);
         document.body.appendChild(modal);
-        
         modal.onclick = () => document.body.removeChild(modal);
     }
 
     async function deleteImage(imageId) {
-        await sb.from('company_gallery').delete().eq('id', imageId);
-        loadExistingImages();
-        showMessage("Image deleted");
+        if(confirm("Are you sure you want to delete this picture from gallery?")) {
+            await sb.from('company_media').delete().eq('id', imageId);
+            loadExistingImages();
+            showMessage("Image removed.");
+        }
     }
 
-    async function addAchievement() {
-        const title = document.getElementById('certTitle').value;
+    async function addAchievement(event) {
+        const btn = event.target;
+        const title = document.getElementById('certTitle').value.trim();
         const date = document.getElementById('certDate').value;
         
         if (!title || !date) {
-            showMessage("Enter achievement title and date", true);
+            showMessage("Fill in achievement name and date metrics.", true);
             return;
         }
         
+        btn.disabled = true;
         const { error } = await sb.from('company_achievements').insert({
             company_id: currentCompanyId,
             title: title,
@@ -308,15 +332,17 @@
         if (error) {
             showMessage(error.message, true);
         } else {
-            showMessage("Achievement added");
+            showMessage("Achievement milestone cataloged.");
             document.getElementById('certTitle').value = '';
             document.getElementById('certDate').value = '';
             loadAchievements();
         }
+        btn.disabled = false;
+        btn.innerText = "➕ Add Achievement";
     }
 
     async function loadAchievements() {
-        const { data, error } = await sb.from('company_achievements')
+        const { data } = await sb.from('company_achievements')
             .select('*')
             .eq('company_id', currentCompanyId)
             .order('created_at', { ascending: false });
@@ -324,38 +350,55 @@
         const container = document.getElementById('achievementsList');
         if (data && data.length > 0) {
             container.innerHTML = data.map(ach => `
-                <div style="background: #f8fafc; padding: 12px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between;">
-                    <div><strong>${ach.title}</strong><br>${ach.date || ''}</div>
-                    <button onclick="deleteAchievement('${ach.id}')" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 8px;">Delete</button>
+                <div style="background: #f8fafc; padding: 14px; border-radius: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #e2e8f0;">
+                    <div><strong>🏆 ${ach.title}</strong><br><small style="color:#64748b;">Date: ${ach.date || 'N/A'}</small></div>
+                    <button onclick="deleteAchievement('${ach.id}')" style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor:pointer;">Delete</button>
                 </div>
             `).join('');
         } else {
-            container.innerHTML = '<p>No achievements added yet</p>';
+            container.innerHTML = '<p style="color:#64748b;">No achievements documented yet.</p>';
         }
     }
 
     async function deleteAchievement(achId) {
-        await sb.from('company_achievements').delete().eq('id', achId);
-        loadAchievements();
-        showMessage("Achievement deleted");
+        if(confirm("Remove this entry from accomplishments profile?")) {
+            await sb.from('company_achievements').delete().eq('id', achId);
+            loadAchievements();
+            showMessage("Achievement deleted.");
+        }
     }
 
-    async function saveSocial() {
-        const { error } = await sb.from('company_profiles').upsert({
-            id: currentCompanyId,
-            facebook_url: document.getElementById('fbLink').value,
-            whatsapp_no: document.getElementById('waNumber').value
-        }, { onConflict: 'id' });
+    async function loadSocialData() {
+        const { data } = await sb.from('company_social').select('*').eq('company_id', currentCompanyId).maybeSingle();
+        if(data) {
+            document.getElementById('fbLink').value = data.facebook || '';
+            document.getElementById('instaLink').value = data.instagram || '';
+            document.getElementById('waNumber').value = data.whatsapp || '';
+        }
+    }
+
+    async function saveSocial(event) {
+        const btn = event.target;
+        btn.disabled = true;
+        btn.innerText = "Saving Links...";
+
+        const { error } = await sb.from('company_social').upsert({
+            company_id: currentCompanyId,
+            facebook: document.getElementById('fbLink').value.trim(),
+            instagram: document.getElementById('instaLink').value.trim(),
+            whatsapp: document.getElementById('waNumber').value.trim()
+        }, { onConflict: 'company_id' });
         
         if (error) {
             showMessage(error.message, true);
         } else {
-            showMessage("Social links saved successfully!");
+            showMessage("Social networking channels updated successfully!");
         }
+        btn.disabled = false;
+        btn.innerText = "🔗 Save Social Links";
     }
 
     window.onload = loadData;
 </script>
 </body>
-    </html>
-    
+</html>
