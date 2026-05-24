@@ -9,7 +9,6 @@
     <link rel="icon" href="data:,">
 
     <style>
-        /* تم استيراد الخط هنا بطريقة الـ CSS الآمنة لتخطي حظر الـ CORB تماماً */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -39,7 +38,7 @@
         .stat-item { margin-bottom: 24px; border-bottom: 1px solid #e2cfbc; padding-bottom: 16px; color: #2b2b1f; }
         .stat-number { font-size: 2rem; font-weight: 800; color: #c49a6c; }
 
-        /* --- NEW SECTION STYLES (MARQUEE) --- */
+        /* Marquee Styles */
         .new-section-wrapper { width: 100%; margin: 40px auto; overflow: hidden; }
         .companies-marquee { width: 100%; overflow: hidden; white-space: nowrap; margin-bottom: 40px; background: transparent; padding: 10px 0; }
         .marquee-track { display: inline-block; animation: scrollAds 25s linear infinite; }
@@ -55,14 +54,14 @@
         .service-title-new { font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: #1e2a2f; }
         .service-subtitle-new { font-size: 0.75rem; color: #6e5e4a; line-height: 1.4; }
 
-        /* --- SMART BUTTONS & USER UI --- */
+        /* Buttons & User UI */
         .buttons-block { display: flex; flex-direction: column; gap: 15px; align-items: center; margin-bottom: 50px; }
         .buttons-row-main, .buttons-row-secondary { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
         .btn-custom { border: none; cursor: pointer; padding: 10px 24px; border-radius: 40px; font-size: 0.85rem; font-weight: 600; transition: 0.2s; text-decoration: none; display: inline-block; }
         .btn-main-blue { background-color: #003366; color: white; }
         .btn-secondary-gold { background-color: #c89a5b; color: white; }
 
-        /* USER SMART UI STYLES */
+        /* User Smart UI */
         #user-view { display: none; align-items: center; justify-content: center; gap: 15px; background: white; padding: 12px 25px; border-radius: 50px; border: 2px solid #c49a6c; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .user-avatar-circle { width: 45px; height: 45px; border-radius: 50%; background: linear-gradient(135deg, #c49a6c, #8b5a2b); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 20px; position: relative; }
         .online-dot { width: 12px; height: 12px; background: #27ae60; border: 2px solid white; border-radius: 50%; position: absolute; bottom: 2px; right: 2px; }
@@ -70,13 +69,13 @@
         .user-name-label { display: block; font-weight: 800; color: #003366; font-size: 14px; }
         .user-type-badge { font-size: 10px; color: #27ae60; font-weight: 700; text-transform: uppercase; }
 
-        /* Role Cards Styles */
+        /* Role Cards */
         .role-showcase { display: flex; flex-wrap: wrap; gap: 30px; margin: 40px 0 60px; }
         .role-card { flex: 1; background: #fffaf2; border-radius: 32px; padding: 28px 20px; text-align: center; border: 1px solid #f3e5d9; transition: 0.3s; text-decoration: none; color: inherit; }
         .role-card i { font-size: 2.5rem; color: #c49a6c; margin-bottom: 18px; transition: 0.3s; }
         .role-badge { margin-top: 18px; background: #e9dbce; display: inline-block; padding: 6px 18px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; transition: 0.3s; }
 
-        /* Active Green Role Card Class */
+        /* Active State */
         .role-card-active { background-color: #0b5b2f !important; border-color: #0b5b2f !important; transform: scale(1.05); cursor: pointer; }
         .role-card-active h3, .role-card-active i { color: white !important; }
         .role-card-active .role-badge { background-color: rgba(255,255,255,0.2) !important; color: white !important; }
@@ -226,24 +225,22 @@
             if (profiles && profiles.length > 0) {
                 const p = profiles[0];
                 
-                // 1. إخفاء أزرار الزوار وإظهار كرت المستخدم
                 document.getElementById('guest-view').style.display = 'none';
                 document.getElementById('user-view').style.display = 'flex';
                 
-                // 2. تحديث بيانات المستخدم
                 document.getElementById('user-full-name').innerText = p.full_name || user.email;
                 document.getElementById('user-initial').innerText = (p.full_name || 'U').charAt(0).toUpperCase();
                 const roles = { 'company': 'Corporate Account', 'worker': 'Verified Worker', 'client': 'Premium Client' };
                 document.getElementById('user-role-label').innerText = roles[p.user_type] || 'Online';
 
-                // 3. تفعيل كروت الرتب وتحويل الكرت المطابق للأخضر
                 const roleCards = ['client', 'worker', 'company'];
                 roleCards.forEach(type => {
                     const el = document.getElementById('card-' + type);
-                    el.classList.add('role-card-clickable'); // جعل الكرت قابل للضغط
-                    
-                    if(p.user_type === type) {
-                        el.classList.add('role-card-active'); // تلوين الكرت المطابق بالأخضر
+                    if (el) {
+                        el.classList.add('role-card-clickable');
+                        if(p.user_type === type) {
+                            el.classList.add('role-card-active');
+                        }
                     }
                 });
             }
@@ -257,5 +254,4 @@
     initAuth();
 </script>
 </body>
-                                                                                                                        </html>
-                                                                                                                        
+</html>
