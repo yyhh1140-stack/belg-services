@@ -1,109 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Company Profile — BELG SERVICES</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Profile — BELG SERVICES</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="data:,">
 
-<style>
-body { font-family: Arial, sans-serif; margin: 0; background: #f7f7f7; }
-.top-nav { position: fixed; top: 0; left: 0; width: 100%; background: #003366; padding: 12px 0; text-align: center; z-index: 999; }
-.top-nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; font-size: 16px; }
-header { margin-top: 100px; text-align: center; padding: 20px; }
-.company-logo { width: 140px; height: 140px; border-radius: 12px; object-fit: cover; border: 4px solid #003366; }
-.banner-image { width: 100%; height: 200px; object-fit: cover; margin-top: 60px; }
-h1 { color: #003366; font-size: 32px; margin-top: 10px; }
-.rating { color: #f4c542; font-size: 20px; }
-.info-boxes { max-width: 900px; margin: 20px auto; display: flex; gap: 15px; flex-wrap: wrap; }
-.info-box { flex: 1; min-width: 200px; background: white; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-.info-box h3 { margin: 0; color: #003366; }
-.info-box p { margin: 5px 0; color: #444; }
-.section { max-width: 900px; margin: 20px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
-.section h2 { color: #003366; margin-bottom: 10px; }
-.gallery { display: flex; gap: 10px; flex-wrap: wrap; }
-.gallery img { width: 150px; height: 120px; border-radius: 8px; object-fit: cover; cursor: pointer; }
-.achievement-card { background: #f1f1f1; padding: 12px; border-radius: 10px; margin-bottom: 10px; }
-.social-links { display: flex; gap: 15px; justify-content: center; margin-top: 15px; }
-.social-links a { color: #003366; font-size: 24px; text-decoration: none; }
-.action-btn { padding: 12px 20px; background: #003366; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; margin-right: 10px; }
-.action-btn:hover { background: #002244; }
-</style>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background: #f7f7f7; }
+        .top-nav { position: fixed; top: 0; left: 0; width: 100%; background: #003366; padding: 12px 0; text-align: center; z-index: 999; }
+        .top-nav a { color: white; margin: 0 15px; text-decoration: none; font-weight: bold; font-size: 16px; }
+        header { margin-top: 100px; text-align: center; padding: 20px; }
+        .company-logo { width: 140px; height: 140px; border-radius: 12px; object-fit: cover; border: 4px solid #003366; }
+        .banner-image { width: 100%; height: 200px; object-fit: cover; margin-top: 60px; }
+        h1 { color: #003366; font-size: 32px; margin-top: 10px; }
+        .rating { color: #f4c542; font-size: 20px; }
+        .info-boxes { max-width: 900px; margin: 20px auto; display: flex; gap: 15px; flex-wrap: wrap; padding: 0 15px; }
+        .info-box { flex: 1; min-width: 200px; background: white; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .info-box h3 { margin: 0; color: #003366; }
+        .info-box p { margin: 5px 0; color: #444; }
+        .section { max-width: 900px; margin: 20px auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .section h2 { color: #003366; margin-bottom: 10px; }
+        .gallery { display: flex; gap: 10px; flex-wrap: wrap; }
+        .gallery img { width: 150px; height: 120px; border-radius: 8px; object-fit: cover; cursor: pointer; }
+        .achievement-card { background: #f1f1f1; padding: 12px; border-radius: 10px; margin-bottom: 10px; }
+        .social-links { display: flex; gap: 15px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        .social-links a { color: #003366; font-size: 18px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .action-btns-container { max-width: 900px; margin: 20px auto; display: flex; flex-wrap: wrap; gap: 10px; padding: 0 15px; }
+        .action-btn { padding: 12px 20px; background: #003366; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; flex: 1; min-width: 160px; text-align: center; transition: 0.2s; }
+        .action-btn:hover { background: #002244; }
+    </style>
 </head>
 
 <body>
 
-<nav style="background:#111; padding:12px; display:flex; flex-wrap:wrap; gap:12px;">
-  <a href="index.html" style="color:white;">Home</a>
-  <a href="about.html" style="color:white;">About</a>
-  <a href="services.html" style="color:white;">Services</a>
-  <a href="contact.html" style="color:white;">Contact</a>
-  <a href="faq.html" style="color:white;">FAQ</a>
-  <a href="pricing.html" style="color:white;">Pricing</a>
-  <a href="payment.html" style="color:white;">Payment</a>
-  <a href="login.html" style="color:white;">Login</a>
-  <a href="register.html" style="color:white;">Register</a>
-  <a href="dashboardr.html" style="color:white;">Dashboardr</a>
-</nav>
-
 <nav class="top-nav">
-  <a href="index.html">Home</a>
-  <a href="worker-dashboard.html">Find Worker</a>
-  <a href="companies.html">Companies</a>
-  <a href="worker-dashboard.html">Workers</a>
-  <a href="payment.html">Payment</a>
-  <a href="my-bookings.html">My Bookings</a>
-  <a href="notifications.html">Notifications</a>
+    <a href="index.html">Home</a>
+    <a href="worker-dashboard.html">Find Worker</a>
+    <a href="companies.html">Companies</a>
+    <a href="payment.html">Payment</a>
+    <a href="my-bookings.html">My Bookings</a>
+    <a href="notifications.html">Notifications</a>
 </nav>
 
 <div id="bannerContainer"></div>
 
 <header>
-  <img src="https://placehold.co/140" id="companyLogo" class="company-logo">
-  <h1 id="companyName">Loading...</h1>
-  <div class="rating">★★★★★ (4.8)</div>
+    <img src="https://placehold.co/140" id="companyLogo" class="company-logo">
+    <h1 id="companyName">Loading...</h1>
+    <div class="rating">★★★★★ (4.8)</div>
 </header>
 
 <div class="info-boxes">
-  <div class="info-box"><h3>Workers Available</h3><p id="workersCount">Loading...</p></div>
-  <div class="info-box"><h3>Completed Projects</h3><p id="projectsCount">Loading...</p></div>
-  <div class="info-box"><h3>Category</h3><p id="categoryDisplay">Loading...</p></div>
+    <div class="info-box"><h3>Workers Available</h3><p id="workersCount">Loading...</p></div>
+    <div class="info-box"><h3>Completed Projects</h3><p id="projectsCount">Loading...</p></div>
+    <div class="info-box"><h3>Category</h3><p id="categoryDisplay">Loading...</p></div>
 </div>
 
 <div class="section">
-  <h2>About the Company</h2>
-  <p id="companyBio">Loading business description...</p>
+    <h2>About the Company</h2>
+    <p id="companyBio">Loading business description...</p>
 </div>
 
 <div class="section">
-  <h2>📸 Work Gallery</h2>
-  <div class="gallery" id="galleryContainer">
-    <p>Loading images...</p>
-  </div>
+    <h2>Work Gallery</h2>
+    <div class="gallery" id="galleryContainer">
+        <p>Loading images...</p>
+    </div>
 </div>
 
 <div class="section">
-  <h2>🏆 Achievements & Certificates</h2>
-  <div id="achievementsContainer">
-    <p>Loading achievements...</p>
-  </div>
+    <h2>Achievements & Certificates</h2>
+    <div id="achievementsContainer">
+        <p>Loading achievements...</p>
+    </div>
 </div>
 
 <div class="section">
-  <h2>🔗 Connect With Us</h2>
-  <div class="social-links" id="socialLinks">
-    <p>Loading social links...</p>
-  </div>
+    <h2>Connect With Us</h2>
+    <div class="social-links" id="socialLinks">
+        <p>Loading social links...</p>
+    </div>
 </div>
 
-<div class="section">
-  <button class="action-btn" onclick="findWorker()">👷 Find Worker</button>
-  <button class="action-btn" onclick="viewCompanies()">🏢 Companies</button>
-  <button class="action-btn" onclick="viewWorkers()">👤 Workers</button>
-  <button class="action-btn" onclick="makePayment()">💳 Payment</button>
-  <button class="action-btn" onclick="viewBookings()">📋 My Bookings</button>
-  <button class="action-btn" onclick="viewNotifications()">🔔 Notifications</button>
-  <button class="action-btn" onclick="rateCompany()">⭐ Rate Company</button>
+<div class="action-btns-container">
+    <button class="action-btn" onclick="findWorker()"><i class="fas fa-hard-hat"></i> Find Worker</button>
+    <button class="action-btn" onclick="viewCompanies()"><i class="fas fa-building"></i> Companies</button>
+    <button class="action-btn" onclick="viewWorkers()"><i class="fas fa-users"></i> Workers</button>
+    <button class="action-btn" onclick="makePayment()"><i class="fas fa-credit-card"></i> Payment</button>
+    <button class="action-btn" onclick="viewBookings()"><i class="fas fa-list-alt"></i> My Bookings</button>
+    <button class="action-btn" onclick="viewNotifications()"><i class="fas fa-bell"></i> Notifications</button>
+    <button class="action-btn" onclick="rateCompany()"><i class="fas fa-star"></i> Rate Company</button>
 </div>
 
 <script>
@@ -164,22 +153,23 @@ async function loadCompanyProfile() {
         }
         
         if (company.banner_url) {
+            const bannerContainer = document.getElementById('bannerContainer');
+            bannerContainer.innerHTML = '';
             const bannerImg = document.createElement('img');
             bannerImg.src = company.banner_url;
             bannerImg.className = 'banner-image';
-            bannerImg.style.width = '100%';
-            bannerImg.style.height = '200px';
-            bannerImg.style.objectFit = 'cover';
-            document.getElementById('bannerContainer').appendChild(bannerImg);
+            bannerContainer.appendChild(bannerImg);
         }
         
         document.getElementById('workersCount').innerText = "Available upon request";
-        document.getElementById('projectsCount').innerText = company.completed_projects || "Loading...";
+        document.getElementById('projectsCount').innerText = company.completed_projects || "0";
     } else {
         console.error("Error fetching company:", companyError);
+        document.getElementById('companyName').innerText = "Error Loading Profile";
+        return;
     }
 
-    const { data: media, error: mediaError } = await sb
+    const { data: media } = await sb
         .from('company_media')
         .select('*')
         .eq('company_id', companyId)
@@ -188,13 +178,13 @@ async function loadCompanyProfile() {
     const galleryContainer = document.getElementById('galleryContainer');
     if (media && media.length > 0) {
         galleryContainer.innerHTML = media.map(img => `
-            <img src="${img.media_url}" onclick="viewImage('${img.media_url}')" style="cursor: pointer;">
+            <img src="${img.media_url}" onclick="viewImage('${img.media_url}')">
         `).join('');
     } else {
         galleryContainer.innerHTML = '<p>No images uploaded yet.</p>';
     }
 
-    const { data: achievements, error: achError } = await sb
+    const { data: achievements } = await sb
         .from('company_achievements')
         .select('*')
         .eq('company_id', companyId)
@@ -204,15 +194,15 @@ async function loadCompanyProfile() {
     if (achievements && achievements.length > 0) {
         achievementsContainer.innerHTML = achievements.map(ach => `
             <div class="achievement-card">
-                <strong>🏆 ${ach.title}</strong><br>
-                ${ach.date ? `📅 ${ach.date}` : ''}
+                <strong><i class="fas fa-trophy" style="color:#c49a6c;"></i> ${ach.title}</strong><br>
+                ${ach.date ? `<span>Date: ${ach.date}</span>` : ''}
             </div>
         `).join('');
     } else {
         achievementsContainer.innerHTML = '<p>No achievements added yet.</p>';
     }
 
-    const { data: social, error: socialError } = await sb
+    const { data: social } = await sb
         .from('company_social')
         .select('*')
         .eq('company_id', companyId)
@@ -225,55 +215,28 @@ async function loadCompanyProfile() {
         if (social.facebook) linksHtml += `<a href="${social.facebook}" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>`;
         if (social.whatsapp) linksHtml += `<a href="https://wa.me/${social.whatsapp}" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>`;
         
-        if (linksHtml) {
-            socialContainer.innerHTML = linksHtml;
-        } else {
-            socialContainer.innerHTML = '<p>No social links added yet.</p>';
-        }
+        socialContainer.innerHTML = linksHtml || '<p>No social links added yet.</p>';
     } else {
         socialContainer.innerHTML = '<p>No social links added yet.</p>';
     }
 }
 
-// ========== NEW BUTTON FUNCTIONS ==========
-function findWorker() { 
-    window.location.href = "worker-dashboard.html"; 
-}
-
-function viewCompanies() { 
-    window.location.href = "companies.html"; 
-}
-
-function viewWorkers() { 
-    window.location.href = "worker-dashboard.html"; 
-}
-
-function makePayment() { 
-    alert("💳 Payment page coming soon. You will be able to pay securely."); 
-}
-
-function viewBookings() { 
-    alert("📋 My Bookings page coming soon. You can track your requests here."); 
-}
-
-function viewNotifications() { 
-    alert("🔔 Notifications page coming soon."); 
-}
-
-function rateCompany() { 
-    const companyId = new URLSearchParams(window.location.search).get('id');
-    if (companyId) { 
-        window.location.href = `rate-company.html?id=${companyId}`; 
-    } else { 
-        alert("⭐ Rating system coming soon."); 
-    } 
-}
-// ==========================================
+function findWorker() { window.location.href = "worker-dashboard.html"; }
+document.addEventListener("DOMContentLoaded", () => {
+    window.viewCompanies = () => { window.location.href = "companies.html"; };
+    window.viewWorkers = () => { window.location.href = "worker-dashboard.html"; };
+    window.makePayment = () => { alert("Payment feature coming soon. Secure transaction gateway is being integrated."); };
+    window.viewBookings = () => { alert("My Bookings panel coming soon. Track your active orders here."); };
+    window.viewNotifications = () => { alert("Notifications dashboard coming soon."); };
+    window.rateCompany = () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        if (id) { window.location.href = `rate-company.html?id=${id}`; } 
+        else { alert("Rating interface setup is in progress."); }
+    };
+});
 
 window.onload = loadCompanyProfile;
 </script>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
 </body>
 </html>
