@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>BELG SERVICES - Premium Booking & Services</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="data:,">
+
     <style>
+        /* تم استيراد الخط هنا بطريقة الـ CSS الآمنة لتخطي حظر الـ CORB تماماً */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background-color: #fefcf5; color: #1e2a2f; line-height: 1.4; scroll-behavior: smooth; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
@@ -183,74 +188,4 @@
         <a id="card-client" href="advanced-search.html" class="role-card"><i class="fas fa-user-tie"></i><h3>Client</h3><div class="role-badge">⭐ 2,500+ happy clients</div></a>
         <a id="card-worker" href="worker-dashboard.html" class="role-card"><i class="fas fa-hard-hat"></i><h3>Worker</h3><div class="role-badge">🛠️ Verified & insured</div></a>
         <a id="card-company" href="dashboardr.html" class="role-card"><i class="fas fa-building"></i><h3>Companies</h3><div class="role-badge">🏆 Trusted partners</div></a>
-    </div>
-
-    <div class="footer-socials">
-        <div class="social-icons">
-            <a href="#"><img src="facebook.png" alt="fb"></a>
-            <a href="#"><img src="linkedin.png" alt="li"></a>
-            <a href="#"><img src="x.png" alt="x"></a>
-            <a href="#"><img src="whatsapp.png" alt="wa"></a>
-        </div>
-        <div class="app-badges">
-            <img src="apple.png" alt="App Store">
-            <img src="google.png" alt="Google Play">
-        </div>
-    </div>
-
-    <div class="footer-links">
-        <a href="about.html">About</a>
-        <a href="faq.html">FAQ</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="terms.html">Terms</a>
-    </div>
-    <div class="copyright">© 2026 BELG SERVICES — Premium Hospitality & Professional Network.</div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-    const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
-    const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    async function initAuth() {
-        const { data: { user } } = await _supabase.auth.getUser();
         
-        if (user) {
-            const { data: profiles } = await _supabase.from('profiles').select('*').eq('id', user.id);
-            if (profiles && profiles.length > 0) {
-                const p = profiles[0];
-                
-                // 1. إخفاء أزرار الزوار وإظهار كرت المستخدم
-                document.getElementById('guest-view').style.display = 'none';
-                document.getElementById('user-view').style.display = 'flex';
-                
-                // 2. تحديث بيانات المستخدم
-                document.getElementById('user-full-name').innerText = p.full_name || user.email;
-                document.getElementById('user-initial').innerText = (p.full_name || 'U').charAt(0).toUpperCase();
-                const roles = { 'company': 'Corporate Account', 'worker': 'Verified Worker', 'client': 'Premium Client' };
-                document.getElementById('user-role-label').innerText = roles[p.user_type] || 'Online';
-
-                // 3. تفعيل كروت الرتب وتحويل الكرت المطابق للأخضر
-                const roleCards = ['client', 'worker', 'company'];
-                roleCards.forEach(type => {
-                    const el = document.getElementById('card-' + type);
-                    el.classList.add('role-card-clickable'); // جعل الكرت قابل للضغط
-                    
-                    if(p.user_type === type) {
-                        el.classList.add('role-card-active'); // تلوين الكرت المطابق بالأخضر
-                    }
-                });
-            }
-        }
-    }
-
-    async function handleLogout() {
-        await _supabase.auth.signOut();
-        window.location.reload();
-    }
-    initAuth();
-</script>
-</body>
-    </html>
-    
