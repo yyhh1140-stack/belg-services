@@ -6,11 +6,9 @@
     <title>Business Partners - BELG SERVICES</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
     <link rel="icon" href="data:,">
     
     <style>
-        /* استيراد الخط بطريقة الـ CSS الآمنة لتجنب مشاكل المتصفحات */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -75,7 +73,6 @@
     <div id="companyGrid" class="grid"></div>
 
     <script>
-        // الترتيب الأصح والمعياري لتجنب أخطاء التعريف والـ Malformed URL
         const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
         const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
         const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -121,7 +118,6 @@
             `).join('');
         }
 
-        // نظام البحث الذكي والسلس
         document.getElementById('search').oninput = (e) => {
             const val = e.target.value.toLowerCase();
             const filtered = dataStore.filter(c => 
@@ -131,7 +127,6 @@
             render(filtered);
         };
 
-        // نظام الفلترة الآمن والمحمي من أخطاء الـ ReferenceError
         function filter(cat, buttonElement) {
             document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
             if (buttonElement) {
@@ -141,7 +136,6 @@
             render(filtered);
         }
 
-        // تشغيل الصفحة عند التحميل
         init();
     </script>
 </body>
