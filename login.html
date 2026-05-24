@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:,">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -15,32 +16,34 @@
         .login-header { background: #c49a6c; padding: 30px; text-align: center; color: white; }
         .login-body { padding: 30px; }
         .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; text-align: left; }
-        .input-group input { width: 100%; padding: 12px; border: 1px solid #e2cfbc; border-radius: 30px; outline: none; }
-        .login-btn { width: 100%; padding: 14px; background: #c49a6c; color: white; border: none; border-radius: 30px; font-weight: 700; cursor: pointer; margin-top: 10px; }
-        .register-link { text-align: center; margin-top: 15px; font-size: 0.9rem; }
+        .input-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; text-align: left; font-weight: 500; color: #2c3e2f; }
+        .input-group input { width: 100%; padding: 12px 18px; border: 1px solid #e2cfbc; border-radius: 30px; outline: none; font-family: 'Inter', sans-serif; }
+        .input-group input:focus { border-color: #c49a6c; box-shadow: 0 0 0 3px rgba(196,154,108,0.1); }
+        .login-btn { width: 100%; padding: 14px; background: #c49a6c; color: white; border: none; border-radius: 30px; font-weight: 700; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .login-btn:hover { background: #a57c52; }
+        .register-link { text-align: center; margin-top: 15px; font-size: 0.9rem; color: #5a6e4a; }
         .back-home { display: block; text-align: center; margin-top: 15px; text-decoration: none; color: #8b7a67; font-size: 0.8rem; }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="login-header">
-            <i class="fas fa-user-lock fa-3x"></i>
+            <i class="fas fa-user-lock fa-3x" style="margin-bottom: 10px;"></i>
             <h2>Welcome Back</h2>
         </div>
         <div class="login-body">
             <form id="loginForm">
                 <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" id="email" required placeholder="your@email.com">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required placeholder="your@email.com" autocomplete="username">
                 </div>
                 <div class="input-group">
-                    <label>Password</label>
-                    <input type="password" id="password" required placeholder="••••••••">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required placeholder="••••••••" autocomplete="current-password">
                 </div>
                 <button type="submit" class="login-btn" id="submitBtn">Sign In</button>
                 <div class="register-link">
-                    New here? <a href="register.html" style="color: #c49a6c;">Join now</a>
+                    New here? <a href="register.html" style="color: #c49a6c; font-weight: 600; text-decoration: none;">Join now</a>
                 </div>
                 <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to Home</a>
             </form>
@@ -69,30 +72,31 @@
 
                 if (authError) throw authError;
 
-                const { data: profiles, error: profileError } = await _supabase
-                    .from('profiles')
-                    .select('*')
-                    .eq('id', authData.user.id);
+                if (authData?.user) {
+                    const { data: profiles, error: profileError } = await _supabase
+                        .from('profiles')
+                        .select('*')
+                        .eq('id', authData.user.id);
 
-                if (profileError) throw profileError;
+                    if (profileError) console.error("Profile fetch mismatch:", profileError.message);
 
-                const profile = (profiles && profiles.length > 0) ? profiles[0] : null;
+                    const profile = (profiles && profiles.length > 0) ? profiles[0] : null;
 
-                if (profile) {
-                    const userType = profile.user_type;
-                    if (userType === 'company') {
-                        window.location.href = 'dashboardr.html';
-                    } else if (userType === 'worker') {
-                        window.location.href = 'worker-dashboard.html';
+                    if (profile) {
+                        const userType = profile.user_type;
+                        if (userType === 'company') {
+                            window.location.href = 'dashboardr.html';
+                        } else if (userType === 'worker') {
+                            window.location.href = 'worker-dashboard.html';
+                        } else {
+                            window.location.href = 'index.html';
+                        }
                     } else {
                         window.location.href = 'index.html';
                     }
-                } else {
-                    window.location.href = 'index.html';
                 }
-
             } catch (err) {
-                alert('Error: ' + err.message);
+                alert('Authentication Error: ' + err.message);
                 btn.disabled = false;
                 btn.textContent = 'Sign In';
             }
