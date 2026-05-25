@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Find a Company - BELG SERVICES</title>
-    <!-- Font Awesome -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -21,7 +20,6 @@
             color: #1e2a2f;
         }
 
-        /* Header Navigation */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -64,7 +62,6 @@
         }
         .nav-links a:hover { color: #c49a6c; }
 
-        /* Search Section */
         .search-section {
             max-width: 1280px;
             margin: 40px auto;
@@ -83,7 +80,6 @@
             color: #6e5e4a;
         }
 
-        /* Filters */
         .filters-card {
             background: white;
             border-radius: 32px;
@@ -134,7 +130,6 @@
             background: #a57c52;
         }
 
-        /* Results */
         .results-header {
             display: flex;
             justify-content: space-between;
@@ -174,6 +169,7 @@
             border-radius: 50%;
             background-size: cover;
             background-position: center;
+            background-color: #f0e9e1;
         }
         .company-info h3 {
             font-size: 1.2rem;
@@ -210,6 +206,7 @@
             text-align: center;
             text-decoration: none;
             transition: 0.2s;
+            display: inline-block;
         }
         .btn-view:hover {
             background: #c49a6c;
@@ -226,19 +223,25 @@
             cursor: pointer;
             text-align: center;
             text-decoration: none;
+            display: inline-block;
             transition: 0.2s;
         }
         .btn-chat:hover {
             background: #a57c52;
         }
 
-        /* Footer */
         .footer {
             background: #2c3e2f;
             color: white;
             text-align: center;
             padding: 30px;
             margin-top: 60px;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 60px;
+            grid-column: 1/-1;
         }
 
         @media (max-width: 768px) {
@@ -251,7 +254,6 @@
 </head>
 <body>
 
-    <!-- Header -->
     <div class="navbar">
         <div class="logo-area">
             <img src="logo.png" alt="BELG SERVICES" class="logo-img" onerror="this.src='https://placehold.co/50x50?text=BS'">
@@ -265,35 +267,29 @@
         </ul>
     </div>
 
-    <!-- Search Section -->
     <div class="search-section">
         <div class="search-header">
             <h1>Find a Company</h1>
             <p>Search for trusted companies across Belgium</p>
         </div>
 
-        <!-- Filters -->
         <div class="filters-card">
             <div class="row-2col">
                 <div class="filter-group">
                     <label>Service Type</label>
                     <select id="serviceType">
                         <option value="all">All Services</option>
-                        <option value="cleaning">Cleaning</option>
-                        <option value="moving">Moving</option>
-                        <option value="construction">Construction</option>
-                        <option value="industrial">Industrial</option>
+                        <option value="Cleaning">Cleaning</option>
+                        <option value="Moving">Moving</option>
+                        <option value="Construction">Construction</option>
+                        <option value="Industrial">Industrial</option>
+                        <option value="Maintenance">Maintenance</option>
+                        <option value="Logistics">Logistics</option>
                     </select>
                 </div>
                 <div class="filter-group">
                     <label>Location</label>
-                    <select id="location">
-                        <option value="all">All Belgium</option>
-                        <option value="brussels">Brussels</option>
-                        <option value="antwerp">Antwerp</option>
-                        <option value="ghent">Ghent</option>
-                        <option value="liege">Liège</option>
-                    </select>
+                    <input type="text" id="location" placeholder="City or region...">
                 </div>
             </div>
             <div class="row-2col">
@@ -307,42 +303,34 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label>Price Range</label>
-                    <select id="price">
-                        <option value="all">All Prices</option>
-                        <option value="low">Under $500</option>
-                        <option value="medium">$500 - $2,000</option>
-                        <option value="high">Above $2,000</option>
-                    </select>
+                    <label>&nbsp;</label>
+                    <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Search Companies</button>
                 </div>
             </div>
-            <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Search Companies</button>
         </div>
 
-        <!-- Results -->
         <div class="results-header">
             <h2>Results <span id="resultCount"></span></h2>
             <span style="color: #8b7a67;">Showing trusted companies</span>
         </div>
-        <div class="company-grid" id="resultsContainer"></div>
+        <div class="company-grid" id="resultsContainer">
+            <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading companies...</div>
+        </div>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
         <p>© 2025 BELG SERVICES — Find the best companies for your needs</p>
     </div>
 
     <script>
-        const companies = [
-            { id: 1, name: "EcoSolutions", category: "cleaning", rating: 4.9, location: "brussels", priceRange: "medium", projects: 250, years: 12, logo: "https://picsum.photos/id/20/100/100", description: "Eco-friendly cleaning services for homes and offices." },
-            { id: 2, name: "FastMove Logistics", category: "moving", rating: 4.8, location: "antwerp", priceRange: "medium", projects: 180, years: 8, logo: "https://picsum.photos/id/58/100/100", description: "Fast and reliable moving services across Belgium." },
-            { id: 3, name: "BuildMaster", category: "construction", rating: 4.7, location: "ghent", priceRange: "high", projects: 320, years: 15, logo: "https://picsum.photos/id/55/100/100", description: "Complete construction and renovation solutions." },
-            { id: 4, name: "SteelPro Industries", category: "industrial", rating: 4.9, location: "liege", priceRange: "high", projects: 450, years: 20, logo: "https://picsum.photos/id/96/100/100", description: "Industrial equipment and metal fabrication." },
-            { id: 5, name: "CleanHome", category: "cleaning", rating: 4.6, location: "brussels", priceRange: "low", projects: 95, years: 5, logo: "https://picsum.photos/id/26/100/100", description: "Affordable home and office cleaning." },
-            { id: 6, name: "HeavyLift", category: "moving", rating: 4.8, location: "liege", priceRange: "medium", projects: 210, years: 10, logo: "https://picsum.photos/id/10/100/100", description: "Specialized in heavy furniture and equipment moving." }
-        ];
+        const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+        const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        let allCompanies = [];
 
         function getRatingStars(rating) {
+            if (!rating) return '☆☆☆☆☆';
             let full = Math.floor(rating);
             let half = rating % 1 >= 0.5;
             let stars = "";
@@ -353,52 +341,74 @@
             return stars;
         }
 
+        async function loadCompaniesFromDB() {
+            const { data, error } = await sb
+                .from('company_profiles')
+                .select('*');
+            
+            if (error) {
+                console.error('Error loading companies:', error);
+                document.getElementById('resultsContainer').innerHTML = '<div class="loading-spinner">Error loading companies. Please try again later.</div>';
+                return;
+            }
+            
+            if (data && data.length > 0) {
+                allCompanies = data;
+            } else {
+                allCompanies = [];
+            }
+            filterCompanies();
+        }
+
         function filterCompanies() {
             const serviceType = document.getElementById("serviceType").value;
-            const location = document.getElementById("location").value;
+            const locationFilter = document.getElementById("location").value.toLowerCase().trim();
             const minRating = parseFloat(document.getElementById("rating").value);
-            const priceRange = document.getElementById("price").value;
-
-            let filtered = companies.filter(c => {
-                if (serviceType !== "all" && c.category !== serviceType) return false;
-                if (location !== "all" && c.location !== location) return false;
-                if (minRating > 0 && c.rating < minRating) return false;
-                if (priceRange !== "all" && c.priceRange !== priceRange) return false;
+            
+            let filtered = allCompanies.filter(c => {
+                if (serviceType !== "all" && c.business_category !== serviceType && c.full_name !== serviceType) return false;
+                if (locationFilter !== "" && c.location && !c.location.toLowerCase().includes(locationFilter)) return false;
+                if (minRating > 0 && (c.rating || 0) < minRating) return false;
                 return true;
             });
-
-            document.getElementById("resultCount").innerText = `(${filtered.length} companies)`;
+            
+            document.getElementById("resultCount").innerHTML = `(${filtered.length} companies)`;
             const container = document.getElementById("resultsContainer");
+            
             if (filtered.length === 0) {
                 container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px;">No companies match your criteria. Try adjusting filters.</div>`;
                 return;
             }
+            
             container.innerHTML = filtered.map(c => `
                 <div class="company-card">
                     <div class="company-header">
-                        <div class="company-logo" style="background-image: url('${c.logo}'); background-size: cover;"></div>
+                        <div class="company-logo" style="background-image: url('${c.avatar_url || 'https://placehold.co/60x60?text=Logo'}'); background-size: cover;"></div>
                         <div class="company-info">
-                            <h3>${c.name}</h3>
-                            <div class="company-category">${c.category.charAt(0).toUpperCase() + c.category.slice(1)}</div>
+                            <h3>${c.full_name || 'Company Name'}</h3>
+                            <div class="company-category">${c.business_category || 'Service Provider'}</div>
                         </div>
                     </div>
-                    <div class="rating">${getRatingStars(c.rating)} ${c.rating}</div>
+                    <div class="rating">${getRatingStars(c.rating || 4.5)} ${c.rating || 4.5}</div>
                     <div class="company-details">
-                        <i class="fas fa-map-marker-alt"></i> ${c.location.charAt(0).toUpperCase() + c.location.slice(1)}<br>
-                        <i class="fas fa-project-diagram"></i> ${c.projects}+ projects completed<br>
-                        <i class="fas fa-calendar-alt"></i> ${c.years}+ years in business
+                        <i class="fas fa-map-marker-alt"></i> ${c.location || 'Belgium'}<br>
+                        <i class="fas fa-info-circle"></i> ${c.bio ? c.bio.substring(0, 80) : 'Professional service provider'}<br>
+                        <i class="fas fa-envelope"></i> ${c.email || 'Contact via platform'}
                     </div>
                     <div class="action-buttons">
-                        <button class="btn-view" onclick="alert('View details for ${c.name}')">View Profile</button>
-                        <a href="chat.html" class="btn-chat"><i class="fas fa-comment"></i> Chat</a>
+                        <a href="company-profile.html?id=${c.id}" class="btn-view">View Profile</a>
+                        <a href="chat.html?company=${c.id}" class="btn-chat"><i class="fas fa-comment"></i> Chat</a>
                     </div>
                 </div>
             `).join("");
         }
 
         document.getElementById("searchBtn").addEventListener("click", filterCompanies);
-        // Load initial results
-        filterCompanies();
+        document.getElementById("location").addEventListener("keyup", (e) => {
+            if (e.key === "Enter") filterCompanies();
+        });
+        
+        loadCompaniesFromDB();
     </script>
 </body>
 </html>
