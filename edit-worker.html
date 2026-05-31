@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Edit Worker Profile - BELG SERVICES</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f0f8ff; color: #1e2a2f; padding: 16px; }
+        .profile-container { max-width: 1100px; width: 100%; margin: 0 auto; background: white; border-radius: 48px; overflow: hidden; box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1); }
+        .cover-area { background: linear-gradient(135deg, #87CEEB, #A0D2EB); height: 65px; position: relative; }
+        .cover-text { text-align: center; color: white; font-weight: 700; font-size: 0.7rem; letter-spacing: 1.5px; padding-top: 8px; text-transform: uppercase; }
+        .cover-text p { margin: 2px 0; }
+        .avatar-container { display: flex; flex-direction: column; align-items: center; margin-top: -30px; margin-bottom: 20px; }
+        .avatar-wrapper { width: 120px; height: 120px; background-color: #e0e0e0; border-radius: 50%; border: 4px solid white; background-size: cover; background-position: center; box-shadow: 0 8px 20px rgba(0,0,0,0.15); margin-bottom: 12px; }
+        .avatar-edit { margin-top: 5px; font-size: 0.8rem; }
+        .avatar-edit input { width: 200px; padding: 6px 10px; border-radius: 50px; border: 1px solid #ccc; font-size: 0.7rem; }
+        .status-badge { display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; padding: 6px 20px; border-radius: 50px; background: #d4f5d0; color: #2e6b1f; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+        .profile-content { padding: 0 28px 40px 28px; }
+        .name-section { text-align: center; margin: 20px 0 8px; }
+        .worker-name input { font-size: 1.8rem; font-weight: 800; text-align: center; border: 2px solid #87CEEB; border-radius: 40px; padding: 8px 20px; width: 100%; max-width: 400px; margin: 0 auto; display: block; }
+        .worker-location input { font-size: 0.85rem; text-align: center; border: 1px solid #ccc; border-radius: 40px; padding: 6px 15px; width: 250px; margin: 8px auto; display: block; }
+        .info-grid { background: #f9f9f9; border-radius: 28px; padding: 24px; margin: 30px 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+        .info-item { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .info-label { font-weight: 700; min-width: 110px; color: #1a1a1a; }
+        .info-value input, .info-value select { padding: 8px 12px; border-radius: 40px; border: 1px solid #ddd; font-family: inherit; flex: 1; min-width: 150px; }
+        .section-title { font-size: 1.3rem; font-weight: 700; margin: 30px 0 16px 0; border-left: 5px solid #87CEEB; padding-left: 14px; }
+        .services-list { background: #faf7f2; border-radius: 28px; padding: 8px 0; }
+        .service-item { display: flex; padding: 14px 20px; border-bottom: 1px solid #e9dfd3; }
+        .service-item textarea { width: 100%; border: 1px solid #ddd; border-radius: 20px; padding: 12px; font-family: inherit; resize: vertical; }
+        .badge-group { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0 15px; }
+        .badge { background: #f0e9e1; padding: 8px 16px; border-radius: 40px; font-size: 0.8rem; font-weight: 500; }
+        .blue-stripe { background: #87CEEB; height: 4px; width: 70px; margin: 35px 0 20px; border-radius: 4px; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; margin: 20px 0 35px; }
+        .gallery img { width: 100%; height: 130px; object-fit: cover; border-radius: 20px; border: 2px solid #e0e7ff; }
+        .add-image-area { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+        .add-image-area input { flex: 1; padding: 10px; border-radius: 40px; border: 1px solid #ddd; }
+        .add-image-area button { background: #87CEEB; border: none; padding: 10px 20px; border-radius: 40px; cursor: pointer; font-weight: 600; }
+        .save-btn { background: #87CEEB; border: none; width: 100%; padding: 16px; font-size: 1rem; font-weight: 700; border-radius: 60px; color: #1e2a2f; margin: 20px 0 15px; cursor: pointer; transition: 0.2s; }
+        .save-btn:hover { background: #6bb5d4; }
+        .back-link { display: inline-block; margin: 20px 0 15px; text-decoration: none; color: #87CEEB; font-weight: 500; }
+        .message { padding: 12px; border-radius: 24px; margin-bottom: 20px; display: none; }
+        .message.success { background: #d4f5d0; color: #2e6b1f; display: block; }
+        .message.error { background: #ffe0e0; color: #b33; display: block; }
+        @media (max-width: 680px) { .profile-content { padding: 0 20px 30px; } }
+    </style>
+</head>
+<body>
+
+<div class="cover-area">
+    <div class="cover-text">
+        <p>🚀 WE WORK FOR YOUR COMFORT</p>
+        <p>❤️ WE ARE HAPPY TO SATISFY YOU</p>
+    </div>
+</div>
+
+<div class="profile-container">
+    <div class="avatar-container">
+        <div class="avatar-wrapper" id="workerAvatar" style="background-image: url('https://placehold.co/120');"></div>
+        <div class="avatar-edit">
+            <input type="text" id="avatarUrlInput" placeholder="Image URL (optional)">
+        </div>
+        <div class="status-badge" id="statusBadge">
+            <select id="statusSelect">
+                <option value="available">✅ Available Now</option>
+                <option value="busy">🟡 Currently Busy</option>
+                <option value="offline">⚫ Offline</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="profile-content">
+        <a href="worker-dashboard.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Workers</a>
+
+        <div id="messageBox" class="message"></div>
+
+        <div class="name-section">
+            <div class="worker-name"><input type="text" id="fullName" placeholder="Your full name"></div>
+            <div class="worker-location"><input type="text" id="locationInput" placeholder="City, Location"></div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item"><span class="info-label">Work Type :</span><span class="info-value"><select id="workTypeSelect"><option value="">Select service</option><option value="Cleaning">🧹 Cleaning</option><option value="Moving">🚚 Moving</option><option value="Painting">🎨 Painting</option><option value="Carpentry">🔨 Carpentry</option><option value="Plumbing">🚰 Plumbing</option><option value="Electrical">⚡ Electrical</option></select></span></div>
+            <div class="info-item"><span class="info-label">Hourly Rate :</span><span class="info-value"><input type="number" id="hourlyRateInput" placeholder="$ / hour"></span></div>
+            <div class="info-item"><span class="info-label">Phone :</span><span class="info-value"><input type="tel" id="phoneInput" placeholder="Phone number"></span></div>
+            <div class="info-item"><span class="info-label">Email :</span><span class="info-value"><input type="email" id="emailInput" placeholder="Email address"></span></div>
+        </div>
+
+        <div class="section-title"><i class="fas fa-tools"></i> About & Bio</div>
+        <div class="services-list">
+            <div class="service-item"><textarea id="bioInput" rows="3" placeholder="Tell clients about your experience, skills, and services..."></textarea></div>
+        </div>
+
+        <div class="section-title"><i class="fas fa-check-circle"></i> Credentials</div>
+        <div class="badge-group" id="badgesContainer">
+            <div class="badge"><i class="fas fa-shield-alt"></i> Verified Professional</div>
+            <div class="badge"><i class="fas fa-star"></i> Rating: <span id="ratingDisplay">4.5</span></div>
+        </div>
+
+        <div class="blue-stripe"></div>
+        <div class="section-title"><i class="fas fa-camera"></i> Work Gallery</div>
+        <div class="gallery" id="galleryContainer"></div>
+        <div class="add-image-area">
+            <input type="text" id="newImageUrl" placeholder="Add image URL to gallery">
+            <button id="addImageBtn"><i class="fas fa-plus"></i> Add Image</button>
+        </div>
+
+        <button class="save-btn" id="saveProfileBtn"><i class="fas fa-save"></i> Save Profile</button>
+    </div>
+</div>
+
+<script>
+    const SUPABASE_URL = 'https://dhvdohzjfmxmfxbinqsj.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_53zXqL_1ykPehXSQed-EfA_XEJ2rxzM';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    let currentUser = null;
+    let workerId = null;
+    let galleryImages = [];
+    
+    function showMessage(text, isError = false) {
+        const msgBox = document.getElementById('messageBox');
+        msgBox.textContent = text;
+        msgBox.className = `message ${isError ? 'error' : 'success'}`;
+        setTimeout(() => {
+            msgBox.style.display = 'none';
+            msgBox.className = 'message';
+        }, 4000);
+    }
+    
+    async function loadWorkerData() {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user) {
+            showMessage('Please login first. Redirecting...', true);
+            setTimeout(() => window.location.href = 'login.html', 2000);
+            return;
+        }
+        currentUser = user;
+        
+        // البحث عن ملف العامل لهذا المستخدم
+        const { data: worker, error } = await sb
+            .from('worker_profiles')
+            .select('*')
+            .eq('user_id', user.id)
+            .maybeSingle();
+        
+        if (error) {
+            console.error('Error:', error);
+        }
+        
+        if (worker) {
+            workerId = worker.id;
+            document.getElementById('fullName').value = worker.full_name || '';
+            document.getElementById('locationInput').value = worker.location || '';
+            document.getElementById('workTypeSelect').value = worker.work_type || worker.service_type || '';
+            document.getElementById('hourlyRateInput').value = worker.price || worker.hourly_rate || '';
+            document.getElementById('phoneInput').value = worker.phone_number || '';
+            document.getElementById('emailInput').value = worker.email_address || '';
+            document.getElementById('bioInput').value = worker.bio || '';
+            document.getElementById('statusSelect').value = worker.status || 'available';
+            document.getElementById('ratingDisplay').innerText = worker.rating || '4.5';
+            
+            if (worker.avatar_url) {
+                document.getElementById('workerAvatar').style.backgroundImage = `url('${worker.avatar_url}')`;
+                document.getElementById('avatarUrlInput').value = worker.avatar_url;
+            }
+            
+            // تحميل معرض الصور
+            const { data: media } = await sb
+                .from('worker_media')
+                .select('*')
+                .eq('worker_id', worker.id);
+            
+            if (media && media.length > 0) {
+                galleryImages = media.map(m => ({ id: m.id, url: m.media_url }));
+                renderGallery();
+            }
+        }
+    }
+    
+    function renderGallery() {
+        const container = document.getElementById('galleryContainer');
+        if (galleryImages.length === 0) {
+            container.innerHTML = '<p style="color:#64748b;">No gallery images yet. Add photos above.</p>';
+            return;
+        }
+        container.innerHTML = galleryImages.map(img => `
+            <div style="position: relative;">
+                <img src="${img.url}" onerror="this.src='https://placehold.co/150x130?text=No+Image'">
+                <button onclick="removeImage('${img.url}', ${img.id || 'null'})" style="position: absolute; top: 5px; right: 5px; background: rgba(0,0,0,0.6); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 14px;">✕</button>
+            </div>
+        `).join('');
+    }
+    
+    window.removeImage = async (url, id) => {
+        if (id && !isNaN(id)) {
+            await sb.from('worker_media').delete().eq('id', id);
+        }
+        galleryImages = galleryImages.filter(img => img.url !== url);
+        renderGallery();
+    };
+    
+    document.getElementById('avatarUrlInput').addEventListener('input', (e) => {
+        if (e.target.value) {
+            document.getElementById('workerAvatar').style.backgroundImage = `url('${e.target.value}')`;
+        }
+    });
+    
+    document.getElementById('addImageBtn').addEventListener('click', () => {
+        const url = document.getElementById('newImageUrl').value.trim();
+        if (url) {
+            galleryImages.push({ id: null, url: url });
+            renderGallery();
+            document.getElementById('newImageUrl').value = '';
+        }
+    });
+    
+    document.getElementById('saveProfileBtn').addEventListener('click', async () => {
+        if (!currentUser) {
+            showMessage('Please login first', true);
+            return;
+        }
+        
+        const fullName = document.getElementById('fullName').value;
+        const location = document.getElementById('locationInput').value;
+        const workType = document.getElementById('workTypeSelect').value;
+        const hourlyRate = parseInt(document.getElementById('hourlyRateInput').value) || 25;
+        const phone = document.getElementById('phoneInput').value;
+        const email = document.getElementById('emailInput').value;
+        const bio = document.getElementById('bioInput').value;
+        const status = document.getElementById('statusSelect').value;
+        const avatarUrl = document.getElementById('avatarUrlInput').value || null;
+        
+        if (!fullName || !workType) {
+            showMessage('Please fill required fields (Name and Work Type)', true);
+            return;
+        }
+        
+        if (workerId) {
+            // تحديث الملف الموجود
+            const { error } = await sb
+                .from('worker_profiles')
+                .update({
+                    full_name: fullName,
+                    location: location,
+                    work_type: workType,
+                    service_type: workType,
+                    price: hourlyRate,
+                    hourly_rate: hourlyRate,
+                    phone_number: phone,
+                    email_address: email,
+                    bio: bio,
+                    status: status,
+                    avatar_url: avatarUrl
+                })
+                .eq('id', workerId);
+            
+            if (error) {
+                showMessage('Error: ' + error.message, true);
+                return;
+            }
+        } else {
+            // إنشاء ملف جديد
+            const { data, error } = await sb
+                .from('worker_profiles')
+                .insert([{
+                    user_id: currentUser.id,
+                    full_name: fullName,
+                    email_address: email || currentUser.email,
+                    location: location,
+                    work_type: workType,
+                    service_type: workType,
+                    price: hourlyRate,
+                    hourly_rate: hourlyRate,
+                    phone_number: phone,
+                    bio: bio,
+                    status: status,
+                    avatar_url: avatarUrl,
+                    rating: 4.5,
+                    created_at: new Date()
+                }])
+                .select();
+            
+            if (error) {
+                showMessage('Error: ' + error.message, true);
+                return;
+            }
+            if (data && data[0]) {
+                workerId = data[0].id;
+            }
+        }
+        
+        // حفظ الصور الجديدة
+        for (const img of galleryImages) {
+            if (!img.id && img.url && workerId) {
+                await sb.from('worker_media').insert([{
+                    worker_id: workerId,
+                    media_url: img.url,
+                    media_type: 'image'
+                }]);
+            }
+        }
+        
+        showMessage('✅ Profile saved successfully! Redirecting...');
+        setTimeout(() => {
+            window.location.href = `worker-profile.html?id=${workerId}`;
+        }, 1500);
+    });
+    
+    loadWorkerData();
+</script>
+</body>
+</html>
